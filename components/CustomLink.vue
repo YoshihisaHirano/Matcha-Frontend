@@ -1,21 +1,42 @@
 <script setup lang="ts">
-
 interface LinkProps {
-    internal?: boolean
-    className?: string
-    href: string
+  internal?: boolean;
+  className?: string;
+  href: string;
 }
 
-const props = withDefaults(defineProps<LinkProps>(), {
-    internal: false,
-    className: ''
-})
-
-const componentType = ref(props.internal ? 'nuxt-link' : 'a')
+withDefaults(defineProps<LinkProps>(), {
+  internal: false,
+  className: "",
+});
 </script>
 
 <template>
-    <component :class="className" :href="href" :is="componentType">
-        <slot/>
-    </component>
+  <NuxtLink :class="`custom-link ${className}`" :href="href" v-if="internal" >
+    <slot />
+  </NuxtLink>
+  <a v-else :class="`custom-link ${className}`" :href="href">
+    <slot />
+  </a>
 </template>
+
+<style scoped>
+.custom-link {
+  display: block;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  display: block;
+  text-decoration: none;
+  color: var(--primary-text);
+}
+
+.custom-link.fancy-btn {
+    color: #FFF;
+}
+
+.custom-link:hover,
+.custom-link:active {
+  text-decoration: none;
+}
+</style>

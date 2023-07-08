@@ -9,26 +9,27 @@ const links = [
 
 <template>
   <nav>
-    <header class="logo-wrapper">
+    <div class="logo-wrapper">
       <LogoSVG />
-    </header>
+    </div>
     <ul>
       <li v-for="link in links">
-        <NuxtLink :href="link.href">
+        <CustomLink className="navbar-link" internal :href="link.href">
           <span :class="['typicons-' + link.icon]">{{ link.title }}</span>
-        </NuxtLink>
+        </CustomLink>
       </li>
     </ul>
     <footer>
-      Made with by&thinsp;<a
+      Made by&thinsp;<CustomLink
         target="_blank"
         href="https://profile.intra.42.fr/users/aalannys"
-        >aalannys</a
+        className="navbar-link" 
+        >aalannys</CustomLink
       >
       &nbsp;&&nbsp;
-      <a target="_blank" href="https://profile.intra.42.fr/users/jhizdahr"
+      <CustomLink className="navbar-link" target="_blank" href="https://profile.intra.42.fr/users/jhizdahr"
         >jhizdahr
-      </a>
+      </CustomLink>
     </footer>
   </nav>
 </template>
@@ -39,10 +40,12 @@ li {
   font-size: 1.75rem;
 }
 
-li a,
-.author-link {
+li:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.navbar-link {
   color: #fffff0;
-  text-decoration: none;
 }
 
 [class*="typicons-"]:before {
@@ -57,12 +60,14 @@ ul {
 nav {
   background: var(--accent-gradient);
   background-size: 150%;
+  grid-row: 1/3;
+  grid-column: 1/2;
   position: relative;
 }
 
 .logo-wrapper {
   color: var(--primary-background);
-  width: 270px;
+  max-width: 270px;
   padding: 2rem 0.75rem;
 }
 

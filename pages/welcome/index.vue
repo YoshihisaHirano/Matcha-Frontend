@@ -23,9 +23,11 @@ function highlightForm() {
       <LogoSVG />
     </div>
     <div class="header-controls">
-      <div class="link-wrapper"><CustomLink internal href="/login">Log In</CustomLink></div>
       <div class="link-wrapper">
-        <NuxtLink href="#signup-form" @click="highlightForm">Sign Up</NuxtLink>
+        <CustomLink internal href="/login">Log In</CustomLink>
+      </div>
+      <div class="link-wrapper">
+        <CustomLink internal href="#signup-form" @click="highlightForm">Sign Up</CustomLink>
       </div>
     </div>
   </header>
@@ -39,8 +41,8 @@ function highlightForm() {
           </h1>
           <div class="hero-cta">
             <p class="text-paragraph">Already have an account? -></p>
-            <NuxtLink href="/login" class="fancy-btn hero-fancy-button"
-              >Log in</NuxtLink
+            <CustomLink internal href="/login" class="fancy-btn"
+              >Log in</CustomLink
             >
           </div>
         </div>
@@ -116,15 +118,11 @@ header {
 }
 
 .link-wrapper > * {
-  display: block;
   background-size: 300%;
-  border: none;
-  outline: none;
   border-radius: 8px;
   padding: 8px 12px;
   font-size: 1.5rem;
   letter-spacing: 0.03em;
-  cursor: pointer;
   font-weight: 800;
   background: var(--primary-gradient);
   -webkit-background-clip: text;

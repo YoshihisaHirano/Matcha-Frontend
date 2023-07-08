@@ -28,7 +28,7 @@ async function submitLoginForm() {
         label="Password"
         icon="lock"
       />
-      <a href="">Forgot password?</a>
+      <CustomLink internal href="/password-reset">Forgot password?</CustomLink>
       <Button type="submit" @click="submitLoginForm" class="fancy-btn hero-fancy-button"
         >Log In</Button
       >
