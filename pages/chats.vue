@@ -1,0 +1,1 @@
+<template>this is chats page</template>

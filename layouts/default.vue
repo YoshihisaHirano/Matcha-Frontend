@@ -10,6 +10,7 @@
   main {
     grid-column: 2/3;
     grid-row: 2/3;
+    padding: 0.5rem 0.85rem;
   }
 </style>
 

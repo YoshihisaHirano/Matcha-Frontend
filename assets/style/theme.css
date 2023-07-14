@@ -7,6 +7,8 @@
     --gray-stroke: #434447;
     --accent-red: #b21f1f;
     --typicons-accent: #4f0683;
+    --card-pattern: url("~/assets/images/pattern.svg");
+    --loader-color: #b21f1f94;
 }
 
 .light-theme {
@@ -16,6 +18,8 @@
     --gray-stroke: #434447;
     --primary-gradient: linear-gradient(to left, #1a2a6c, #b21f1f, #fdbb2d);
     --typicons-accent: #4f0683;
+    --card-pattern: url("~/assets/images/pattern.svg");
+    --loader-color: #b21f1f94;
 }
 
 .dark-theme {
@@ -25,4 +29,6 @@
     --primary-gradient: var(--primary-gradient-reverse);
     --gray-stroke: #868788;
     --typicons-accent: #a14fdc;
+    --card-pattern: url("~/assets/images/pattern-light.svg");
+    --loader-color: var(--accent-red);
 }

@@ -13,7 +13,7 @@ const links = [
       <LogoSVG />
     </div>
     <ul>
-      <li v-for="link in links">
+      <li v-for="link in links" :class="{ active: $route.path === link.href }">
         <CustomLink className="navbar-link" internal :href="link.href">
           <span :class="['typicons-' + link.icon]">{{ link.title }}</span>
         </CustomLink>
@@ -38,10 +38,16 @@ const links = [
 li {
   list-style: none;
   font-size: 1.75rem;
+  padding: .2rem .35rem;
 }
 
 li:not(:last-child) {
   margin-bottom: 1rem;
+}
+
+li.active {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: .25rem;
 }
 
 .navbar-link {
