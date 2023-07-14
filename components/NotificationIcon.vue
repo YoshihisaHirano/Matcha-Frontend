@@ -6,14 +6,21 @@ interface NotificationProps {
 withDefaults(defineProps<NotificationProps>(), {
   newNotification: false,
 });
+
+const dialog = ref<HTMLDialogElement | null>(null)
+
+function toggleDialog() {
+  dialog?.value?.open ? dialog?.value?.close() : dialog?.value?.show()
+}
 </script>
 
 <template>
-  <div class="notification-container">
+  <Button class="notification-container" @click="toggleDialog">
     <svg
+      class="bell-svg"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
-      fill="#000000"
+      fill="#333436"
       height="20px"
       width="20px"
       version="1.1"
@@ -34,9 +41,40 @@ withDefaults(defineProps<NotificationProps>(), {
         </g>
       </g>
     </svg>
-    <div></div>
-  </div>
+    <div :class="{ active: newNotification }" class="new-notification"/>
+  </Button>
+  <dialog ref="dialog"></dialog>
 </template>
 
 <style scoped>
+.notification-container {
+ position: relative;
+ background: transparent;
+ margin: 0;
+ padding: 0;
+}
+
+.new-notification {
+  width: .5rem;
+  height: .5rem;
+  background-color: var(--accent-red, red);
+  border-radius: 50%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  visibility: hidden;
+}
+
+.new-notification.active {
+  visibility: visible;
+}
+
+dialog {
+  top: 2.25rem;
+  border: 1px solid var(--gray-stroke);
+}
+
+.bell-svg {
+  fill: var(--gray-stroke)
+}
 </style>

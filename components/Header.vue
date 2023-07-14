@@ -2,7 +2,7 @@
     <header>
         <ThemeToggle/>
         <div class="user-profile-container">
-            <NotificationIcon/>
+            <NotificationIcon :new-notification="true"/>
             <ProfilePictureSmall username="Lorem Ipsum" />
         </div>
     </header>
@@ -21,5 +21,7 @@ header {
 .user-profile-container {
     display: flex;
     align-items: center;
+    gap: 1.15rem;
+    position: relative;
 }
 </style>

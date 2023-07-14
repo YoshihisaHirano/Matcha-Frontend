@@ -5,7 +5,7 @@
   font-family: "Typicons", sans-serif;
   vertical-align: sub;
   margin-right: 0.35rem;
-  color: #4f0683;
+  color: var(--typicons-accent);
 }
 
 @font-face {
@@ -65,6 +65,7 @@ body {
   color: var(--primary-text);
   font-family: "Quicksand", cursive;
   font-weight: 300;
+  transition: background 0.6s;
 }
 
 .visually-hidden {

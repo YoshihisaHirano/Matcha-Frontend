@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// import defaultPic from '~/assets/images/'
+import defaultImg from 'assets/images/defaultUserPic.svg'
 
 interface ProfileSmallProps {
   username?: string;
@@ -8,7 +8,7 @@ interface ProfileSmallProps {
 
 withDefaults(defineProps<ProfileSmallProps>(), {
   username: "",
-  image: "~/assets/images/defaultUserPic.svg",
+  image: defaultImg,
 });
 </script>
 
@@ -24,12 +24,15 @@ withDefaults(defineProps<ProfileSmallProps>(), {
 <style scope>
 .user-info-container {
   display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .image-container {
-  border: 2px solid var(--primary-text);
+  border: 2px solid var(--gray-stroke);
   border-radius: 50%;
-  height: 3rem;
-  width: 3rem;
+  height: 2.25rem;
+  width: 2.25rem;
+  overflow: hidden;
 }
 </style>

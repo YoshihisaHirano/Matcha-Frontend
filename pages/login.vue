@@ -1,5 +1,6 @@
 <template>
     <main>
+        <ThemeToggle/>
         <LoginForm/>
     </main>
 </template>
@@ -23,5 +24,11 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+main > label.theme-toggle {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
 }
 </style>

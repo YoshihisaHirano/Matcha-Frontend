@@ -1,5 +1,10 @@
 <template>
-    <main>
-        <slot/>
-    </main>
+  <slot />
 </template>
+
+<style>
+#__nuxt {
+  display: block;
+  height: fit-content;
+}
+</style>

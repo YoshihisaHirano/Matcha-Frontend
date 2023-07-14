@@ -29,6 +29,7 @@ function highlightForm() {
       <div class="link-wrapper">
         <CustomLink internal href="#signup-form" @click="highlightForm">Sign Up</CustomLink>
       </div>
+      <ThemeToggle/>
     </div>
   </header>
   <main>
@@ -54,7 +55,7 @@ function highlightForm() {
 
 <style scoped>
 main {
-  padding: 7rem 0 0;
+  padding: 8rem 0 0;
   position: relative;
   min-height: 100vh;
 }
@@ -97,7 +98,7 @@ header {
   position: fixed;
   width: 100%;
   padding: 1.2rem;
-  background: linear-gradient(to left, #1a2a6c, #b21f1f, #fdbb2d);
+  background: var(--primary-gradient);
   border-bottom: 2px solid #0000;
   display: flex;
   justify-content: space-between;
@@ -109,7 +110,16 @@ header {
 
 .header-controls {
   display: flex;
+  align-items: center;
   gap: 8px;
+}
+
+:global(.header-controls span.toggle-slide) {
+  background: var(--primary-background);
+}
+
+:global(.header-controls span.toggle-slide::before) {
+  background: var(--primary-text);
 }
 
 .link-wrapper {

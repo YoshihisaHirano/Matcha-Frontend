@@ -45,11 +45,12 @@ li:not(:last-child) {
 }
 
 .navbar-link {
-  color: #fffff0;
+  color: var(--primary-background);
+  font-weight: 400;
 }
 
 [class*="typicons-"]:before {
-  color: #fffff0;
+  color: var(--primary-background);
   margin-right: 0.65rem;
 }
 
