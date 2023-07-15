@@ -65,7 +65,7 @@ body {
   color: var(--primary-text);
   font-family: "Quicksand", cursive;
   font-weight: 300;
-  transition: background 0.6s;
+  transition: background 0.3s;
 }
 
 .visually-hidden {

@@ -9,7 +9,7 @@ interface InputProps {
   name: string;
   type?: string;
   placeholder?: string;
-  modelValue?: string;
+  modelValue?: string | number;
 }
 
 defineProps<InputProps>();

@@ -9,6 +9,7 @@
     --typicons-accent: #4f0683;
     --card-pattern: url("~/assets/images/pattern.svg");
     --loader-color: #b21f1f94;
+    --tag-gray-bg: rgba(5, 5, 5, .08);
 }
 
 .light-theme {
@@ -20,6 +21,7 @@
     --typicons-accent: #4f0683;
     --card-pattern: url("~/assets/images/pattern.svg");
     --loader-color: #b21f1f94;
+    --tag-gray-bg: rgba(5, 5, 5, .08);
 }
 
 .dark-theme {
@@ -31,4 +33,5 @@
     --typicons-accent: #a14fdc;
     --card-pattern: url("~/assets/images/pattern-light.svg");
     --loader-color: var(--accent-red);
+    --tag-gray-bg: rgba(245, 245, 245, .1);
 }

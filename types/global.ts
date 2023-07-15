@@ -16,3 +16,15 @@ export interface UserCardInfo {
   tags: string[];
   location: LocationCoords;
 }
+
+export interface Filters {
+  ageFrom?: number;
+  ageTo?: number;
+  fameFrom?: number;
+  fameTo?: number;
+  location?: LocationCoords;
+  locationRadius?: number;
+  tags?: string[];
+  pageNo: number;
+  limit: number;
+}
