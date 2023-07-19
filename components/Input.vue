@@ -37,7 +37,7 @@ defineEmits(["update:modelValue"]);
 <style scoped>
 .form-label {
   display: block;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 
 .form-input {
@@ -45,10 +45,6 @@ defineEmits(["update:modelValue"]);
   width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 8px;
-  padding: 0.5rem 1rem;
-}
-
-.form-label:last-of-type {
-  margin-bottom: 2.5rem;
+  padding: 0.35rem 1rem;
 }
 </style>

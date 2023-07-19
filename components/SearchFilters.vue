@@ -43,9 +43,11 @@ const searchFilters = computed(() => filters.searchFilters)
             <Search/>
             <TagList/>
         </div>
-        <div>Location
-            <div>Map placeholder</div>
-        </div>
+        <ClientOnly>
+          <div class="map-wrapper">Location
+            <CustomMap/>
+          </div>
+        </ClientOnly>
     </div>
   </Modal>
 </template>
@@ -74,7 +76,18 @@ const searchFilters = computed(() => filters.searchFilters)
 
 .filters-container {
     padding-top: 1.5rem;
+    padding-bottom: 2rem;
     display: flex;
     justify-content: space-between;
+}
+
+.map-wrapper {
+  flex-basis: 50%;
+  flex-shrink: 0;
+}
+
+.map-wrapper > div {
+  width: 100%;
+  height: 100%;
 }
 </style>

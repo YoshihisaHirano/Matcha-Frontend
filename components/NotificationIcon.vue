@@ -51,6 +51,7 @@ function toggleDialog() {
  position: relative;
  background: transparent;
  margin: 0;
+ margin-right: .5rem;
  padding: 0;
 }
 

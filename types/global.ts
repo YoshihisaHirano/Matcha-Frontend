@@ -28,3 +28,15 @@ export interface Filters {
   pageNo: number;
   limit: number;
 }
+
+export interface BaseUser {
+  id: string
+  username: string
+  firstName: string
+  lastName: string
+  email: string
+  gender: Gender
+  sexPref: SexPref
+  biography: string
+  tags: string[]
+}

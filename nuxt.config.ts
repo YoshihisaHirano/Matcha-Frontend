@@ -22,8 +22,12 @@ export default defineNuxtConfig({
       xMasterKey: process.env['X-MASTER-KEY'],
       xAccessKey: process.env['X-ACCESS-KEY'],
       rapidApiKey: process.env['X-RapidAPI-Key'],
-      geocodingHost: process.env.X_RAPID_GEOCODING_HOST
+      geocodingHost: process.env.X_RAPID_GEOCODING_HOST,
+      mapTileHost: process.env.X_RAPID_MAPTILE_HOST
     },
   },
   pages: true,
+  routeRules: {
+    '/': { prerender: true }
+  }
 });

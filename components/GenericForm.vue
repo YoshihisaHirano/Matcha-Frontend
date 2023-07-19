@@ -35,4 +35,13 @@ function submitForm(event: Event) {
   border-image-source: linear-gradient(to left, #fdbb2d, #b21f1f, #1a2a6c);
   box-shadow: 0 0.5rem 0.3rem rgba(0, 0, 0, 0.15);
 }
+
+:global(.form-fieldset span[class*="typicons-"]::before) {
+  margin-right: 0.35rem;
+  color: var(--typicons-accent);
+}
+
+:global(.form-fieldset .form-label:last-of-type) {
+  margin-bottom: 2.5rem;
+}
 </style>

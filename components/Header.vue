@@ -4,6 +4,7 @@
         <div class="user-profile-container">
             <NotificationIcon :new-notification="true"/>
             <ProfilePictureSmall username="Lorem Ipsum" />
+            <UserSettings/>
         </div>
     </header>
 </template>
@@ -21,7 +22,7 @@ header {
 .user-profile-container {
     display: flex;
     align-items: center;
-    gap: 1.15rem;
+    gap: .7rem;
     position: relative;
 }
 </style>

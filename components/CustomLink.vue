@@ -25,7 +25,7 @@ withDefaults(defineProps<LinkProps>(), {
   display: block;
   cursor: pointer;
   border: none;
-  outline: none;
+  box-shadow: none;
   display: block;
   text-decoration: none;
   color: var(--primary-text);

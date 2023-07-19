@@ -4,8 +4,6 @@
 [class*="typicons-"]:before {
   font-family: "Typicons", sans-serif;
   vertical-align: sub;
-  margin-right: 0.35rem;
-  color: var(--typicons-accent);
 }
 
 @font-face {
