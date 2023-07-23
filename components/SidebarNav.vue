@@ -1,9 +1,9 @@
 <script setup lang="ts">
 const links = [
   { href: "/search", title: "Search", icon: "world" },
+  { href: "/profile", title: "Profile", icon: "user" },
   { href: "/chats", title: "Chats", icon: "message" },
   { href: "/likes", title: "Likes", icon: "heart" },
-  { href: "/history", title: "History", icon: "list" },
 ];
 </script>
 
@@ -45,9 +45,14 @@ li:not(:last-child) {
   margin-bottom: 1rem;
 }
 
-li.active {
+li.active,
+li:has(a:hover) {
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: .25rem;
+}
+
+li:has(a:hover) {
+  background-color: rgba(248, 203, 203, 0.07);
 }
 
 .navbar-link {

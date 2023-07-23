@@ -1,3 +1,8 @@
+<script setup lang="ts">
+import { useActiveUser } from '~/composables/useActiveUser';
+
+useActiveUser('aaa')
+</script>
 <template>
     <SidebarNav />
     <Header/>

@@ -19,6 +19,7 @@ export default defineNuxtConfig({
     public: {
       baseBackend: process.env.BASE_BACKEND,
       searchBinID: process.env.SEARCH_BIN_ID,
+      meBinID: process.env.ME_BIN_ID,
       xMasterKey: process.env['X-MASTER-KEY'],
       xAccessKey: process.env['X-ACCESS-KEY'],
       rapidApiKey: process.env['X-RapidAPI-Key'],

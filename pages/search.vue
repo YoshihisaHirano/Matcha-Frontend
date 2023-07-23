@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SearchFilters from '~/components/SearchFilters.vue';
+import SearchFilters from "~/components/SearchFilters.vue";
 
 useSeoMeta({
   title: "Search | Matcha",
@@ -18,28 +18,32 @@ function handleNext(e: Event) {
 </script>
 
 <template>
-  <SearchFilters/>
-  <section class="search-section">
-    <Button class-name="search-btn"
-      ><span class="typicons-thumbsDown"></span
-    ></Button>
-    <div class="cards-collection">
-      <div class="outlined-card"></div>
-      <article class="outlined-card main-card">
-        <Loader v-if="pending" />
-        <p v-else-if="error">Something went wrong...</p>
-        <UserCard v-else :user="currentCard" />
-      </article>
-      <div class="outlined-card"></div>
-    </div>
-    <Button class-name="search-btn" @click="handleNext"
-      ><span class="typicons-heart"></span
-    ></Button>
-  </section>
+  <SearchFilters />
+  <Suspense>
+    <section class="search-section">
+      <Button class-name="search-btn"
+        ><span class="typicons-thumbsDown"></span
+      ></Button>
+      <div class="cards-collection">
+        <div class="outlined-card"></div>
+        <article class="outlined-card main-card">
+          <Loader v-if="pending" />
+          <p v-else-if="error">Something went wrong...</p>
+          <UserCard v-else :user="currentCard" />
+        </article>
+        <div class="outlined-card"></div>
+      </div>
+      <Button class-name="search-btn" @click="handleNext"
+        ><span class="typicons-heart"></span
+      ></Button>
+    </section>
+    <template #fallback>
+      <Loader />
+    </template>
+  </Suspense>
 </template>
 
 <style scoped>
-
 .search-section {
   height: 92%;
   display: flex;

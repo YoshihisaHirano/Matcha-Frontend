@@ -29,14 +29,27 @@ export interface Filters {
   limit: number;
 }
 
-export interface BaseUser {
-  id: string
+export interface PrivateUserData {
+  email: string
+  emailVerified: boolean
   username: string
+}
+
+export interface CommonUserData {
+  id: string
   firstName: string
   lastName: string
-  email: string
   gender: Gender
   sexPref: SexPref
   biography: string
   tags: string[]
+  location: LocationCoords
+  dateOfBirth: number
+  mainImage: string
+  pictures: string[]
+  fameRating: number
+  online: boolean
+  lastSeen: number
 }
+
+export type ActiveUser = PrivateUserData & CommonUserData
