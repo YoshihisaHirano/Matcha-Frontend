@@ -10,6 +10,10 @@
     --card-pattern: url("~/assets/images/pattern.svg");
     --loader-color: #b21f1f94;
     --tag-gray-bg: rgba(5, 5, 5, .08);
+    --star-color: rgba(5, 5, 5, .3);
+    --online-green: #00a53f;
+    --offline-orange: #a56b00;
+    --text-white: #fffff0;
 }
 
 .light-theme {
@@ -22,6 +26,7 @@
     --card-pattern: url("~/assets/images/pattern.svg");
     --loader-color: #b21f1f94;
     --tag-gray-bg: rgba(5, 5, 5, .08);
+    --star-color: rgba(5, 5, 5, .3);
 }
 
 .dark-theme {
@@ -34,4 +39,5 @@
     --card-pattern: url("~/assets/images/pattern-light.svg");
     --loader-color: var(--accent-red);
     --tag-gray-bg: rgba(245, 245, 245, .1);
+    --star-color: rgba(245, 245, 245, .3);
 }

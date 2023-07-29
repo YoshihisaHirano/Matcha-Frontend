@@ -14,6 +14,7 @@
   font-size: 1.2rem;
   width: 100%;
   position: relative;
+  height: fit-content;
   top: 50%;
   transform: translateY(-50%);
 }

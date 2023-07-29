@@ -5,10 +5,11 @@ useSeoMeta({
   title: "My Profile | Matcha",
 });
 
-const user = useUserStore().user
+const user = computed(() => ({ user: useUserStore().userCommonData}))
+console.log(user)
 </script>
 
 <template>
-    <UserProfile/>
+    <UserProfile v-bind="user"/>
     <!-- <pre>{{ user }}</pre> -->
 </template>

@@ -14,7 +14,7 @@ withDefaults(defineProps<ProfileSmallProps>(), {
 
 <template>
   <div class="user-info-container">
-    <p>{{ username }}</p>
+    <CustomLink internal href="/profile" class-name="profile-link">{{ username }}</CustomLink>
     <div class="image-container">
       <img :src="image" alt="User profile picture" />
     </div>
@@ -26,6 +26,11 @@ withDefaults(defineProps<ProfileSmallProps>(), {
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+.user-info-container > .profile-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .image-container {

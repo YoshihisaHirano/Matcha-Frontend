@@ -5,7 +5,7 @@ useActiveUser('aaa')
 </script>
 <template>
     <SidebarNav />
-    <Header/>
+    <TheHeader/>
   <main>
     <slot />
   </main>
