@@ -38,6 +38,7 @@ defineEmits(["update:modelValue"]);
 .form-label {
   display: block;
   font-size: 1.25rem;
+  color: var(--primary-text);
 }
 
 .form-input {

@@ -6,7 +6,7 @@ useSeoMeta({
 });
 
 const user = computed(() => ({ user: useUserStore().userCommonData}))
-console.log(user)
+// console.log(user)
 </script>
 
 <template>

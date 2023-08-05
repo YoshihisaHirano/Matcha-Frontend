@@ -20,12 +20,22 @@ function closeModal() {
     :isOpen="modalOpen"
   >
     <div class="inputs-container">
-      <Input label="Change username" id="username" name="username" />
-      <Input label="Change email" id="email" name="email" type="email" />
-      <Button class-name="reset-pswd-btn">
-        Reset password
-    </Button>
-    <!-- <span class="typicons-info"></span> -->
+      <div>
+        <Input label="Change email" id="email" name="email" type="email" />
+        <Button class-name="submit-btn">Submit</Button>
+        <Tooltip class-name="email-reset-tooltip" tooltip-position="right" :activeOnHover="true"
+          ><p>
+            You will need to verify your email again if you change it
+          </p></Tooltip
+        >
+      </div>
+      <div>
+        <Input label="Change username" id="username" name="username" /><Button
+          class-name="submit-btn"
+          >Submit</Button
+        >
+      </div>
+      <Button class-name="reset-pswd-btn"> Reset password </Button>
     </div>
   </Modal>
 </template>
@@ -35,6 +45,7 @@ function closeModal() {
   background: transparent;
   padding: 0;
   font-size: 1.7rem;
+  color: var(--primary-text);
 }
 
 .settings-btn:hover {
@@ -43,24 +54,54 @@ function closeModal() {
 
 .inputs-container {
   padding: 1.5rem 0 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
+  display: grid;
+  grid-template-columns: 52% 42%;
+  grid-template-rows: repeat(2, 1fr);
+  column-gap: 1.5rem;
+  row-gap: 1.5rem;
 }
 
-.inputs-container > * {
-  max-width: 70%;
-}
-
-.reset-pswd-btn {
+.reset-pswd-btn,
+.submit-btn {
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 8px;
-  padding: 0.55rem 1.2rem;
-  width: fit-content;
   font-size: 1.25rem;
   margin-top: 1rem;
   background: var(--accent-red);
   color: var(--text-white);
   font-weight: 700;
+}
+
+.reset-pswd-btn:hover {
+  animation: disco 3s infinite both;
+}
+
+.reset-pswd-btn {
+  padding: 0.55rem 1.2rem;
+  grid-column: 2/3;
+  grid-row: 1/3;
+  align-self: center;
+}
+
+.submit-btn {
+  padding: 0.35rem 1rem;
+  align-self: flex-end;
+  position: relative;
+  left: -0.7rem;
+}
+
+.inputs-container > div {
+  display: flex;
+  align-items: center;
+  grid-column: 1/2;
+}
+
+.inputs-container > div:last-of-type {
+  grid-row: 2/3;
+}
+
+:global(.email-reset-tooltip) {
+  margin-top: 1.5rem;
+  margin-left: 0.25rem;
 }
 </style>

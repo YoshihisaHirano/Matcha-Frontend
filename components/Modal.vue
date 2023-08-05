@@ -81,5 +81,6 @@ function closeModal() {
 
 .modal-title {
     font-weight: 400;
+    color: var(--primary-text);
 }
 </style>
