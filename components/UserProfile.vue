@@ -13,7 +13,10 @@ const pictures = computed<string[]>(() => {
   return []
 });
 
+const route = useRoute()
+
 const lastSeen = computed(() => props.user ? getStringDate(props.user.lastSeen) : '');
+const isCurrentUser = computed(() => route.path === '/profile')
 </script>
 
 <template>
@@ -21,7 +24,8 @@ const lastSeen = computed(() => props.user ? getStringDate(props.user.lastSeen) 
     <PhotoGallery :pictures="pictures" :alt="user ? `A photo of ${user.firstName} ${user.lastName}` : 'No photo'" />
     <div v-if="user" class="user-info">
       <div class="user-status">
-        <span v-if="!user.online">last seen {{ lastSeen }}</span>
+        <span v-if="!user.online && !isCurrentUser">last seen {{ lastSeen }}</span>
+        <ProfileUpdate v-if="isCurrentUser"/>
     </div>
       <MainUserData
         :id="user.id"
@@ -56,7 +60,14 @@ const lastSeen = computed(() => props.user ? getStringDate(props.user.lastSeen) 
 
 .user-info {
   padding-left: 2rem;
-  max-width: 700px;
+  max-width: 650px;
+  position: relative;
+}
+
+.user-status button.edit-btn {
+  position: absolute;
+  top: 4px;
+  left: 0;
 }
 
 .user-bio {
@@ -79,7 +90,7 @@ const lastSeen = computed(() => props.user ? getStringDate(props.user.lastSeen) 
     margin-bottom: 2rem;
     font-size: .9rem;
     opacity: .7;
-    min-height: .9rem;
+    min-height: 1.2rem;
     font-weight: 600;
     position: relative;
     top: -4px

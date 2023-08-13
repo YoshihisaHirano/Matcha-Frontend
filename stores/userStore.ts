@@ -18,6 +18,11 @@ export const useUserStore = defineStore("user", () => {
     return { firstName, lastName, mainImage };
   });
 
+  const userSettings = computed(() => {
+    if (!user.value) return null;
+    return { email: user.value.email, username: user.value.username };
+  });
+
   function setUser(newUser: ActiveUser | null) {
     user.value = newUser ? { ...newUser } : null;
   }
@@ -26,5 +31,5 @@ export const useUserStore = defineStore("user", () => {
     return id === user.value?.id;
   }
 
-  return { user, userCommonData, userHeaderInfo, setUser, isUserCurrent };
+  return { user, userCommonData, userHeaderInfo, userSettings, setUser, isUserCurrent };
 });

@@ -3,6 +3,11 @@ export interface LocationCoords {
   lon: string | number;
 }
 
+export interface OptionType {
+  label: string;
+  value: string;
+}
+
 export type SexPref = "women" | "men" | "both";
 export type Gender = "female" | "male" | "other";
 
@@ -15,6 +20,7 @@ export interface UserCardInfo {
   image: string;
   tags: string[];
   location: LocationCoords;
+  address: string;
 }
 
 export interface Filters {

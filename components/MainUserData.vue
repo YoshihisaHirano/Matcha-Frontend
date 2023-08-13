@@ -15,6 +15,7 @@ interface MainUserInfo {
   id: string;
   className?: string;
   online?: boolean;
+  isProfile?: boolean;
 }
 
 const props = defineProps<MainUserInfo>();
@@ -24,25 +25,30 @@ const genderWithIcon = computed(
   () => genderIcons[props.gender] || genderIcons.other
 );
 const sexPrefWithIcon = computed(() => getSexPref(props.gender, props.sexPref));
-let { address } = await useReverseGeocoding(props.location);
-watch(
-  () => props.id,
-  async () => {
-    let { address: newAddress } = await useReverseGeocoding(props.location);
-    address = newAddress;
-  }
-);
+// let { address } = await useReverseGeocoding(props.location);
+// watch(
+//   () => props.id,
+//   async () => {
+//     let { address: newAddress } = await useReverseGeocoding(props.location);
+//     address = newAddress;
+//   }
+// );
 </script>
 
 <template>
   <section :class="className">
-    <p v-if="address" class="location">
+    <!-- <p v-if="address" class="location">
       <span class="typicons-location">{{ address }}</span>
-    </p>
+    </p> -->
     <p class="main-user-info">
       {{ firstName }}<span v-if="lastName">&nbsp;{{ lastName }}</span
       >, {{ age }}
-      <span v-if="online !== undefined" :class="['online-indicator', { online }]" :title="`The user is ${online ? 'online': 'offline'}`"></span>
+      <ProfileUpdate v-if="isProfile"/>
+      <span
+        v-else-if="online !== undefined"
+        :class="['online-indicator', { online }]"
+        :title="`The user is ${online ? 'online' : 'offline'}`"
+      ></span>
     </p>
     <ul class="tag-list">
       <li v-for="tag in tags">{{ tag }}</li>
@@ -57,11 +63,10 @@ watch(
         <p>{{ sexPrefWithIcon }}</p>
       </div>
     </div>
-</section>
+  </section>
 </template>
 
 <style scoped>
-
 .main-user-info {
   font-size: 1.75rem;
   font-weight: 500;
@@ -101,18 +106,18 @@ p.location {
 }
 
 .online-indicator::before {
-    content: "";
-    height: .85rem;
-    width: .85rem;
-    border-radius: 50%;
-    background: var(--offline-orange);
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: .15rem;
-    padding-bottom: .1rem;
+  content: "";
+  height: 0.85rem;
+  width: 0.85rem;
+  border-radius: 50%;
+  background: var(--offline-orange);
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.15rem;
+  padding-bottom: 0.1rem;
 }
 
 .online.online-indicator::before {
-    background: var(--online-green);
+  background: var(--online-green);
 }
 </style>

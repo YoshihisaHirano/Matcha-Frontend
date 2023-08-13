@@ -16,3 +16,12 @@ export function getAge(birthdayTimestamp: number) {
 
   return age;
 }
+
+export function minus18Years() {
+  const currentDate = new Date();
+  const newDate = new Date(currentDate);
+
+  newDate.setFullYear(currentDate.getFullYear() - 18);
+
+  return newDate;
+}

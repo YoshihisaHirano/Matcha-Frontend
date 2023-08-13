@@ -2,22 +2,22 @@
 import { useFiltersStore } from "~/stores/filtersStore";
 
 const filters = useFiltersStore();
-const modalOpen = ref(false)
+const modalOpen = ref(false);
 
 function openModal() {
-    modalOpen.value = true;
+  modalOpen.value = true;
 }
 
 function closeModal() {
-    modalOpen.value = false;
+  modalOpen.value = false;
 }
 
-const searchFilters = computed(() => filters.searchFilters)
+const searchFilters = computed(() => filters.searchFilters);
 </script>
 
 <template>
   <div class="filter-bar">
-    <TagList verbose/>
+    <TagList verbose />
     <Button @click="openModal" class-name="search-filter-btn">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -35,19 +35,21 @@ const searchFilters = computed(() => filters.searchFilters)
       </svg>
     </Button>
   </div>
-  <Modal modalTitle="Search Filters" @close-modal="closeModal" :isOpen="modalOpen">
+  <Modal
+    modalTitle="Search Filters"
+    @close-modal="closeModal"
+    :isOpen="modalOpen"
+  >
     <div class="filters-container">
-        <div>
-            <Input name="age-gap" id="age-gap" type="range" label="Age gap" />
-            <Input name="fame-gap" id="fame-gap" type="range" label="Fame gap" />
-            <Search/>
-            <TagList/>
-        </div>
-        <ClientOnly>
-          <div class="map-wrapper">Location
-            <CustomMap/>
-          </div>
-        </ClientOnly>
+      <div>
+        <Input name="age-gap" id="age-gap" type="range" label="Age gap" />
+        <Input name="fame-gap" id="fame-gap" type="range" label="Fame gap" />
+        <Search />
+        <TagList />
+      </div>
+      <ClientOnly>
+        <CustomMap class-name="filter-map-wrapper" />
+      </ClientOnly>
     </div>
   </Modal>
 </template>
@@ -75,19 +77,14 @@ const searchFilters = computed(() => filters.searchFilters)
 }
 
 .filters-container {
-    padding-top: 1.5rem;
-    padding-bottom: 2rem;
-    display: flex;
-    justify-content: space-between;
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
 }
 
-.map-wrapper {
+.filter-map-wrapper {
   flex-basis: 50%;
   flex-shrink: 0;
-}
-
-.map-wrapper > div {
-  width: 100%;
-  height: 100%;
 }
 </style>

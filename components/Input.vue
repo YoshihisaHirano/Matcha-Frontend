@@ -10,6 +10,7 @@ interface InputProps {
   type?: string;
   placeholder?: string;
   modelValue?: string | number;
+  isTextarea?: boolean;
 }
 
 defineProps<InputProps>();
@@ -17,9 +18,26 @@ defineEmits(["update:modelValue"]);
 </script>
 
 <template>
-  <label :class="`form-label ${lableClassName}`" :for="id">
+  <label :class="`form-label ${lableClassName || ''}`" :for="id">
     <span :class="`typicons-${icon}`">{{ label }}</span>
+    <textarea
+      v-if="isTextarea"
+      :value="modelValue"
+      @input="
+        $emit('update:modelValue', ($event?.target as HTMLInputElement).value)
+      "
+      :required="required"
+      :class="`form-input ${className}`"
+      :id="id"
+      :name="name"
+      :type="type"
+      :placeholder="placeholder"
+      cols="50"
+      rows="8"
+    >
+    </textarea>
     <input
+      v-else
       :value="modelValue"
       @input="
         $emit('update:modelValue', ($event?.target as HTMLInputElement).value)
@@ -39,6 +57,7 @@ defineEmits(["update:modelValue"]);
   display: block;
   font-size: 1.25rem;
   color: var(--primary-text);
+  width: 100%;
 }
 
 .form-input {
@@ -47,5 +66,8 @@ defineEmits(["update:modelValue"]);
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   padding: 0.35rem 1rem;
+  color: var(--primary-text);
+  background-color: var(--input-bg);
+  max-width: 100%;
 }
 </style>

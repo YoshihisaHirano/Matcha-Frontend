@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import { useReverseGeocoding } from "~/composables/useReverseGeocoding";
 import { UserCardInfo } from "~/types/global";
-import { getAge } from "~/utils/getAge";
-import { genderIcons, getSexPref } from "~/utils/getSexPref";
 
 interface UserCardProps {
   user: UserCardInfo;

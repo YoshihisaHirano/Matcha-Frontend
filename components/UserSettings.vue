@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { useUserStore } from "~/stores/userStore";
+
+const store = useUserStore();
+
 const modalOpen = ref(false);
 
 function openModal() {
@@ -8,6 +12,15 @@ function openModal() {
 function closeModal() {
   modalOpen.value = false;
 }
+
+const settings = computed(() => store.userSettings);
+const email = ref(settings.value?.email);
+const username = ref(settings.value?.username);
+
+const emailChanged = computed(() => email.value !== settings.value?.email);
+const usernameChanged = computed(
+  () => username.value !== settings.value?.username
+);
 </script>
 
 <template>
@@ -21,18 +34,38 @@ function closeModal() {
   >
     <div class="inputs-container">
       <div>
-        <Input label="Change email" id="email" name="email" type="email" />
-        <Button class-name="submit-btn">Submit</Button>
-        <Tooltip class-name="email-reset-tooltip" tooltip-position="right" :activeOnHover="true"
+        <Input
+          label="Change email"
+          id="email"
+          name="email"
+          type="email"
+          v-model="email"
+        />
+        <Button :disabled="!emailChanged" class-name="submit-btn"
+          >Submit</Button
+        >
+        <Tooltip
+          class-name="email-reset-tooltip"
+          tooltip-position="right"
+          :activeOnHover="true"
           ><p>
             You will need to verify your email again if you change it
           </p></Tooltip
         >
       </div>
       <div>
-        <Input label="Change username" id="username" name="username" /><Button
-          class-name="submit-btn"
+        <Input
+          label="Change username"
+          id="username"
+          name="username"
+          v-model="username"
+        /><Button class-name="submit-btn" :disabled="!usernameChanged"
           >Submit</Button
+        ><Tooltip
+          class-name="email-reset-tooltip"
+          tooltip-position="right"
+          :activeOnHover="true"
+          ><p>Username must be unique</p></Tooltip
         >
       </div>
       <Button class-name="reset-pswd-btn"> Reset password </Button>
@@ -88,6 +121,10 @@ function closeModal() {
   align-self: flex-end;
   position: relative;
   left: -0.7rem;
+}
+
+.submit-btn:hover:not(:disabled) {
+  filter: brightness(120%);
 }
 
 .inputs-container > div {

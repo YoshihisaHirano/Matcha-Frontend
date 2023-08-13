@@ -2,6 +2,7 @@
 interface ModalProps {
   isOpen?: boolean;
   modalTitle?: string;
+  className?: string;
 }
 
 const props = defineProps<ModalProps>();
@@ -28,7 +29,7 @@ function closeModal() {
 </script>
 
 <template>
-  <dialog @close="closeModal" class="dialog-box" ref="dialogRef">
+  <dialog @close="closeModal" :class="`dialog-box ${className || ''}`" ref="dialogRef">
     <Button class-name="close-modla-btn" @click="closeModal">x</Button>
     <h2 class="modal-title" v-if="modalTitle">{{ modalTitle }}</h2>
     <slot />
