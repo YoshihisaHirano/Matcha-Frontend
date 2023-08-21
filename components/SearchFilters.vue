@@ -47,9 +47,9 @@ const searchFilters = computed(() => filters.searchFilters);
         <Search />
         <TagList />
       </div>
-      <ClientOnly>
+      <!-- <ClientOnly> -->
         <CustomMap class-name="filter-map-wrapper" />
-      </ClientOnly>
+      <!-- </ClientOnly> -->
     </div>
   </Modal>
 </template>

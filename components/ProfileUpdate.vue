@@ -58,6 +58,8 @@ onMounted(() => {
             :max-date="minus18Years()"
             name="birth-date"
             v-model="userData.dateOfBirth"
+            position="left"
+            :clearable="false"
           />
         </label>
         <div class="input-group">
@@ -81,15 +83,22 @@ onMounted(() => {
         ></Input>
       </div>
       <div>
-        <CustomMap />
+        <CustomMap
+          :map-center="[
+            Number(userData.location.lon),
+            Number(userData.location.lat),
+          ]"
+        />
       </div>
     </div>
-    <Button class-name="submit-btn">Submit</Button>
+    <div class="bottom-controls">
+      <Button class-name="reset-btn">Reset</Button>
+      <Button class-name="submit-btn">Submit</Button>
+    </div>
   </Modal>
 </template>
 
 <style scoped>
-
 .profile-edit-modal {
   width: 85vw;
   max-width: 1200px;
@@ -152,7 +161,12 @@ onMounted(() => {
   background: var(--accent-red);
   color: var(--text-white);
   font-weight: 700;
+}
+
+.bottom-controls {
+  display: flex;
   margin-left: auto;
   margin-top: 2rem;
+  width: fit-content;
 }
 </style>

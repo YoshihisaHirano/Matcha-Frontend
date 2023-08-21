@@ -9,7 +9,7 @@ defineProps<DropdownProps>();
 const emitVal = defineEmits(["update:modelValue"]);
 
 const isOpen = ref(false);
-const containerRef = ref<HTMLDivElement | null>(null)
+const containerRef = ref<HTMLDivElement | null>(null);
 
 function selectOption(option: string) {
   emitVal("update:modelValue", option);
@@ -17,15 +17,18 @@ function selectOption(option: string) {
 }
 
 useOutsideClick([containerRef], () => {
-    isOpen.value = false;
-})
+  isOpen.value = false;
+});
 </script>
 
 <template>
   <div class="container" ref="containerRef">
     <span aria-label="dropdown label" class="dropdown-label">{{ label }}</span>
     <div class="dropdown">
-      <button @click="isOpen = !isOpen">{{ modelValue || "" }}</button>
+      <button @click="isOpen = !isOpen">
+        {{ modelValue || "" }}
+        <span :class="['typicons-next', 'dropdown-chevron', {rotated: isOpen}]"></span>
+      </button>
       <ul v-if="isOpen" class="dropdown-list" tabindex="1">
         <li
           tabindex="1"
@@ -49,6 +52,21 @@ useOutsideClick([containerRef], () => {
   width: 100%;
   text-transform: capitalize;
   position: relative;
+}
+
+.dropdown-chevron {
+  position: absolute;
+  line-height: 1;
+  max-height: 1rem;
+  right: 0.35rem;
+  top: 50%;
+  opacity: .9;
+  transition: transform .2s ease-in-out;
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.dropdown-chevron.rotated {
+  transform: translateY(-50%) rotate(270deg);
 }
 
 .dropdown-label {
@@ -81,7 +99,7 @@ useOutsideClick([containerRef], () => {
   width: 100%;
   padding-left: 0;
   top: 1.7rem;
-  padding-top: .5rem;
+  padding-top: 0.5rem;
 }
 
 .dropdown-list li {

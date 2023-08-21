@@ -1,7 +1,8 @@
-import { ActiveUser, CommonUserData } from "~/types/global";
+import { ActiveUser, CommonUserData, LocationCoords } from "~/types/global";
 
 export const useUserStore = defineStore("user", () => {
   const user = ref<ActiveUser | null>(null);
+  const actualUserLocation = ref<LocationCoords | null>(null);
 
   const userCommonData = computed<CommonUserData | null>(() => {
     if (!user.value) return null;
@@ -31,5 +32,18 @@ export const useUserStore = defineStore("user", () => {
     return id === user.value?.id;
   }
 
-  return { user, userCommonData, userHeaderInfo, userSettings, setUser, isUserCurrent };
+  function setLocation(coords: LocationCoords | null) {
+    actualUserLocation.value = coords;
+  }
+
+  return {
+    user,
+    actualUserLocation,
+    userCommonData,
+    userHeaderInfo,
+    userSettings,
+    setUser,
+    isUserCurrent,
+    setLocation,
+  };
 });
