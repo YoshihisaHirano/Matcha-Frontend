@@ -27,21 +27,21 @@ const isCurrentUser = computed(() => route.path === '/profile')
         <span v-if="!user.online && !isCurrentUser">last seen {{ lastSeen }}</span>
         <ProfileUpdate v-if="isCurrentUser"/>
     </div>
-      <MainUserData
-        :id="user.id"
-        :first-name="user.firstName"
-        :last-name="user.lastName"
-        :gender="user.gender"
-        :date-of-birth="user.dateOfBirth"
-        :location="user.location"
-        :sex-pref="user.sexPref"
-        :tags="user.tags"
-        :online="user.online"
-        class-name="user-profile-main"
-      />
+      <UserLocation
+      :location="user.location"
+      class-name="profile-location"
+    />
+    <UserNameAge
+      :first-name="user.firstName"
+      :last-name="user.lastName"
+      :date-of-birth="user.dateOfBirth"
+      :online="user.online"
+    />
+    <UserGender :gender="user.gender" :sex-pref="user.sexPref" />
       <div class="user-fame">
         Fame: <RatingStars :rating="user.fameRating" />
       </div>
+      <TagList :tags="user.tags" class-name="profile-tags" />
       <section class="user-bio">
         <header>About me</header>
         <p>{{ user.biography }}</p>
@@ -94,5 +94,13 @@ const isCurrentUser = computed(() => route.path === '/profile')
     font-weight: 600;
     position: relative;
     top: -4px
+}
+
+.profile-location {
+  margin-bottom: .75rem;
+}
+
+.profile-tags {
+  margin-bottom: 1rem;
 }
 </style>

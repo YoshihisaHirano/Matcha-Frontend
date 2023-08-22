@@ -1,25 +1,27 @@
 <script setup lang="ts">
-import { useFiltersStore } from "~/stores/filtersStore";
 
 interface TagListProps {
   verbose?: boolean;
+  showDelete?: boolean;
+  showAdd?: boolean;
+  tags: string[]
+  className?: string;
 }
 
 defineProps<TagListProps>();
-
-const filters = useFiltersStore();
+const emits = defineEmits(["deleteTag"]);
 
 function removeFilterTag(tag: string) {
-    filters.deleteTag(tag)
+  emits("deleteTag", tag);
 }
 </script>
 
 <template>
-  <ul class="tags-container">
-    <li v-for="tag in filters.tags">
+  <ul :class="`tags-container ${className || ''}`">
+    <li v-for="tag in tags">
         <span v-if="verbose">tag:&nbsp;</span>
         {{ tag }}
-        <Button @click="() => removeFilterTag(tag)" class-name="delete-tag-btn">×</Button>
+        <Button v-if="showDelete" @click="() => removeFilterTag(tag)" class-name="delete-tag-btn">×</Button>
     </li>
   </ul>
 </template>
@@ -30,7 +32,7 @@ function removeFilterTag(tag: string) {
   flex-wrap: wrap;
   list-style: none;
   gap: 0.5rem;
-  padding: 0;
+  padding: .5rem 0;
 }
 
 .tags-container li {
@@ -42,7 +44,8 @@ function removeFilterTag(tag: string) {
   align-items: center;
   line-height: 1;
   padding: .3rem .5rem;
-  background: var(--tag-gray-bg);
+  color: var(--text-white);
+  background: var(--accent-red);
 }
 
 .delete-tag-btn {

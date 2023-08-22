@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useUserStore } from "~/stores/userStore";
 import { UserCardInfo } from "~/types/global";
 
 interface UserCardProps {
@@ -6,18 +7,25 @@ interface UserCardProps {
 }
 
 const props = defineProps<UserCardProps>();
-
-const propsNoImg = computed<Omit<UserCardInfo, "image"> & { image?: string }>(
-  () => ({ ...props.user })
-);
-delete propsNoImg.value.image;
+const userLocation = useUserStore().userLocation || undefined;
 </script>
 
 <template>
   <figure>
     <img :src="user.image" alt="User profile picture" class="profile-pic" />
   </figure>
-  <MainUserData v-bind="propsNoImg" class-name="search-card-info" />
+  <div class="search-card-info">
+    <UserLocation
+      :location="user.location"
+      :current-user-location="userLocation"
+    />
+    <UserNameAge
+      :first-name="user.firstName"
+      :date-of-birth="user.dateOfBirth"
+    />
+    <TagList :tags="user.tags" />
+    <UserGender :gender="user.gender" :sex-pref="user.sexPref" />
+  </div>
 </template>
 
 <style scoped>
@@ -25,6 +33,11 @@ delete propsNoImg.value.image;
   position: relative;
   z-index: 3;
   padding: 0.5rem 0.85rem;
+}
+
+.search-card-info .tags-container {
+  margin-bottom: .75rem;
+  padding: 0;
 }
 
 .search-card-info p.location span::before,
@@ -47,6 +60,6 @@ figure {
   position: absolute;
   display: block;
   pointer-events: none;
-  box-shadow: 0px -145px 153px 12px rgba(104, 23, 23, 0.85) inset;
+  box-shadow: 0px -180px 153px 12px rgba(104, 23, 23, 0.85) inset;
 }
 </style>

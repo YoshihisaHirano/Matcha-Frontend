@@ -13,11 +13,15 @@ function closeModal() {
 }
 
 const searchFilters = computed(() => filters.searchFilters);
+
+function removeTag(tag: string) {
+  filters.deleteTag(tag)
+}
 </script>
 
 <template>
   <div class="filter-bar">
-    <TagList verbose />
+    <TagList @delete-tag="removeTag" class-name="visible-filter-tags" :tags="searchFilters.tags || []" show-delete verbose />
     <Button @click="openModal" class-name="search-filter-btn">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -45,11 +49,9 @@ const searchFilters = computed(() => filters.searchFilters);
         <Input name="age-gap" id="age-gap" type="range" label="Age gap" />
         <Input name="fame-gap" id="fame-gap" type="range" label="Fame gap" />
         <Search />
-        <TagList />
+        <TagList :tags="searchFilters.tags || []" />
       </div>
-      <!-- <ClientOnly> -->
         <CustomMap class-name="filter-map-wrapper" />
-      <!-- </ClientOnly> -->
     </div>
   </Modal>
 </template>
@@ -86,5 +88,10 @@ const searchFilters = computed(() => filters.searchFilters);
 .filter-map-wrapper {
   flex-basis: 50%;
   flex-shrink: 0;
+}
+
+:global(.tags-container.visible-filter-tags li) {
+  background: var(--tag-gray-bg);
+  color: var(--primary-text);
 }
 </style>

@@ -4,6 +4,11 @@ export const useUserStore = defineStore("user", () => {
   const user = ref<ActiveUser | null>(null);
   const actualUserLocation = ref<LocationCoords | null>(null);
 
+  const userLocation = computed(() => {
+    if (!user.value) return null;
+    return user.value.location
+  })
+
   const userCommonData = computed<CommonUserData | null>(() => {
     if (!user.value) return null;
     const commonUser: Partial<ActiveUser> = { ...user.value };
@@ -38,6 +43,7 @@ export const useUserStore = defineStore("user", () => {
 
   return {
     user,
+    userLocation,
     actualUserLocation,
     userCommonData,
     userHeaderInfo,
