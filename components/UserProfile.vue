@@ -10,38 +10,47 @@ const pictures = computed<string[]>(() => {
   if (props.user) {
     return [props.user.mainImage, ...props.user.pictures];
   }
-  return []
+  return [];
 });
 
-const route = useRoute()
+const route = useRoute();
 
-const lastSeen = computed(() => props.user ? getStringDate(props.user.lastSeen) : '');
-const isCurrentUser = computed(() => route.path === '/profile')
+const lastSeen = computed(() =>
+  props.user ? getStringDate(props.user.lastSeen) : ""
+);
+const isCurrentUser = computed(() => route.path === "/profile");
 </script>
 
 <template>
   <section class="profile-container">
-    <PhotoGallery :pictures="pictures" :alt="user ? `A photo of ${user.firstName} ${user.lastName}` : 'No photo'" />
+    <PhotoGallery
+      :pictures="pictures"
+      :alt="user ? `A photo of ${user.firstName} ${user.lastName}` : 'No photo'"
+    />
     <div v-if="user" class="user-info">
       <div class="user-status">
-        <span v-if="!user.online && !isCurrentUser">last seen {{ lastSeen }}</span>
-        <ProfileUpdate v-if="isCurrentUser"/>
-    </div>
-      <UserLocation
-      :location="user.location"
-      class-name="profile-location"
-    />
-    <UserNameAge
-      :first-name="user.firstName"
-      :last-name="user.lastName"
-      :date-of-birth="user.dateOfBirth"
-      :online="user.online"
-    />
-    <UserGender :gender="user.gender" :sex-pref="user.sexPref" />
+        <span v-if="!user.online && !isCurrentUser"
+          >last seen {{ lastSeen }}</span
+        >
+        <ProfileUpdate v-if="isCurrentUser" />
+      </div>
+      <UserLocation :location="user.location" class-name="profile-location" />
+      <UserNameAge
+        :first-name="user.firstName"
+        :last-name="user.lastName"
+        :date-of-birth="user.dateOfBirth"
+        :online="user.online"
+      />
+      <UserGender :gender="user.gender" :sex-pref="user.sexPref" />
       <div class="user-fame">
         Fame: <RatingStars :rating="user.fameRating" />
       </div>
-      <TagList :tags="user.tags" class-name="profile-tags" />
+      <TagList
+        modal-title="Add more things that characterize you"
+        :tags="user.tags"
+        class-name="profile-tags"
+        :show-delete="user.tags.length < 10"
+      />
       <section class="user-bio">
         <header>About me</header>
         <p>{{ user.biography }}</p>
@@ -87,17 +96,17 @@ const isCurrentUser = computed(() => route.path === '/profile')
 }
 
 .user-status {
-    margin-bottom: 2rem;
-    font-size: .9rem;
-    opacity: .7;
-    min-height: 1.2rem;
-    font-weight: 600;
-    position: relative;
-    top: -4px
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  opacity: 0.7;
+  min-height: 1.2rem;
+  font-weight: 600;
+  position: relative;
+  top: -4px;
 }
 
 .profile-location {
-  margin-bottom: .75rem;
+  margin-bottom: 0.75rem;
 }
 
 .profile-tags {

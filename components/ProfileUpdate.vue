@@ -25,7 +25,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Button @click="openModal" class-name="edit-btn"
+  <Button @click="openModal" variant="round" class-name="edit-btn"
     ><span class="typicons-write"></span
   ></Button>
   <Modal
@@ -60,6 +60,8 @@ onMounted(() => {
             v-model="userData.dateOfBirth"
             position="left"
             :clearable="false"
+            menu-class-name="custom-calendar-menu"
+            input-class-name="custom-calendar-input"
           />
         </label>
         <div class="input-group">
@@ -105,20 +107,7 @@ onMounted(() => {
 }
 
 .edit-btn {
-  background: transparent;
-  border: 1px solid var(--accent-red);
-  border-radius: 50%;
-  margin: 0;
   font-size: 1.3rem;
-  line-height: 1;
-  font-weight: 400;
-  color: var(--accent-red);
-  padding: 2px 5px;
-}
-
-.edit-btn:hover {
-  outline: 1px solid var(--accent-red);
-  font-weight: 500;
 }
 
 .edit-modal-content {
@@ -168,5 +157,12 @@ onMounted(() => {
   margin-left: auto;
   margin-top: 2rem;
   width: fit-content;
+}
+
+:global(.custom-calendar-menu),
+:global(.custom-calendar-input) {
+  --dp-primary-color: var(--accent-red);
+  --dp-text-color: var(--primary-text);
+  --dp-background-color: var(--input-bg);
 }
 </style>

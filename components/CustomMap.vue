@@ -38,7 +38,7 @@ function handleClick(event: MapBrowserEvent<PointerEvent>) {
       <div class="outer-map-controls">
         <div aria-label="map label" class="label">
           Location
-          <Search/>
+          <Search placeholder="Search for a place"/>
         </div>
         <div class="location-controls">
           <div class="current-location">
@@ -132,6 +132,7 @@ function handleClick(event: MapBrowserEvent<PointerEvent>) {
   padding: 0;
   font-size: 1.35rem;
   line-height: 1;
+  color: var(--primary-text);
 }
 
 .current-location > button:hover {

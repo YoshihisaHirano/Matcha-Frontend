@@ -37,4 +37,8 @@ let address = computed(() => {
 p.location {
   font-weight: 400;
 }
+
+span.typicons-location::before {
+    margin-right: .2rem;
+}
 </style>

@@ -15,13 +15,20 @@ function closeModal() {
 const searchFilters = computed(() => filters.searchFilters);
 
 function removeTag(tag: string) {
-  filters.deleteTag(tag)
+  filters.deleteTag(tag);
 }
 </script>
 
 <template>
   <div class="filter-bar">
-    <TagList @delete-tag="removeTag" class-name="visible-filter-tags" :tags="searchFilters.tags || []" show-delete verbose />
+    <TagList
+      @delete-tag="removeTag"
+      class-name="visible-filter-tags"
+      :tags="searchFilters.tags || []"
+      show-delete
+      show-add
+      verbose
+    />
     <Button @click="openModal" class-name="search-filter-btn">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -48,10 +55,8 @@ function removeTag(tag: string) {
       <div>
         <Input name="age-gap" id="age-gap" type="range" label="Age gap" />
         <Input name="fame-gap" id="fame-gap" type="range" label="Fame gap" />
-        <Search />
-        <TagList :tags="searchFilters.tags || []" />
       </div>
-        <CustomMap class-name="filter-map-wrapper" />
+      <CustomMap class-name="filter-map-wrapper" />
     </div>
   </Modal>
 </template>
@@ -90,8 +95,12 @@ function removeTag(tag: string) {
   flex-shrink: 0;
 }
 
-:global(.tags-container.visible-filter-tags li) {
+:global(.tags-wrapper.visible-filter-tags li) {
   background: var(--tag-gray-bg);
+  color: var(--primary-text);
+}
+
+:global(.tags-wrapper.visible-filter-tags .delete-tag-btn) {
   color: var(--primary-text);
 }
 </style>
