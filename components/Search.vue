@@ -6,6 +6,7 @@ interface SearchProps {
   placeholder?: string;
   className?: string;
   disabled?: boolean;
+  pending?: boolean;
 }
 
 const searchTerm = ref<string | null>(null);
@@ -29,6 +30,10 @@ function clearSearch() {
 function selectOption(option: string) {
   emits("select", option);
 }
+
+defineExpose({
+  clearSearch
+})
 </script>
 
 <template>
@@ -40,17 +45,19 @@ function selectOption(option: string) {
         id="search"
         type="text"
         :placeholder="placeholder"
-        :disabled="disabled"
+        :disabled="disabled || pending"
       />
       <img
+        v-if="!pending"
         class="magnifier-img"
         :src="magnifier"
         alt=""
         width="20"
         height="20"
       />
+      <Loader class-name="search-loader" v-else :circle-size="5"/>
     </label>
-    <Button :disabled="disabled" class="clear-btn" variant="transparent" @click="clearSearch"
+    <Button :disabled="disabled || pending" class="clear-btn" variant="transparent" @click="clearSearch"
       >x</Button
     >
     <ul class="dropdown-list" v-if="results && !disabled">
@@ -141,5 +148,14 @@ input:disabled,
 .clear-btn:disabled {
   color: var(--disabled-gray);
   cursor: not-allowed;
+}
+
+.loader-container.search-loader {
+  position: absolute;
+  top: 0.35rem;
+  right: -30px;
+  z-index: 3;
+  width: fit-content;
+  height: fit-content;
 }
 </style>

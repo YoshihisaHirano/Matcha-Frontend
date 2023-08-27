@@ -6,6 +6,7 @@ interface TagListProps {
   tags: string[];
   className?: string;
   modalTitle?: string;
+  canAddTags?: boolean;
 }
 
 const props = defineProps<TagListProps>();
@@ -28,6 +29,8 @@ const submitBtnActive = computed(() =>
   areStringArraysEqual(props.tags, updatedTags.value)
 );
 const disableSearch = computed(() => updatedTags.value.length > 9);
+const pendingSearch = ref(false);
+const searchRef = ref<any>(null);
 
 function removeTag(tag: string) {
   emits("deleteTag", tag);
@@ -38,23 +41,34 @@ function removeTagFromUpdated(tag: string) {
 }
 
 function addTag(tag: string) {
+  if (updatedTags.value.includes(tag)) return;
   updatedTags.value = [...updatedTags.value, tag];
 }
 
-function addNewTag(tag: string) {
+async function addNewTag(tag: string) {
   // async logic to add a tag to a tag db
-  updatedTags.value = [...updatedTags.value, tag];
+  pendingSearch.value = true;
+  const res = await useAddTag(tag);
+  if (res.data) {
+    updatedTags.value = [...updatedTags.value, tag];
+    searchRes.value = null;
+    searchStr.value = "";
+  }
+  pendingSearch.value = false;
 }
 
 function updateTags() {
-  if (!updatedTags.value.length) return;
+  if (areStringArraysEqual(props.tags, updatedTags.value)) return;
   emits("updateTags", updatedTags.value);
+  reset();
 }
 
-function cancelUpdate() {
+function reset() {
   updatedTags.value = [...props.tags];
   searchRes.value = null;
   searchStr.value = "";
+  pendingSearch.value = false;
+  searchRef?.value?.clearSearch();
   closeModal();
 }
 
@@ -63,14 +77,17 @@ function clearRes() {
   searchStr.value = "";
 }
 
-function searchTags(searchTerm: string) {
-  console.log(searchTerm);
+async function searchTags(searchTerm: string) {
   if (!searchTerm) return;
-  const res = Math.random() > 0.5 ? [] : ["anime", "music", "food"]; // async logic to fetch tags by search
-  searchRes.value = res;
-  if (!res.length) {
+  pendingSearch.value = true;
+  let res = await useTagSearch(searchTerm);
+  // imitate no results for now
+  if (Math.random() < 0.5) res.data = [];
+  searchRes.value = res.data;
+  if (!res.data.length) {
     searchStr.value = searchTerm;
   }
+  pendingSearch.value = false;
 }
 </script>
 
@@ -88,7 +105,7 @@ function searchTags(searchTerm: string) {
         >
       </li>
     </ul>
-    <Button variant="round" @click="openModal">+</Button>
+    <Button v-if="showAdd" variant="round" @click="openModal">+</Button>
   </div>
   <Modal
     :modalTitle="`${modalTitle || 'Add tags'}`"
@@ -105,11 +122,13 @@ function searchTags(searchTerm: string) {
         class-name="tag-search"
         :results="searchRes"
         :disabled="disableSearch"
+        :pending="pendingSearch"
+        ref="searchRef"
       >
         <span
           >No matches.
           <Button
-            v-if="!updatedTags.includes(searchStr)"
+            v-if="canAddTags && !updatedTags.includes(searchStr)"
             @click="() => addNewTag(searchStr)"
             class="add-tag-btn"
             variant="transparent"
@@ -129,7 +148,7 @@ function searchTags(searchTerm: string) {
       </ul>
     </div>
     <div class="modal-controls">
-      <Button @click="cancelUpdate" variant="secondary">Cancel</Button>
+      <Button @click="reset" variant="secondary">Cancel</Button>
       <Button @click="updateTags" variant="primary" :disabled="submitBtnActive"
         >Submit</Button
       >

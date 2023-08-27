@@ -25,7 +25,9 @@ export default defineNuxtConfig({
       xAccessKey: process.env['X-ACCESS-KEY'],
       rapidApiKey: process.env['X-RapidAPI-Key'],
       geocodingHost: process.env.X_RAPID_GEOCODING_HOST,
-      mapTileHost: process.env.X_RAPID_MAPTILE_HOST
+      mapTileHost: process.env.X_RAPID_MAPTILE_HOST,
+      tagBinID: process.env.TAG_BIN_ID,
+      profileBinID: process.env.PROFILE_BIN_ID
     },
   },
   pages: true,

@@ -41,8 +41,8 @@ function prevImage() {
     >
       <img :src="pictures[currIdx]" :alt="alt" />
       <!-- <nuxt-img v-if="props" :src="pictures[currIdx]" /> -->
-      <div :class="['idx-indicator', { reversed: midPassed }]"></div>
-      <div :class="['controls', { visible: controlsVisible }]">
+      <div v-if="pictures.length > 1" :class="['idx-indicator', { reversed: midPassed }]"></div>
+      <div v-if="pictures.length > 1" :class="['controls', { visible: controlsVisible }]">
         <Button @click="prevImage" class="control-btn"
           ><span class="typicons-previous"></span
         ></Button>

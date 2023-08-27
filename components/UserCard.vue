@@ -8,6 +8,7 @@ interface UserCardProps {
 
 const props = defineProps<UserCardProps>();
 const userLocation = useUserStore().userLocation || undefined;
+const userlink = computed(() => `/users/${props.user.id}`);
 </script>
 
 <template>
@@ -36,7 +37,7 @@ const userLocation = useUserStore().userLocation || undefined;
 }
 
 .search-card-info .tags-container {
-  margin-bottom: .75rem;
+  margin-bottom: 0.75rem;
   padding: 0;
 }
 
@@ -61,5 +62,10 @@ figure {
   display: block;
   pointer-events: none;
   box-shadow: 0px -180px 153px 12px rgba(104, 23, 23, 0.85) inset;
+}
+
+a {
+  text-decoration: none;
+  display: block;
 }
 </style>

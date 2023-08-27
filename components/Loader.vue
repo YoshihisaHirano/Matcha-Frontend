@@ -1,13 +1,18 @@
 <script setup lang="ts">
 interface LoaderProps {
   text?: string;
+  circleSize?: number;
+  className?: string;
 }
 
 defineProps<LoaderProps>();
 </script>
 
 <template>
-  <div class="loader-container">
+  <div
+    :class="`loader-container ${className}`"
+    :style="circleSize ? `--circle-size: ${circleSize}px` : ''"
+  >
     <div class="circle-container">
       <div class="loader-circle"></div>
       <div class="loader-circle"></div>

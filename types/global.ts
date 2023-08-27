@@ -20,7 +20,6 @@ export interface UserCardInfo {
   image: string;
   tags: string[];
   location: LocationCoords;
-  address: string;
 }
 
 export interface Filters {

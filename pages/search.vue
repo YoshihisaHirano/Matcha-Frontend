@@ -26,11 +26,13 @@ function handleNext(e: Event) {
       ></Button>
       <div class="cards-collection">
         <div class="outlined-card"></div>
-        <article class="outlined-card main-card">
-          <Loader v-if="pending" />
-          <p v-else-if="error">Something went wrong...</p>
-          <UserCard v-else :user="currentCard" />
-        </article>
+        <CustomLink :href="`/users/${currentCard.id}`">
+          <article class="outlined-card main-card">
+            <Loader v-if="pending" />
+            <p v-else-if="error">Something went wrong...</p>
+            <UserCard v-else :user="currentCard" />
+          </article>
+        </CustomLink>
         <div class="outlined-card"></div>
       </div>
       <Button class-name="search-btn" @click="handleNext"

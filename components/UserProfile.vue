@@ -18,7 +18,7 @@ const route = useRoute();
 const lastSeen = computed(() =>
   props.user ? getStringDate(props.user.lastSeen) : ""
 );
-const isCurrentUser = computed(() => route.path === "/profile");
+const isCurrentUser = computed(() => !!(route.path === "/profile" && props.user?.id));
 </script>
 
 <template>
@@ -46,10 +46,12 @@ const isCurrentUser = computed(() => route.path === "/profile");
         Fame: <RatingStars :rating="user.fameRating" />
       </div>
       <TagList
-        modal-title="Add more things that characterize you"
+        modal-title="Add things that characterize you"
         :tags="user.tags"
         class-name="profile-tags"
-        :show-delete="user.tags.length < 10"
+        :show-delete="isCurrentUser"
+        :show-add="isCurrentUser && user.tags.length < 10"
+        can-add-tags
       />
       <section class="user-bio">
         <header>About me</header>

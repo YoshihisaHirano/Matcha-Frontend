@@ -5,6 +5,7 @@ import "@vuepic/vue-datepicker/dist/main.css";
 import { CommonUserData } from "~/types/global";
 
 const modalOpen = ref(false);
+const store = useUserStore()
 
 function openModal() {
   modalOpen.value = true;
@@ -19,9 +20,17 @@ let userData = ref<CommonUserData | null>(null);
 const sexPrefOptions = ["men", "women", "both"];
 
 onMounted(() => {
-  const userInfo = useUserStore().userCommonData;
-  userData.value = userInfo;
+  userData.value = cloneUserData(store.userCommonData);
 });
+
+function submitUpdate() {
+  console.log(userData.value);
+}
+
+function reset() {
+  userData.value = cloneUserData(store.userCommonData);
+  closeModal();
+}
 </script>
 
 <template>
@@ -50,9 +59,11 @@ onMounted(() => {
             label="Last name"
           ></Input>
         </div>
-        <label for="birth-date">
+        <div class="input-group">
+          <label for="birth-date">
           <span class="date-label">Birthday</span>
           <Datepicker
+            model-type="timestamp"
             :text-input="true"
             :enable-time-picker="false"
             :max-date="minus18Years()"
@@ -64,6 +75,8 @@ onMounted(() => {
             input-class-name="custom-calendar-input"
           />
         </label>
+        <PhotoPicker/>
+        </div>
         <div class="input-group">
           <Dropdown
             :options="sexPrefOptions"
@@ -78,9 +91,11 @@ onMounted(() => {
         </div>
         <Input
           :is-textarea="true"
+          placeholder="Please write a few words about yourself"
           name="bio"
           id="bio"
           label="Biography"
+          maxlength="300"
           v-model="userData.biography"
         ></Input>
       </div>
@@ -94,8 +109,8 @@ onMounted(() => {
       </div>
     </div>
     <div class="bottom-controls">
-      <Button class-name="reset-btn">Reset</Button>
-      <Button class-name="submit-btn">Submit</Button>
+      <Button @click="reset" variant="secondary">Reset</Button>
+      <Button @click="submitUpdate" variant="primary">Submit</Button>
     </div>
   </Modal>
 </template>
@@ -137,19 +152,13 @@ onMounted(() => {
   gap: 1rem;
 }
 
+.input-group > * {
+  flex: 0 0 48%;
+}
+
 .date-label {
   font-size: 1.25rem;
   color: var(--primary-text);
-}
-
-.submit-btn {
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 8px;
-  font-size: 1.25rem;
-  margin-top: 1rem;
-  background: var(--accent-red);
-  color: var(--text-white);
-  font-weight: 700;
 }
 
 .bottom-controls {
@@ -157,12 +166,7 @@ onMounted(() => {
   margin-left: auto;
   margin-top: 2rem;
   width: fit-content;
+  gap: .75rem;
 }
 
-:global(.custom-calendar-menu),
-:global(.custom-calendar-input) {
-  --dp-primary-color: var(--accent-red);
-  --dp-text-color: var(--primary-text);
-  --dp-background-color: var(--input-bg);
-}
 </style>
