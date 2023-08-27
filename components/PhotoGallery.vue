@@ -2,6 +2,7 @@
 interface PhotoGalleryProps {
   pictures: string[];
   alt: string;
+  isCurrentUser: boolean;
 }
 
 const props = defineProps<PhotoGalleryProps>();
@@ -41,8 +42,20 @@ function prevImage() {
     >
       <img :src="pictures[currIdx]" :alt="alt" />
       <!-- <nuxt-img v-if="props" :src="pictures[currIdx]" /> -->
-      <div v-if="pictures.length > 1" :class="['idx-indicator', { reversed: midPassed }]"></div>
-      <div v-if="pictures.length > 1" :class="['controls', { visible: controlsVisible }]">
+      <div
+        v-if="pictures.length > 1"
+        :class="['idx-indicator', { reversed: midPassed }]"
+      ></div>
+      <div
+        v-if="pictures.length > 1"
+        :class="['controls', { visible: controlsVisible }]"
+      >
+        <PhotoPicker
+          is-small
+          v-if="isCurrentUser"
+          :class-name="`edit-photos-btn ${ controlsVisible ? 'visible' : '' }`"
+          :pictures="pictures"
+        />
         <Button @click="prevImage" class="control-btn"
           ><span class="typicons-previous"></span
         ></Button>
@@ -59,7 +72,7 @@ function prevImage() {
 .image-frame {
   border: 2px solid var(--gray-stroke);
   border-radius: 1rem;
-  aspect-ratio: 5/7;
+  aspect-ratio: var(--photo-aspect-ratio);
   overflow: hidden;
   max-height: 550px;
   flex: 0 0 clamp(350px, 33%, 26vw);
@@ -149,5 +162,23 @@ function prevImage() {
 
 .idx-indicator.reversed {
   flex-direction: row-reverse;
+}
+
+:global(button[data-variant="transparent"].edit-photos-btn) {
+  position: absolute;
+  z-index: 3;
+  top: .5rem;
+  left: .5rem;
+  font-size: 1.5rem;
+  color: var(--text-white);
+  text-shadow: 2px 2px 20px #000;
+  -webkit-text-stroke-width: .5px;
+  -webkit-text-stroke-color: #000;
+  transform: scaleX(-1);
+  opacity: 0;
+}
+
+:global(button[data-variant="transparent"].edit-photos-btn.visible) {
+  opacity: 1;
 }
 </style>

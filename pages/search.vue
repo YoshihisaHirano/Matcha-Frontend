@@ -66,7 +66,7 @@ function handleNext(e: Event) {
 
 .outlined-card {
   width: clamp(350px, 26vw, 26vw);
-  aspect-ratio: 5/7;
+  aspect-ratio: var(--photo-aspect-ratio);
   border-radius: 0.75rem;
 }
 

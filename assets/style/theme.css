@@ -16,6 +16,7 @@
     --text-white: #fffff0;
     --input-bg: #FEFCFF;
     --disabled-gray: #898a8f;
+    --photo-aspect-ratio: 5/7;
 }
 
 .light-theme {

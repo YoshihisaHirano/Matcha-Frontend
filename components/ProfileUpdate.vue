@@ -5,7 +5,7 @@ import "@vuepic/vue-datepicker/dist/main.css";
 import { CommonUserData } from "~/types/global";
 
 const modalOpen = ref(false);
-const store = useUserStore()
+const store = useUserStore();
 
 function openModal() {
   modalOpen.value = true;
@@ -61,21 +61,24 @@ function reset() {
         </div>
         <div class="input-group">
           <label for="birth-date">
-          <span class="date-label">Birthday</span>
-          <Datepicker
-            model-type="timestamp"
-            :text-input="true"
-            :enable-time-picker="false"
-            :max-date="minus18Years()"
-            name="birth-date"
-            v-model="userData.dateOfBirth"
-            position="left"
-            :clearable="false"
-            menu-class-name="custom-calendar-menu"
-            input-class-name="custom-calendar-input"
+            <span class="date-label">Birthday</span>
+            <Datepicker
+              model-type="timestamp"
+              :text-input="true"
+              :enable-time-picker="false"
+              :max-date="minus18Years()"
+              name="birth-date"
+              v-model="userData.dateOfBirth"
+              position="left"
+              :clearable="false"
+              menu-class-name="custom-calendar-menu"
+              input-class-name="custom-calendar-input"
+            />
+          </label>
+          <PhotoPicker
+            button-text="Open photos editor"
+            :pictures="[userData.mainImage, ...userData.pictures]"
           />
-        </label>
-        <PhotoPicker/>
         </div>
         <div class="input-group">
           <Dropdown
@@ -166,7 +169,6 @@ function reset() {
   margin-left: auto;
   margin-top: 2rem;
   width: fit-content;
-  gap: .75rem;
+  gap: 0.75rem;
 }
-
 </style>

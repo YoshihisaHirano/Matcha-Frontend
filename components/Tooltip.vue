@@ -9,8 +9,8 @@ interface TooltipProps {
 const props = withDefaults(defineProps<TooltipProps>(), {
   tooltipPosition: "top",
   className: "",
-  contentClassName: '',
-  activeOnHover: false
+  contentClassName: "",
+  activeOnHover: false,
 });
 
 const dialogRef = ref<HTMLDialogElement | null>(null);
@@ -61,35 +61,33 @@ function handleFocusOut() {
 }
 
 useOutsideClick([dialogRef, wrapperRef], () => {
-    closeTooltip();
-    leavingDialog.value = true;
-    mouseEventsActive.value = true;
+  closeTooltip();
+  leavingDialog.value = true;
+  mouseEventsActive.value = true;
 });
 </script>
 
 <template>
-  <slot name="icon">
-    <div
-      class="tooltip-wrapper"
-      @mouseenter="handleMouseEnter"
-      @mouseleave="handleMouseLeave"
-      @focus="handleFocusIn"
-      tabindex="0"
-      :class="className"
-      ref="wrapperRef"
-      @click="hanldeClick"
+  <div
+    class="tooltip-wrapper"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
+    @focus="handleFocusIn"
+    tabindex="0"
+    :class="className"
+    ref="wrapperRef"
+    @click="hanldeClick"
+  >
+    <dialog
+      @blur="handleFocusOut"
+      :class="['tooltip', tooltipPosition, contentClassName]"
+      ref="dialogRef"
+      id="dialogRef"
     >
-      <dialog
-        @blur="handleFocusOut"
-        :class="['tooltip', tooltipPosition, contentClassName]"
-        ref="dialogRef"
-        id="dialogRef"
-      >
-        <slot></slot>
-      </dialog>
-      <span class="typicons-info tooltip-icon"> </span>
-    </div>
-  </slot>
+      <slot></slot>
+    </dialog>
+    <slot name="icon"> <span class="typicons-info tooltip-icon"> </span></slot>
+  </div>
 </template>
 
 <style scoped>
