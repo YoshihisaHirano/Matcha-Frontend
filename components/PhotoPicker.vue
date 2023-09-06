@@ -1,19 +1,33 @@
 <script setup lang="ts">
+import { useUserStore } from '~/stores/userStore';
+
 interface PhotoPickerProps {
   buttonText?: string;
   isSmall?: boolean;
   className?: string;
-  pictures: string[];
+  btnsDisabled?: boolean;
 }
 
 const props = defineProps<PhotoPickerProps>();
 const emits = defineEmits(["updatePictures"]);
+const store = useUserStore()
 
-const updatedPictures = ref([...props.pictures]);
-const mainImage = ref(updatedPictures.value[0]);
+const userPics = computed(() => {
+  return store.userPictures || []
+})
+
+const updatedPictures = ref([...userPics.value]);
+const mainImage = ref(userPics.value[0]);
 const uploadErr = ref(false);
-
 const modalOpen = ref(false);
+
+const shouldDisableBtn = computed(() => {
+  return (
+    props.btnsDisabled ||
+    (areStringArraysEqual(userPics.value, updatedPictures.value) &&
+      mainImage.value === userPics.value[0])
+  );
+});
 
 function openModal() {
   modalOpen.value = true;
@@ -54,12 +68,12 @@ function removeImage(img: string, event: Event) {
   if (img === mainImage.value) {
     mainImage.value = updatedPictures.value[0];
   }
-  event.stopPropagation()
+  event.stopPropagation();
 }
 
 function reset() {
-  updatedPictures.value = [...props.pictures];
-  mainImage.value = props.pictures[0]
+  updatedPictures.value = [...userPics.value];
+  mainImage.value = userPics.value[0];
   closeModal();
 }
 
@@ -67,6 +81,13 @@ function submitChanges() {
   const pics = updatedPictures.value.filter((item) => item !== mainImage.value);
   emits("updatePictures", [mainImage.value, ...pics]);
 }
+
+function refreshValues() {
+  updatedPictures.value = [...userPics.value];
+  mainImage.value = userPics.value[0];
+}
+
+watch(() => userPics.value, refreshValues)
 </script>
 
 <template>
@@ -111,7 +132,7 @@ function submitChanges() {
             @click="(event) => removeImage(pic, event)"
             class-name="delete-pic-btn"
             variant="transparent"
-            ><span class="typcn-delete">x</span
+            ><span class="typcn typcn-trash"></span
           ></Button>
         </FramedImage>
         <Dropzone
@@ -124,9 +145,7 @@ function submitChanges() {
           <label class="upload-image-label" for="upload-image">
             <Tooltip active-on-hover>
               <template #icon
-                ><span
-                  :class="`typcn-${uploadErr ? 'cancel' : 'plus'}`"
-                ></span
+                ><span :class="`typcn-${uploadErr ? 'cancel' : 'plus'}`"></span
               ></template>
               <p>JPEG and PNG images up to 2Mb</p>
             </Tooltip>
@@ -143,7 +162,11 @@ function submitChanges() {
         </Dropzone>
       </div>
     </div>
-    <ButtonControls @reset="reset" @submit="submitChanges" />
+    <ButtonControls
+      :disabled="shouldDisableBtn"
+      @reset="reset"
+      @submit="submitChanges"
+    />
   </Modal>
 </template>
 
@@ -269,5 +292,6 @@ function submitChanges() {
   z-index: 3;
   color: var(--text-white);
   text-shadow: 2px 2px 20px #000;
+  font-size: 1.2rem;
 }
 </style>

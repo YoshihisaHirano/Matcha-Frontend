@@ -25,7 +25,6 @@ const isCurrentUser = computed(() => !!(route.path === "/profile" && props.user?
   <section class="profile-container">
     <PhotoGallery
       :is-current-user="isCurrentUser"
-      :pictures="pictures"
       :alt="user ? `A photo of ${user.firstName} ${user.lastName}` : 'No photo'"
     />
     <div v-if="user" class="user-info">

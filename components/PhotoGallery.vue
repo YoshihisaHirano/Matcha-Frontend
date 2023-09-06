@@ -1,15 +1,23 @@
 <script setup lang="ts">
+import { useUserStore } from "~/stores/userStore";
+
 interface PhotoGalleryProps {
-  pictures: string[];
   alt: string;
   isCurrentUser: boolean;
 }
 
-const props = defineProps<PhotoGalleryProps>();
+defineProps<PhotoGalleryProps>();
 const currIdx = ref(0);
-const lastIdx = computed(() => props.pictures.length - 1);
 const controlsVisible = ref(false);
+const photoEditBtnDisabled = ref(false);
 const midPassed = computed(() => currIdx.value > lastIdx.value / 2);
+const store = useUserStore();
+
+const userPics = computed(() => {
+  return store.userPictures || [];
+});
+
+const lastIdx = computed(() => userPics.value.length - 1);
 
 function toggleControls() {
   controlsVisible.value = !controlsVisible.value;
@@ -31,41 +39,45 @@ function prevImage() {
   }
 }
 
-function updatePictures(data: string[]) {
-  console.log(sortImagesToHandle(data, props.pictures))
+async function updatePictures(pictures: string[]) {
+  photoEditBtnDisabled.value = true;
+  const updated = await useNewPictures(pictures, store.userPictures);
+  await useUpdateUser(updated);
+  photoEditBtnDisabled.value = false;
 }
 </script>
 
 <template>
   <div class="image-frame">
     <div
-      v-if="pictures.length > 0"
+      v-if="userPics.length > 0"
       class="image-wrapper"
       @mouseenter="toggleControls"
       @mouseleave="toggleControls"
     >
-      <img :src="pictures[currIdx]" :alt="alt" />
+      <img :src="userPics[currIdx]" :alt="alt" />
       <!-- <nuxt-img v-if="props" :src="pictures[currIdx]" /> -->
       <div
-        v-if="pictures.length > 1"
+        v-if="userPics.length > 1"
         :class="['idx-indicator', { reversed: midPassed }]"
       ></div>
       <div
-        v-if="pictures.length > 1"
+        v-if="userPics.length > 1"
         :class="['controls', { visible: controlsVisible }]"
       >
         <PhotoPicker
           is-small
           v-if="isCurrentUser"
-          :class-name="`edit-photos-btn ${ controlsVisible ? 'visible' : '' }`"
-          :pictures="pictures"
+          :class-name="`edit-photos-btn ${controlsVisible ? 'visible' : ''}`"
+          :pictures="userPics"
           @update-pictures="updatePictures"
+          :btns-disabled="photoEditBtnDisabled"
         />
         <Button @click="prevImage" class="control-btn"
-          ><span class="typcn-previous"></span
+          ><span class="typcn typcn-chevron-left"></span
         ></Button>
         <Button @click="nextImage" class="control-btn"
-          ><span class="typcn-next"></span
+          ><span class="typcn typcn-chevron-right"></span
         ></Button>
       </div>
     </div>
@@ -172,12 +184,12 @@ function updatePictures(data: string[]) {
 :global(button[data-variant="transparent"].edit-photos-btn) {
   position: absolute;
   z-index: 3;
-  top: .5rem;
-  left: .5rem;
+  top: 0.5rem;
+  left: 0.5rem;
   font-size: 1.5rem;
   color: var(--text-white);
   text-shadow: 2px 2px 20px #000;
-  -webkit-text-stroke-width: .5px;
+  -webkit-text-stroke-width: 0.5px;
   -webkit-text-stroke-color: #000;
   transform: scaleX(-1);
   opacity: 0;

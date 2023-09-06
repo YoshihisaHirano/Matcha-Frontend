@@ -5,6 +5,8 @@ import "@vuepic/vue-datepicker/dist/main.css";
 import { CommonUserData } from "~/types/global";
 
 const modalOpen = ref(false);
+const photoEditBtnDisabled = ref(false);
+
 const store = useUserStore();
 
 function openModal() {
@@ -33,17 +35,17 @@ function reset() {
 }
 
 async function updatePictures(pictures: string[]) {
-  const reqBody = sortImagesToHandle(pictures, store.userPictures);
-  await useFetch("/api/image", {
-    method: "POST",
-    body: JSON.stringify(reqBody),
-  });
+  photoEditBtnDisabled.value = true;
+  const updated = await useNewPictures(pictures, store.userPictures)
+  await useUpdateUser(updated)
+  userData.value = cloneUserData(store.userCommonData);
+  photoEditBtnDisabled.value = false;
 }
 </script>
 
 <template>
   <Button @click="openModal" variant="round" class-name="edit-btn"
-    ><span class="typcn-write"></span
+    ><span class="typcn typcn-pencil"></span
   ></Button>
   <Modal
     modalTitle="Edit your profile"
@@ -87,6 +89,7 @@ async function updatePictures(pictures: string[]) {
             button-text="Open photos editor"
             :pictures="[userData.mainImage, ...userData.pictures]"
             @update-pictures="updatePictures"
+            :btns-disabled="photoEditBtnDisabled"
           />
         </div>
         <div class="input-group">
@@ -120,10 +123,7 @@ async function updatePictures(pictures: string[]) {
         />
       </div>
     </div>
-    <div class="bottom-controls">
-      <Button @click="reset" variant="secondary">Reset</Button>
-      <Button @click="submitUpdate" variant="primary">Submit</Button>
-    </div>
+    <ButtonControls @reset="reset" @submit="submitUpdate"/>
   </Modal>
 </template>
 
@@ -134,7 +134,7 @@ async function updatePictures(pictures: string[]) {
 }
 
 .edit-btn {
-  font-size: 1.3rem;
+  font-size: 1.1rem;
 }
 
 .edit-modal-content {
