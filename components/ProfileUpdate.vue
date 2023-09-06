@@ -31,11 +31,19 @@ function reset() {
   userData.value = cloneUserData(store.userCommonData);
   closeModal();
 }
+
+async function updatePictures(pictures: string[]) {
+  const reqBody = sortImagesToHandle(pictures, store.userPictures);
+  await useFetch("/api/image", {
+    method: "POST",
+    body: JSON.stringify(reqBody),
+  });
+}
 </script>
 
 <template>
   <Button @click="openModal" variant="round" class-name="edit-btn"
-    ><span class="typicons-write"></span
+    ><span class="typcn-write"></span
   ></Button>
   <Modal
     modalTitle="Edit your profile"
@@ -78,6 +86,7 @@ function reset() {
           <PhotoPicker
             button-text="Open photos editor"
             :pictures="[userData.mainImage, ...userData.pictures]"
+            @update-pictures="updatePictures"
           />
         </div>
         <div class="input-group">

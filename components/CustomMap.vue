@@ -44,7 +44,7 @@ function handleClick(event: MapBrowserEvent<PointerEvent>) {
           <div class="current-location">
             <span>use my location</span>
           <Button @click="useCurrentLocation"
-            ><span class="typicons-compass location-icon"></span
+            ><span class="typcn-compass location-icon"></span
           ></Button>
           </div>
           <!-- <Search/> -->

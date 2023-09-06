@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   css: [
+    "~/assets/style/typicons.css",
     "~/assets/style/animations.css",
     "~/assets/style/theme.css",
     "~/assets/style/typography.css",

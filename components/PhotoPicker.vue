@@ -44,10 +44,28 @@ function setUploadErr() {
 
 function addImage(data: string) {
   updatedPictures.value = [...updatedPictures.value, data];
+  if (!mainImage.value) {
+    mainImage.value = data;
+  }
+}
+
+function removeImage(img: string, event: Event) {
+  updatedPictures.value = updatedPictures.value.filter((item) => item !== img);
+  if (img === mainImage.value) {
+    mainImage.value = updatedPictures.value[0];
+  }
+  event.stopPropagation()
+}
+
+function reset() {
+  updatedPictures.value = [...props.pictures];
+  mainImage.value = props.pictures[0]
+  closeModal();
 }
 
 function submitChanges() {
-  emits("updatePictures", updatedPictures.value);
+  const pics = updatedPictures.value.filter((item) => item !== mainImage.value);
+  emits("updatePictures", [mainImage.value, ...pics]);
 }
 </script>
 
@@ -57,13 +75,13 @@ function submitChanges() {
     @click="openModal"
     v-if="isSmall"
     variant="transparent"
-    ><span class="typicons-edit"></span
+    ><span class="typcn-edit"></span
   ></Button>
   <div v-else :class="`${className || ''} wrapper`">
     <span class="label">Photos</span>
     <Button @click="openModal" class-name="photo-picker-btn-large"
       >{{ buttonText || "Edit photos" }}
-      <span class="typicons-edit"></span>
+      <span class="typcn-edit"></span>
     </Button>
   </div>
   <Modal modalTitle="Edit photos" @close-modal="closeModal" :isOpen="modalOpen">
@@ -88,7 +106,14 @@ function submitChanges() {
             pic !== mainImage ? 'An image from the gallery' : 'The main image'
           "
           @click="chooseMainImage"
-        />
+        >
+          <Button
+            @click="(event) => removeImage(pic, event)"
+            class-name="delete-pic-btn"
+            variant="transparent"
+            ><span class="typcn-delete">x</span
+          ></Button>
+        </FramedImage>
         <Dropzone
           :accepted-file-types="['image/png', 'image/jpeg']"
           :class="`add-photo ${uploadErr ? 'error' : ''}`"
@@ -98,10 +123,15 @@ function submitChanges() {
         >
           <label class="upload-image-label" for="upload-image">
             <Tooltip active-on-hover>
-              <template #icon><span class="typicons-plus"></span></template>
+              <template #icon
+                ><span
+                  :class="`typcn-${uploadErr ? 'cancel' : 'plus'}`"
+                ></span
+              ></template>
               <p>JPEG and PNG images up to 2Mb</p>
             </Tooltip>
-            <span>Drop or select a file</span>
+            <span v-if="uploadErr">Upload failed</span>
+            <span v-else>Drop or select a file</span>
             <input
               accept=".png,.jpg,.jpeg"
               class="visually-hidden"
@@ -113,6 +143,7 @@ function submitChanges() {
         </Dropzone>
       </div>
     </div>
+    <ButtonControls @reset="reset" @submit="submitChanges" />
   </Modal>
 </template>
 
@@ -185,6 +216,7 @@ function submitChanges() {
   min-width: 100px;
   width: 10vw;
   cursor: pointer;
+  position: relative;
 }
 
 .image-frame.gallery-picture.highlighted {
@@ -225,7 +257,17 @@ function submitChanges() {
   color: crimson;
 }
 
-.upload-image-label .typicons-plus {
+.upload-image-label .typcn-plus,
+.upload-image-label .typcn-cancel {
   font-size: 1.2rem;
+}
+
+.image-frame.gallery-picture .delete-pic-btn {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  z-index: 3;
+  color: var(--text-white);
+  text-shadow: 2px 2px 20px #000;
 }
 </style>

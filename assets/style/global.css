@@ -1,9 +1,6 @@
-@import url(https://weloveiconfonts.com/api/?family=typicons);
-
 /* typicons */
-[class*="typicons-"]:before {
+[class*="typcn-"]::before {
   font-family: "Typicons", sans-serif;
-  vertical-align: sub;
 }
 
 @font-face {

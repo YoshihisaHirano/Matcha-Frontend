@@ -30,6 +30,10 @@ function prevImage() {
     currIdx.value = lastIdx.value;
   }
 }
+
+function updatePictures(data: string[]) {
+  console.log(sortImagesToHandle(data, props.pictures))
+}
 </script>
 
 <template>
@@ -55,12 +59,13 @@ function prevImage() {
           v-if="isCurrentUser"
           :class-name="`edit-photos-btn ${ controlsVisible ? 'visible' : '' }`"
           :pictures="pictures"
+          @update-pictures="updatePictures"
         />
         <Button @click="prevImage" class="control-btn"
-          ><span class="typicons-previous"></span
+          ><span class="typcn-previous"></span
         ></Button>
         <Button @click="nextImage" class="control-btn"
-          ><span class="typicons-next"></span
+          ><span class="typcn-next"></span
         ></Button>
       </div>
     </div>

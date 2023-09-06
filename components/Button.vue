@@ -9,8 +9,8 @@ interface ButtonProps {
 defineProps<ButtonProps>();
 const emits = defineEmits(["click"]);
 
-function handleClick() {
-  emits("click");
+function handleClick(event: Event) {
+  emits("click", event);
 }
 </script>
 

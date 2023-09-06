@@ -25,7 +25,7 @@ const usernameChanged = computed(
 
 <template>
   <Button @click="openModal" class-name="settings-btn"
-    ><span class="typicons-cog"></span
+    ><span class="typcn typcn-cog"></span
   ></Button>
   <Modal
     modalTitle="User Settings (danger zone)"

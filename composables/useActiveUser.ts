@@ -21,3 +21,23 @@ export const useActiveUser = async (id: string) => {
     }
   }
 };
+
+export const useUpdateUser = async (userData: Partial<ActiveUser>) => {
+  const config = useRuntimeConfig();
+  const { baseBackend, xAccessKey, xMasterKey, meBinID } = config.public;
+  const apiEndpoint = `${baseBackend}/b/${meBinID}?meta=false`;
+  const store = useUserStore()
+  const updatedUser = {...store.user, ...filterUnsetKeys(userData)}
+  const { data, pending, error } = await useFetch<{ record: any }>(
+    apiEndpoint,
+    {
+      method: "PUT",
+      headers: {
+        ["X-Master-Key"]: xMasterKey,
+        ["X-Access-Key"]: xAccessKey,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...updatedUser }),
+    }
+  );
+}

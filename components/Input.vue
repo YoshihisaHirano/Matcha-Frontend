@@ -19,7 +19,7 @@ defineEmits(["update:modelValue"]);
 
 <template>
   <label :class="`form-label ${lableClassName || ''}`" :for="id">
-    <span :class="`typicons-${icon}`">{{ label }}</span>
+    <span :class="`typcn-${icon}`">{{ label }}</span>
     <textarea
       v-if="isTextarea"
       :value="modelValue"

@@ -29,7 +29,7 @@ let address = computed(() => {
 
 <template>
   <p :class="`location ${className || ''}`">
-    <span v-if="address" class="typicons-location">{{ address }}</span>
+    <span v-if="address" class="typcn-location">{{ address }}</span>
   </p>
 </template>
 
@@ -38,7 +38,7 @@ p.location {
   font-weight: 400;
 }
 
-span.typicons-location::before {
+span.typcn-location::before {
     margin-right: .2rem;
 }
 </style>

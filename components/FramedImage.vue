@@ -1,6 +1,6 @@
 <script setup lang="ts">
 interface FramedImageProps {
-  src: string;
+  src?: string;
   alt?: string;
   className?: string;
 }
@@ -16,7 +16,8 @@ function handleClick() {
 <template>
   <div @click="handleClick" :class="`image-frame ${className || ''}`">
     <slot/>
-    <img :src="src" :alt="alt || ''" loading="lazy" decoding="async" />
+    <img v-if="src" :src="src" :alt="alt || ''" loading="lazy" decoding="async" />
+    <NoImage v-else/>
   </div>
 </template>
 

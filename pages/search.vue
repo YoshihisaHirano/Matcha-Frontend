@@ -22,7 +22,7 @@ function handleNext(e: Event) {
   <Suspense>
     <section class="search-section">
       <Button class-name="search-btn"
-        ><span class="typicons-thumbsDown"></span
+        ><span class="typcn-thumbsDown"></span
       ></Button>
       <div class="cards-collection">
         <div class="outlined-card"></div>
@@ -36,7 +36,7 @@ function handleNext(e: Event) {
         <div class="outlined-card"></div>
       </div>
       <Button class-name="search-btn" @click="handleNext"
-        ><span class="typicons-heart"></span
+        ><span class="typcn-heart"></span
       ></Button>
     </section>
     <template #fallback>

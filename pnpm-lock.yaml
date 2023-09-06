@@ -5,6 +5,7 @@ specifiers:
   '@pinia/nuxt': ^0.4.11
   '@types/node': ^18
   '@vuepic/vue-datepicker': ^5.4.0
+  cloudinary: ^1.40.0
   nuxt: ^3.5.2
   ol: ^7.4.0
   ol-contextmenu: ^5.2.1
@@ -15,6 +16,7 @@ specifiers:
 dependencies:
   '@pinia/nuxt': 0.4.11
   '@vuepic/vue-datepicker': 5.4.0
+  cloudinary: 1.40.0
   ol: 7.4.0
   ol-contextmenu: 5.2.1_ol@7.4.0
   ol-ext: 4.0.10_ol@7.4.0
@@ -1705,6 +1707,24 @@ packages:
     engines: {node: '>=0.8'}
     dev: true
 
+  /cloudinary-core/2.13.0_lodash@4.17.21:
+    resolution: {integrity: sha512-Nt0Q5I2FtenmJghtC4YZ3MZZbGg1wLm84SsxcuVwZ83OyJqG9CNIGp86CiI6iDv3QobaqBUpOT7vg+HqY5HxEA==}
+    peerDependencies:
+      lodash: '>=4.0'
+    dependencies:
+      lodash: 4.17.21
+    dev: false
+
+  /cloudinary/1.40.0:
+    resolution: {integrity: sha512-Fifkl8NRw/M+Enw4cKCXc6e0Or28c5y6RVGYS3OCLzT1W8EfBt416FURhLuuL/S4BCVv8bSilmnM746kCtth3g==}
+    engines: {node: '>=0.6'}
+    dependencies:
+      cloudinary-core: 2.13.0_lodash@4.17.21
+      core-js: 3.31.1
+      lodash: 4.17.21
+      q: 1.5.1
+    dev: false
+
   /cluster-key-slot/1.1.2:
     resolution: {integrity: sha512-RMr0FhtfXemyinomL4hrWcYJxmX6deFdCxpJzhDttxgO1+bcCnkk+9drydLVDmAMG7NE6aN/fl4F7ucU/90gAA==}
     engines: {node: '>=0.10.0'}
@@ -1813,7 +1833,6 @@ packages:
     resolution: {integrity: sha512-2sKLtfq1eFST7l7v62zaqXacPc7uG8ZAya8ogijLhTtaKNcpzpB4TMoTw2Si+8GYKRwFPMMtUT0263QFWFfqyQ==}
     requiresBuild: true
     dev: false
-    optional: true
 
   /core-util-is/1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
@@ -3081,7 +3100,6 @@ packages:
 
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
-    dev: true
 
   /log-symbols/4.1.0:
     resolution: {integrity: sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg==}
@@ -4232,6 +4250,11 @@ packages:
       once: 1.4.0
     dev: true
     optional: true
+
+  /q/1.5.1:
+    resolution: {integrity: sha512-kV/CThkXo6xyFEZUugw/+pIOywXcDbFYgSct5cT3gqlbkBE1SJdwy6UQoZvodiWF/ckQLZyDE/Bu1M6gVu5lVw==}
+    engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
+    dev: false
 
   /queue-microtask/1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}

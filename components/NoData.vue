@@ -1,6 +1,6 @@
 <template>
   <p class="no-data">
-    <span class="typicons-warning"></span>
+    <span class="typcn-warning"></span>
     There were some troubles loading data.<br />Please try refreshing your page
   </p>
 </template>

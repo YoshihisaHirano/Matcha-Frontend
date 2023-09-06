@@ -16,6 +16,7 @@
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
     "@vuepic/vue-datepicker": "^5.4.0",
+    "cloudinary": "^1.40.0",
     "ol": "^7.4.0",
     "ol-contextmenu": "^5.2.1",
     "ol-ext": "^4.0.10",

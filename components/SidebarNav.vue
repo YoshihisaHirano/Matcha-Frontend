@@ -15,7 +15,7 @@ const links = [
     <ul>
       <li v-for="link in links" :class="{ active: $route.path === link.href }">
         <CustomLink className="navbar-link" internal :href="link.href">
-          <span :class="['typicons-' + link.icon]">{{ link.title }}</span>
+          <span :class="['typcn-' + link.icon]">{{ link.title }}</span>
         </CustomLink>
       </li>
     </ul>
@@ -60,7 +60,7 @@ li:has(a:hover) {
   font-weight: 400;
 }
 
-[class*="typicons-"]:before {
+[class*="typcn-"]:before {
   color: var(--primary-background);
   margin-right: 0.65rem;
 }

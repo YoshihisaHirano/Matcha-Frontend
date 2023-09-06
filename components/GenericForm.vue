@@ -36,9 +36,9 @@ function submitForm(event: Event) {
   box-shadow: 0 0.5rem 0.3rem rgba(0, 0, 0, 0.15);
 }
 
-:global(.form-fieldset span[class*="typicons-"]::before) {
+:global(.form-fieldset span[class*="typcn-"]::before) {
   margin-right: 0.35rem;
-  color: var(--typicons-accent);
+  color: var(--typcn-accent);
 }
 
 :global(.form-fieldset .form-label:last-of-type) {

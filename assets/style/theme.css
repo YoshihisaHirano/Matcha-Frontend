@@ -6,7 +6,7 @@
     --accent-gradient: linear-gradient(to right, #c31431df, #240b36d0);
     --gray-stroke: #434447;
     --accent-red: #b21f1f;
-    --typicons-accent: #4f0683;
+    --typcn-accent: #4f0683;
     --card-pattern: url("~/assets/images/pattern.svg");
     --loader-color: #b21f1f94;
     --tag-gray-bg: rgba(5, 5, 5, .08);
@@ -25,7 +25,7 @@
     --accent-gradient: linear-gradient(to right, #c31431df, #240b36d0);
     --gray-stroke: #434447;
     --primary-gradient: linear-gradient(to left, #1a2a6c, #b21f1f, #fdbb2d);
-    --typicons-accent: #4f0683;
+    --typcn-accent: #4f0683;
     --card-pattern: url("~/assets/images/pattern.svg");
     --loader-color: #b21f1f94;
     --tag-gray-bg: rgba(5, 5, 5, .08);
@@ -39,7 +39,7 @@
     --accent-gradient: linear-gradient(to right, #c31414df, #3f1647d0);
     --primary-gradient: var(--primary-gradient-reverse);
     --gray-stroke: #868788;
-    --typicons-accent: #a14fdc;
+    --typcn-accent: #a14fdc;
     --card-pattern: url("~/assets/images/pattern-light.svg");
     --loader-color: var(--accent-red);
     --tag-gray-bg: rgba(245, 245, 245, .1);
