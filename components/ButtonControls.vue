@@ -1,6 +1,7 @@
 <script setup lang="ts">
 interface ButtonControlsProps {
     disabled?: boolean
+    disableSubmitOnly?: boolean
 }
 
 defineProps<ButtonControlsProps>()
@@ -18,7 +19,7 @@ function onReset() {
 
 <template>
     <div class="bottom-controls">
-      <Button :disabled="disabled" @click="onReset" variant="secondary">Reset</Button>
+      <Button :disabled="!disableSubmitOnly && disabled" @click="onReset" variant="secondary">Reset</Button>
       <Button :disabled="disabled" @click="onSubmit" variant="primary">Submit</Button>
     </div>
 </template>

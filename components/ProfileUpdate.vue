@@ -2,10 +2,11 @@
 import { useUserStore } from "~/stores/userStore";
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import { CommonUserData } from "~/types/global";
+import { EditableUserData } from "~/types/global";
 
 const modalOpen = ref(false);
 const photoEditBtnDisabled = ref(false);
+const ownBtnsDisabled = ref(false);
 
 const store = useUserStore();
 
@@ -17,28 +18,45 @@ function closeModal() {
   modalOpen.value = false;
 }
 
-let userData = ref<CommonUserData | null>(null);
+let userData = ref<EditableUserData | null>(null);
 
 const sexPrefOptions = ["men", "women", "both"];
 
 onMounted(() => {
-  userData.value = cloneUserData(store.userCommonData);
+  userData.value = cloneEditableData(store.userEditableData);
 });
 
-function submitUpdate() {
-  console.log(userData.value);
+const userDataInvalid = computed(() => {
+  return !isEditedDataValid(userData.value)
+})
+
+const shouldDisableBtns = computed(() => {
+  return (
+    ownBtnsDisabled.value ||
+    userDataInvalid.value ||
+    !hasUserDataChanged(userData.value, store.userEditableData)
+  );
+});
+
+async function submitUpdate() {
+  if (userData.value && !userDataInvalid.value) {
+    ownBtnsDisabled.value = true
+    // console.log(JSON.stringify(userData.value));
+    await useUpdateUser({ ...userData.value})
+    ownBtnsDisabled.value = false
+  }
 }
 
 function reset() {
-  userData.value = cloneUserData(store.userCommonData);
-  closeModal();
+  userData.value = cloneEditableData(store.userCommonData);
+  // closeModal();
 }
 
 async function updatePictures(pictures: string[]) {
   photoEditBtnDisabled.value = true;
-  const updated = await useNewPictures(pictures, store.userPictures)
-  await useUpdateUser(updated)
-  userData.value = cloneUserData(store.userCommonData);
+  const updated = await useNewPictures(pictures, store.userPictures);
+  await useUpdateUser(updated);
+  userData.value = cloneEditableData(store.userCommonData);
   photoEditBtnDisabled.value = false;
 }
 </script>
@@ -87,7 +105,6 @@ async function updatePictures(pictures: string[]) {
           </label>
           <PhotoPicker
             button-text="Open photos editor"
-            :pictures="[userData.mainImage, ...userData.pictures]"
             @update-pictures="updatePictures"
             :btns-disabled="photoEditBtnDisabled"
           />
@@ -123,7 +140,12 @@ async function updatePictures(pictures: string[]) {
         />
       </div>
     </div>
-    <ButtonControls @reset="reset" @submit="submitUpdate"/>
+    <ButtonControls
+      :disabled="shouldDisableBtns"
+      :disable-submit-only="userDataInvalid"
+      @reset="reset"
+      @submit="submitUpdate"
+    />
   </Modal>
 </template>
 

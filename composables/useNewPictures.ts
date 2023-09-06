@@ -3,7 +3,7 @@ import { CommonUserData } from "~/types/global";
 export const useNewPictures = async (
   newPics: string[],
   oldPics: string[]
-): Promise<Pick<CommonUserData, "mainImage" & "pictures">> => {
+): Promise<Pick<CommonUserData, "mainImage" | "pictures">> => {
   const reqBody = sortImagesToHandle(newPics, oldPics);
   let newPictures = [...newPics];
   const { data } = await useFetch("/api/image", {

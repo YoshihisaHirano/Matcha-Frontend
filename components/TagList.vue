@@ -153,6 +153,7 @@ watch(
         <li class="single-tag" v-for="tag in updatedTags">
           {{ tag }}
           <Button
+            v-if="updatedTags.length > 1"
             @click="() => removeTagFromUpdated(tag)"
             class-name="delete-tag-btn"
             >×</Button
@@ -186,7 +187,6 @@ watch(
   font-size: 1.1rem;
   display: flex;
   align-items: center;
-  line-height: 1;
   padding: 0.3rem 0.5rem;
   color: var(--text-white);
   background: var(--accent-red);
@@ -195,7 +195,7 @@ watch(
 .delete-tag-btn {
   background: transparent;
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   padding: 0;
   padding-left: 0.5rem;
   color: var(--text-white);

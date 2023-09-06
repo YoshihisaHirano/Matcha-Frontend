@@ -1,0 +1,1 @@
+<template>this is likes page</template>

@@ -27,7 +27,7 @@ useOutsideClick([containerRef], () => {
     <div class="dropdown">
       <button @click="isOpen = !isOpen">
         {{ modelValue || "" }}
-        <span :class="['typcn-next', 'dropdown-chevron', {rotated: isOpen}]"></span>
+        <span :class="['typcn-chevron-right', 'dropdown-chevron', {rotated: isOpen}]"></span>
       </button>
       <ul v-if="isOpen" class="dropdown-list" tabindex="1">
         <li

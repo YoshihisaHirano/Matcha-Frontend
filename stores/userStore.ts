@@ -1,4 +1,4 @@
-import { ActiveUser, CommonUserData, LocationCoords } from "~/types/global";
+import { ActiveUser, CommonUserData, EditableUserData, LocationCoords } from "~/types/global";
 
 export const useUserStore = defineStore("user", () => {
   const user = ref<ActiveUser | null>(null);
@@ -17,6 +17,12 @@ export const useUserStore = defineStore("user", () => {
     delete commonUser.username;
     return commonUser as Required<CommonUserData>;
   });
+
+  const userEditableData = computed<EditableUserData | null>(() => {
+    if (!user.value) return null;
+    const { firstName, lastName, dateOfBirth, location, sexPref, gender, biography } = user.value
+    return { firstName, lastName, dateOfBirth, sexPref, gender, biography, location: {...location} }
+  })
 
   const userHeaderInfo = computed(() => {
     if (!user.value) return null;
@@ -51,6 +57,7 @@ export const useUserStore = defineStore("user", () => {
     userLocation,
     actualUserLocation,
     userCommonData,
+    userEditableData,
     userHeaderInfo,
     userSettings,
     userPictures,

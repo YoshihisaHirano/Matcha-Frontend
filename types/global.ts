@@ -58,3 +58,6 @@ export interface CommonUserData {
 }
 
 export type ActiveUser = PrivateUserData & CommonUserData
+
+export type SignupUserData = Pick<ActiveUser, 'email' | 'firstName' | 'lastName' | 'username'> & { password: string }
+export type EditableUserData = Pick<ActiveUser, 'biography' | 'firstName' | 'lastName' | 'dateOfBirth' | 'location' | 'gender' | 'sexPref'>

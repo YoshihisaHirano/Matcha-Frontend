@@ -1,11 +1,9 @@
-import { CommonUserData } from "~/types/global";
+import { EditableUserData } from "~/types/global";
 
-export function cloneUserData(data: CommonUserData | null) {
+export function cloneEditableData(data: EditableUserData | null) {
   if (!data) return null;
   return {
     ...data,
     location: { ...data.location },
-    tags: [...data.tags],
-    pictures: [...data.pictures],
   };
 }

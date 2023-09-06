@@ -55,7 +55,7 @@ async function updateTags(tags: string[]) {
         modal-title="Add things that characterize you"
         :tags="user.tags"
         class-name="profile-tags"
-        :show-delete="isCurrentUser"
+        :show-delete="isCurrentUser && user.tags.length > 1"
         :show-add="isCurrentUser && user.tags.length < 10"
         can-add-tags
         @delete-tag="deleteTag"

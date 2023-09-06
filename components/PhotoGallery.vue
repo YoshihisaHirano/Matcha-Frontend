@@ -69,7 +69,6 @@ async function updatePictures(pictures: string[]) {
           is-small
           v-if="isCurrentUser"
           :class-name="`edit-photos-btn ${controlsVisible ? 'visible' : ''}`"
-          :pictures="userPics"
           @update-pictures="updatePictures"
           :btns-disabled="photoEditBtnDisabled"
         />
