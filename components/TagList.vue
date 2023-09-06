@@ -57,18 +57,22 @@ async function addNewTag(tag: string) {
   pendingSearch.value = false;
 }
 
-function updateTags() {
-  if (areStringArraysEqual(props.tags, updatedTags.value)) return;
-  emits("updateTags", updatedTags.value);
-  reset();
-}
-
-function reset() {
-  updatedTags.value = [...props.tags];
+function clearSearch() {
   searchRes.value = null;
   searchStr.value = "";
   pendingSearch.value = false;
   searchRef?.value?.clearSearch();
+}
+
+function updateTags() {
+  if (areStringArraysEqual(props.tags, updatedTags.value)) return;
+  emits("updateTags", updatedTags.value);
+  clearSearch();
+}
+
+function reset() {
+  updatedTags.value = [...props.tags];
+  clearSearch();
   closeModal();
 }
 
@@ -82,19 +86,26 @@ async function searchTags(searchTerm: string) {
   pendingSearch.value = true;
   let res = await useTagSearch(searchTerm);
   // imitate no results for now
-  if (Math.random() < 0.5) res.data = [];
+  if (Math.random() < 0.2) res.data = [];
   searchRes.value = res.data;
   if (!res.data.length) {
     searchStr.value = searchTerm;
   }
   pendingSearch.value = false;
 }
+
+watch(
+  () => props.tags,
+  () => {
+    updatedTags.value = [...props.tags];
+  }
+);
 </script>
 
 <template>
   <div :class="`tags-wrapper ${className || ''}`">
     <ul class="tags-container">
-      <li v-for="tag in tags">
+      <li class="single-tag" v-for="tag in tags">
         <span v-if="verbose">tag:&nbsp;</span>
         {{ tag }}
         <Button
@@ -104,8 +115,10 @@ async function searchTags(searchTerm: string) {
           >×</Button
         >
       </li>
+      <li class="edit-btn">
+        <Button v-if="showAdd" variant="round" @click="openModal">+</Button>
+      </li>
     </ul>
-    <Button v-if="showAdd" variant="round" @click="openModal">+</Button>
   </div>
   <Modal
     :modalTitle="`${modalTitle || 'Add tags'}`"
@@ -137,7 +150,7 @@ async function searchTags(searchTerm: string) {
         >
       </Search>
       <ul class="tags-container modal-tags">
-        <li v-for="tag in updatedTags">
+        <li class="single-tag" v-for="tag in updatedTags">
           {{ tag }}
           <Button
             @click="() => removeTagFromUpdated(tag)"
@@ -163,9 +176,10 @@ async function searchTags(searchTerm: string) {
   list-style: none;
   gap: 0.5rem;
   padding: 0;
+  align-items: center;
 }
 
-.tags-container li {
+.tags-container .single-tag {
   padding: 0.08rem 0.37rem;
   border-radius: 0.55rem;
   font-weight: 400;
@@ -244,5 +258,9 @@ async function searchTags(searchTerm: string) {
   font-weight: 500;
   color: var(--disabled-gray);
   font-size: 0.9rem;
+}
+
+.edit-btn {
+  margin-left: .25rem;
 }
 </style>

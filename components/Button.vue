@@ -89,7 +89,8 @@ button[data-variant="secondary"] {
   color: var(--accent-red);
 }
 
-button[data-variant="secondary"]:hover {
+button[data-variant="secondary"]:hover:not(:disabled),
+button[data-variant="secondary"]:disabled {
   color: var(--primary-text);
 }
 </style>

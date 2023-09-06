@@ -6,12 +6,6 @@ interface UserProfileProps {
 }
 
 const props = defineProps<UserProfileProps>();
-const pictures = computed<string[]>(() => {
-  if (props.user) {
-    return [props.user.mainImage, ...props.user.pictures];
-  }
-  return [];
-});
 
 const route = useRoute();
 
@@ -19,6 +13,18 @@ const lastSeen = computed(() =>
   props.user ? getStringDate(props.user.lastSeen) : ""
 );
 const isCurrentUser = computed(() => !!(route.path === "/profile" && props.user?.id));
+
+async function deleteTag(tag: string) {
+  if (props.user?.tags) {
+    await useUpdateUser({ tags: props.user.tags.filter(item => item !== tag)})
+  }
+}
+
+async function updateTags(tags: string[]) {
+  if (props.user?.tags) {
+    await useUpdateUser({ tags })
+  }
+}
 </script>
 
 <template>
@@ -52,6 +58,8 @@ const isCurrentUser = computed(() => !!(route.path === "/profile" && props.user?
         :show-delete="isCurrentUser"
         :show-add="isCurrentUser && user.tags.length < 10"
         can-add-tags
+        @delete-tag="deleteTag"
+        @update-tags="updateTags"
       />
       <section class="user-bio">
         <header>About me</header>
