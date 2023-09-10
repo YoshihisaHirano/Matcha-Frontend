@@ -11,6 +11,7 @@ interface InputProps {
   placeholder?: string;
   modelValue?: string | number;
   isTextarea?: boolean;
+  maxlength?: number
 }
 
 defineProps<InputProps>();
@@ -34,6 +35,7 @@ defineEmits(["update:modelValue"]);
       :placeholder="placeholder"
       cols="50"
       rows="8"
+      :maxlength="maxlength"
     >
     </textarea>
     <input

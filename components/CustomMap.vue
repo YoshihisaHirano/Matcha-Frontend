@@ -23,9 +23,8 @@ const view = ref<View>();
 function useCurrentLocation() {
   const coords = useUserStore().actualUserLocation;
   if (coords) {
-    const coordsArr = [Number(coords.lon), Number(coords.lat)];
-    view?.value?.setCenter(coordsArr);
-    center.value = coordsArr;
+    const newCoords = coordsToArr(coords);
+    setNewLocation(newCoords);
   }
 }
 
@@ -44,6 +43,10 @@ function handleSearch(coords: LocationCoords) {
   const newCoords = coordsToArr(coords);
   setNewLocation(newCoords);
 }
+
+watch(() => props.mapCenter, () => {
+    center.value = props.mapCenter || [40, 40]
+})
 </script>
 
 <template>
@@ -116,6 +119,7 @@ function handleSearch(coords: LocationCoords) {
   font-size: 1.25rem;
   color: var(--primary-text);
   margin-bottom: 0.5rem;
+  flex-basis: 60%;
 }
 
 .outer-map-controls {

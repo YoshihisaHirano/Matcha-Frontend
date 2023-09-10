@@ -2,6 +2,7 @@
 import { useActiveUser } from '~/composables/useActiveUser';
 
 useActiveUser('aaa')
+useUserLocation()
 </script>
 <template>
     <SidebarNav />

@@ -95,7 +95,7 @@ function removeTag(tag: string) {
   flex-shrink: 0;
 }
 
-:global(.tags-wrapper.visible-filter-tags li) {
+:global(.tags-wrapper.visible-filter-tags li:not(:last-child)) {
   background: var(--tag-gray-bg);
   color: var(--primary-text);
 }

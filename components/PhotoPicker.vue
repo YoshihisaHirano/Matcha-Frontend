@@ -179,10 +179,6 @@ watch(() => userPics.value, refreshValues)
   font-weight: 600;
 }
 
-.label:first-of-type {
-  margin-bottom: 0.25rem;
-}
-
 .photo-picker-btn-large {
   width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.15);

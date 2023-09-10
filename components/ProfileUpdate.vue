@@ -38,6 +38,11 @@ const shouldDisableBtns = computed(() => {
   );
 });
 
+const mapCoords = computed(() => {
+  if (!userData.value) return undefined;
+  return coordsToArr(userData.value.location);
+});
+
 async function submitUpdate() {
   if (userData.value && !userDataInvalid.value) {
     ownBtnsDisabled.value = true;
@@ -126,21 +131,25 @@ function updateLocation(location: LocationCoords) {
             label="Gender"
           />
         </div>
-        <Input
-          :is-textarea="true"
-          placeholder="Please write a few words about yourself"
-          name="bio"
-          id="bio"
-          label="Biography"
-          maxlength="300"
-          v-model="userData.biography"
-        ></Input>
+        <div>
+          <Input
+            :is-textarea="true"
+            placeholder="Please write a few words about yourself"
+            name="bio"
+            id="bio"
+            label="Biography"
+            :maxlength="300"
+            v-model="userData.biography"
+          ></Input>
+          <WordCount
+            :text="userData.biography"
+            :maxlength="300"
+            class-name="word-count"
+          />
+        </div>
       </div>
       <div>
-        <CustomMap
-          :map-center="coordsToArr(userData.location)"
-          @change-location="updateLocation"
-        />
+        <CustomMap :map-center="mapCoords" @change-location="updateLocation" />
       </div>
     </div>
     <ButtonControls
@@ -204,5 +213,9 @@ function updateLocation(location: LocationCoords) {
   margin-top: 2rem;
   width: fit-content;
   gap: 0.75rem;
+}
+
+.word-count {
+  text-align: right;
 }
 </style>

@@ -22,7 +22,7 @@ function handleNext(e: Event) {
   <Suspense>
     <section class="search-section">
       <Button class-name="search-btn"
-        ><span class="typcn-thumbsDown"></span
+        ><span class="typcn-cancel"></span
       ></Button>
       <div class="cards-collection">
         <div class="outlined-card"></div>

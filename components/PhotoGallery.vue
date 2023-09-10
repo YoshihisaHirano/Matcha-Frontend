@@ -191,7 +191,7 @@ async function updatePictures(pictures: string[]) {
   color: var(--text-white);
   text-shadow: 2px 2px 20px #000;
   -webkit-text-stroke-width: 0.5px;
-  -webkit-text-stroke-color: #000;
+  -webkit-text-stroke-color: var(--gray-stroke);
   transform: scaleX(-1);
   opacity: 0;
 }

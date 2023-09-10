@@ -4,6 +4,4 @@
 useSeoMeta({
   title: "Matcha",
 });
-
-useUserLocation()
 </script>

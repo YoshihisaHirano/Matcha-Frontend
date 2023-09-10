@@ -10,7 +10,7 @@ export const useUserLocation = () => {
         const { latitude, longitude } = pos.coords
         coords = { lat: latitude, lon: longitude}
         store.setLocation(coords)
-        console.log(coords)
+        // console.log(coords)
     }
 
     function onGeolocationError(err: GeolocationPositionError) {
