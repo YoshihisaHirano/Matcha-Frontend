@@ -7,10 +7,12 @@ interface TagListProps {
   className?: string;
   modalTitle?: string;
   canAddTags?: boolean;
+  noModal?: boolean;
+  maxLength?: number;
 }
 
 const props = defineProps<TagListProps>();
-const emits = defineEmits(["deleteTag", "updateTags"]);
+const emits = defineEmits(["deleteTag", "updateTags", "addTag"]);
 
 const modalOpen = ref(false);
 
@@ -28,7 +30,9 @@ const searchStr = ref<string>("");
 const submitBtnActive = computed(() =>
   areStringArraysEqual(props.tags, updatedTags.value)
 );
-const disableSearch = computed(() => updatedTags.value.length > 9);
+const disableSearch = computed(
+  () => updatedTags.value.length >= (props.maxLength || 10)
+);
 const pendingSearch = ref(false);
 const searchRef = ref<any>(null);
 
@@ -94,6 +98,10 @@ async function searchTags(searchTerm: string) {
   pendingSearch.value = false;
 }
 
+function emitAddTag(tag: string) {
+  emits("addTag", tag);
+}
+
 watch(
   () => props.tags,
   () => {
@@ -115,19 +123,34 @@ watch(
           >×</Button
         >
       </li>
-      <li class="edit-btn">
-        <Button v-if="showAdd" variant="round" @click="openModal">+</Button>
+      <li v-if="showAdd" class="edit-btn">
+        <Button variant="round" @click="openModal">+</Button>
       </li>
     </ul>
+    <Search
+      v-if="noModal"
+      @select="emitAddTag"
+      @search="searchTags"
+      @clear="clearRes"
+      :results="searchRes"
+      :disabled="disableSearch"
+      :pending="pendingSearch"
+      ref="searchRef"
+      class-name="no-modal-search"
+      placeholder="Search for an interest"
+    />
   </div>
   <Modal
+    v-if="!noModal"
     :modalTitle="`${modalTitle || 'Add tags'}`"
     @close-modal="closeModal"
     :isOpen="modalOpen"
     class-name="tags-modal"
   >
     <div class="modal-content">
-      <span class="tag-counter">{{ updatedTags.length }} / 10</span>
+      <span class="tag-counter"
+        >{{ updatedTags.length }} / {{ maxLength || 10 }}</span
+      >
       <Search
         @select="addTag"
         @search="searchTags"
@@ -137,6 +160,7 @@ watch(
         :disabled="disableSearch"
         :pending="pendingSearch"
         ref="searchRef"
+        placeholder="Search for an interest"
       >
         <span
           >No matches.
@@ -202,10 +226,15 @@ watch(
 }
 
 .tags-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
   padding: 0.5rem 0;
+}
+
+.no-modal-search {
+  max-width: 80%
+}
+
+ul:not(:empty) + .no-modal-search {
+  margin-top: 1rem;
 }
 
 .modal-tags {
@@ -261,6 +290,6 @@ watch(
 }
 
 .edit-btn {
-  margin-left: .25rem;
+  margin-left: 0.25rem;
 }
 </style>

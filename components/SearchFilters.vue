@@ -1,8 +1,54 @@
 <script setup lang="ts">
-import { useFiltersStore } from "~/stores/filtersStore";
+import { SearchFilters, useFiltersStore } from "~/stores/filtersStore";
+import { useUserStore } from "~/stores/userStore";
+import { LocationCoords } from "~/types/global";
+
+const emits = defineEmits(["updateFilters"]);
 
 const filters = useFiltersStore();
+const userStore = useUserStore();
 const modalOpen = ref(false);
+
+const defaultFilterValues = {
+  fameDiff: 1,
+  ageDiff: 6,
+};
+const defaultRadius = 500;
+
+const searchFilters = computed(() => filters.searchFilters);
+const filtersApplied = computed(() => filters.areFiltersApplied);
+const userData = computed(() => {
+  return userStore.filterData || null;
+});
+
+const filterValues = ref({ ...defaultFilterValues });
+const filterTags = ref([...(searchFilters.value.tags || [])]);
+const locationRadius = ref(searchFilters.value.locationRadius || defaultRadius);
+const filterLocation = ref(userData.value?.location);
+
+const fameRange = computed(() => {
+  const range: Partial<Pick<SearchFilters, "fameFrom" | "fameTo">> = {
+    fameFrom: undefined,
+    fameTo: undefined,
+  };
+  if (!userData.value) return range;
+  const fameNum = Number(filterValues.value.fameDiff);
+  range.fameFrom = Math.max(1, userData.value.fame - fameNum);
+  range.fameTo = Math.min(5, userData.value.fame + fameNum);
+  return range;
+});
+
+const ageRange = computed(() => {
+  const range: Partial<Pick<SearchFilters, "ageFrom" | "ageTo">> = {
+    ageFrom: undefined,
+    ageTo: undefined,
+  };
+  if (!userData.value) return range;
+  const ageNum = Number(filterValues.value.ageDiff);
+  range.ageFrom = Math.max(18, userData.value.age - ageNum);
+  range.ageTo = Math.min(100, userData.value.age + ageNum);
+  return range;
+});
 
 function openModal() {
   modalOpen.value = true;
@@ -12,24 +58,68 @@ function closeModal() {
   modalOpen.value = false;
 }
 
-const searchFilters = computed(() => filters.searchFilters);
+function addTag(tag: string) {
+  if (!filterTags.value.includes(tag)) {
+    filterTags.value = [...filterTags.value, tag];
+  }
+}
 
-function removeTag(tag: string) {
-  filters.deleteTag(tag);
+function deleteTag(tag: string) {
+  filterTags.value = filterTags.value.filter((item) => item !== tag);
+}
+
+function changeRadius(rad: number) {
+  locationRadius.value = rad;
+}
+
+function changeLocation(coords: LocationCoords) {
+  filterLocation.value = coordsToArr(coords);
+}
+
+function onSubmit() {
+  if (!userData.value) return;
+  const filterVal = filterValues.value;
+  filterVal.ageDiff = Number(filterVal.ageDiff);
+  filterVal.fameDiff = Number(filterVal.fameDiff);
+  const fame = filterVal.fameDiff !== 1 ? { ...fameRange.value } : {};
+  const age = filterVal.ageDiff !== 6 ? { ...ageRange.value } : {};
+  const sf: Partial<SearchFilters> = { ...fame, ...age };
+  if (filterTags.value.length) {
+    sf.tags = [...filterTags.value];
+  }
+  if (locationRadius.value !== defaultRadius) {
+    sf.locationRadius = locationRadius.value;
+  }
+  if (
+    filterLocation.value &&
+    (filterLocation.value[0] !== userData.value.location[0] ||
+      filterLocation.value[1] !== userData.value.location[1])
+  ) {
+    sf.location = filterLocation.value;
+  }
+  console.log(filterUnsetKeys(sf));
+  emits("updateFilters", filterUnsetKeys(sf));
+}
+
+function onReset() {
+  filterValues.value = { ...defaultFilterValues };
+  filterTags.value = [...(searchFilters.value.tags || [])];
+  locationRadius.value = defaultRadius;
+  filterLocation.value = userData.value?.location;
 }
 </script>
 
 <template>
   <div class="filter-bar">
     <TagList
-      @delete-tag="removeTag"
       class-name="visible-filter-tags"
       :tags="searchFilters.tags || []"
-      show-delete
-      show-add
       verbose
     />
-    <Button @click="openModal" class-name="search-filter-btn">
+    <Button
+      @click="openModal"
+      :class-name="`search-filter-btn ${filtersApplied ? 'active' : ''} `"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24px"
@@ -51,13 +141,75 @@ function removeTag(tag: string) {
     @close-modal="closeModal"
     :isOpen="modalOpen"
   >
-    <div class="filters-container">
+    <div v-if="userData" class="filters-container">
       <div>
-        <Input name="age-gap" id="age-gap" type="range" label="Age gap" />
-        <Input name="fame-gap" id="fame-gap" type="range" label="Fame gap" />
+        <CustomMap
+          :map-center="filterLocation"
+          class-name="filter-map-wrapper"
+          :radius="locationRadius"
+          @change-radius="changeRadius"
+          @change-location="changeLocation"
+        />
       </div>
-      <CustomMap class-name="filter-map-wrapper" />
+      <div class="right-side">
+        <div>
+          <label class="filter-label" for="age-gap"
+            >Age gap
+            <span class="typcn-calendar"></span>
+            <input
+              name="age-gap"
+              id="age-gap"
+              type="range"
+              min="1"
+              max="81"
+              step="3"
+              v-model="filterValues.ageDiff"
+            />
+          </label>
+          <p
+            class="range-input-bottom-label"
+            v-if="ageRange.ageFrom && ageRange.ageTo"
+          >
+            from {{ Math.round(ageRange.ageFrom) }} to
+            {{ Math.round(ageRange.ageTo) }}
+          </p>
+        </div>
+        <div>
+          <label class="filter-label" for="fame-gap"
+            >Fame gap
+            <span class="typcn-star-full-outline"></span>
+            <input
+              name="fame-gap"
+              id="fame-gap"
+              type="range"
+              min="1"
+              max="5"
+              step="1"
+              v-model="filterValues.fameDiff"
+            />
+          </label>
+          <p
+            class="range-input-bottom-label"
+            v-if="fameRange.fameFrom && fameRange.fameTo"
+          >
+            from {{ Math.round(fameRange.fameFrom) }} to
+            {{ Math.round(fameRange.fameTo) }}
+          </p>
+        </div>
+        <div>
+          <p class="filter-label">Interests (up to 6)</p>
+          <TagList
+            @add-tag="addTag"
+            @delete-tag="deleteTag"
+            no-modal
+            show-delete
+            :tags="filterTags"
+            :max-length="6"
+          />
+        </div>
+      </div>
     </div>
+    <ButtonControls @reset="onReset" @submit="onSubmit" />
   </Modal>
 </template>
 
@@ -71,16 +223,33 @@ function removeTag(tag: string) {
 }
 
 .search-filter-btn {
-  background: var(--accent-red);
+  background: transparent;
   border-radius: 50%;
   outline: none;
   border: none;
   width: 2rem;
   height: 2rem;
+  outline: 2px solid var(--accent-red);
+}
+
+.search-filter-btn:hover {
+  outline-width: 3px;
+}
+
+.search-filter-btn.active {
+  background: var(--accent-red);
 }
 
 .search-filter-btn svg path {
+  fill: var(--accent-red);
+}
+
+.search-filter-btn.active svg path {
   fill: var(--primary-background);
+}
+
+.search-filter-btn.active:hover svg path {
+  fill: var(--primary-text);
 }
 
 .filters-container {
@@ -90,9 +259,15 @@ function removeTag(tag: string) {
   justify-content: space-between;
 }
 
-.filter-map-wrapper {
-  flex-basis: 50%;
+.filters-container > div:first-child {
+  flex-basis: 52%;
   flex-shrink: 0;
+  min-height: 400px;
+}
+
+.filters-container > div:last-child {
+  flex-basis: 42%;
+  padding-top: 3rem;
 }
 
 :global(.tags-wrapper.visible-filter-tags li:not(:last-child)) {
@@ -102,5 +277,33 @@ function removeTag(tag: string) {
 
 :global(.tags-wrapper.visible-filter-tags .delete-tag-btn) {
   color: var(--primary-text);
+}
+
+input[type="range"] {
+  display: block;
+  width: 100%;
+  max-width: 245px;
+}
+
+.filter-label {
+  font-size: 1.2rem;
+  margin-bottom: 0.45rem;
+  font-weight: 500;
+  color: var(--primary-text);
+}
+
+.filter-label:last-of-type {
+  margin-bottom: 0.1rem;
+}
+
+.right-side {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.range-input-bottom-label {
+  font-weight: 500;
+  color: var(--disabled-gray);
 }
 </style>

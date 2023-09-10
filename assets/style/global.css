@@ -103,3 +103,7 @@ body {
     --dp-border-radius: 8px;
     --dp-border-color: rgba(0, 0, 0, 0.15);
 }
+
+input[type="range"] {
+  accent-color: var(--accent-red);
+}

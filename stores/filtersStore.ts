@@ -1,12 +1,11 @@
 import { Filters } from "~/types/global";
 
-type SearchFilters = Omit<Filters, "pageNo" | "limit">;
+export type SearchFilters = Omit<Filters, "pageNo" | "limit">;
 
 export const useFiltersStore = defineStore("filters", () => {
   const initialFilters = {
     pageNo: 1,
     limit: 10,
-    tags: ["anime", "food", "sleep"],
   };
   const filters = ref<Filters>(initialFilters);
 
@@ -16,7 +15,13 @@ export const useFiltersStore = defineStore("filters", () => {
     delete searchF.limit;
     return searchF;
   });
+
   const tags = computed(() => filters.value.tags)
+
+  const areFiltersApplied = computed(() => {
+    const currF = filters.value
+    return !!(currF.tags?.length || currF.ageFrom || currF.ageTo || currF.fameFrom || currF.fameTo || currF.location || currF.locationRadius)
+  })
 
   function $reset() {
     filters.value = { ...initialFilters };
@@ -52,6 +57,7 @@ export const useFiltersStore = defineStore("filters", () => {
     filters,
     searchFilters,
     tags,
+    areFiltersApplied,
     $reset,
     setSearchFilter,
     setFilters,

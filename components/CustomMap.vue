@@ -1,24 +1,43 @@
 <script setup lang="ts">
 import { useUserStore } from "~/stores/userStore";
 import locationIcon from "~/assets/icons/location.svg";
-import type { MapBrowserEvent, View } from "ol";
+import type { MapBrowserEvent, View, Map } from "ol";
 import { LocationCoords } from "~/types/global";
 import { Coordinate } from "ol/coordinate";
+import { getPointResolution } from "ol/proj";
 
 interface MapProps {
   className?: string;
   mapCenter?: number[];
+  radius?: number;
 }
 
 const props = defineProps<MapProps>();
-const emits = defineEmits(["changeLocation"]);
+const emits = defineEmits(["changeLocation", "changeRadius"]);
 
 const center = ref(props.mapCenter || [40, 40]);
 const projection = ref("EPSG:4326");
-const zoom = ref(16);
+const zoom = ref(typeof props.radius !== "undefined" ? 15 : 16);
 const rotation = ref(0);
 const tileSource = useMapTileSource();
 const view = ref<View>();
+const mapRef = ref<{ map: Map } | null>(null);
+
+let currentRadius = ref(0);
+
+function convertMetersToProj(center: number[], meters?: number) {
+  if (!meters) return 0;
+  if (!mapRef.value) return meters;
+  return (
+    meters /
+    getPointResolution(
+      mapRef.value.map.getView().getProjection(),
+      1,
+      center,
+      "m"
+    )
+  );
+}
 
 function useCurrentLocation() {
   const coords = useUserStore().actualUserLocation;
@@ -44,9 +63,28 @@ function handleSearch(coords: LocationCoords) {
   setNewLocation(newCoords);
 }
 
-watch(() => props.mapCenter, () => {
-    center.value = props.mapCenter || [40, 40]
-})
+function handleRadiusChange(event: Event) {
+  const { value } = event.target as HTMLInputElement;
+  const numericVal = Number(value);
+  currentRadius.value = convertMetersToProj(center.value, numericVal);
+  emits("changeRadius", numericVal);
+}
+
+watch(
+  () => props.mapCenter,
+  () => {
+    center.value = props.mapCenter || [40, 40];
+  }
+);
+
+watch(
+  () => mapRef.value,
+  () => {
+    if (mapRef.value) {
+      currentRadius.value = convertMetersToProj(center.value, props.radius);
+    }
+  }
+);
 </script>
 
 <template>
@@ -70,6 +108,7 @@ watch(() => props.mapCenter, () => {
         :loadTilesWhileAnimating="true"
         :loadTilesWhileInteracting="true"
         @click="handleClick"
+        ref="mapRef"
       >
         <ol-view
           :center="center"
@@ -84,7 +123,17 @@ watch(() => props.mapCenter, () => {
 
         <ol-vector-layer>
           <ol-source-vector>
-            <ol-feature>
+            <ol-feature v-if="currentRadius">
+              <ol-geom-circle
+                :center="center"
+                :radius="currentRadius"
+              ></ol-geom-circle>
+              <ol-style>
+                <ol-style-stroke color="#b21f1f" :width="3"></ol-style-stroke>
+                <ol-style-fill color="rgba(165, 107, 0, .4)"></ol-style-fill>
+              </ol-style>
+            </ol-feature>
+            <ol-feature v-else>
               <ol-geom-point :coordinates="center"></ol-geom-point>
               <ol-style>
                 <ol-style-icon
@@ -98,6 +147,33 @@ watch(() => props.mapCenter, () => {
           </ol-source-vector>
         </ol-vector-layer>
       </ol-map>
+    </div>
+    <div class="radius-picker" v-if="currentRadius">
+      <label for="location-radius">
+        <span>change location radius</span>
+        <input
+          list="values"
+          type="range"
+          name="location-radius"
+          id="location-radius"
+          min="500"
+          step="250"
+          max="5000"
+          @change="handleRadiusChange"
+        />
+      </label>
+      <datalist id="values">
+        <option value="500" label="500 m"></option>
+        <option value="1000"></option>
+        <option value="1500"></option>
+        <option value="2000"></option>
+        <option value="2500"></option>
+        <option value="3000"></option>
+        <option value="3500"></option>
+        <option value="4000"></option>
+        <option value="4500"></option>
+        <option value="5000" label="5 km"></option>
+      </datalist>
     </div>
   </ClientOnly>
 </template>
@@ -120,6 +196,7 @@ watch(() => props.mapCenter, () => {
   color: var(--primary-text);
   margin-bottom: 0.5rem;
   flex-basis: 60%;
+  font-weight: 500;
 }
 
 .outer-map-controls {
@@ -157,5 +234,37 @@ watch(() => props.mapCenter, () => {
   flex-direction: column;
   align-items: flex-end;
   margin-bottom: 0.5rem;
+}
+
+.radius-picker {
+  margin-left: auto;
+  width: fit-content;
+  margin-top: 0.75rem;
+}
+
+.radius-picker > label {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-weight: 500;
+  color: var(--gray-stroke);
+}
+
+.radius-picker > label > input {
+  width: 150px;
+}
+
+datalist {
+  display: flex;
+  width: 150px;
+  flex-direction: column;
+  justify-content: space-between;
+  writing-mode: vertical-lr;
+  margin-left: auto;
+}
+
+datalist option {
+  font-size: 0.6rem;
+  padding: 3px 0;
 }
 </style>

@@ -1,4 +1,9 @@
-import { ActiveUser, CommonUserData, EditableUserData, LocationCoords } from "~/types/global";
+import {
+  ActiveUser,
+  CommonUserData,
+  EditableUserData,
+  LocationCoords,
+} from "~/types/global";
 
 export const useUserStore = defineStore("user", () => {
   const user = ref<ActiveUser | null>(null);
@@ -6,8 +11,8 @@ export const useUserStore = defineStore("user", () => {
 
   const userLocation = computed(() => {
     if (!user.value) return null;
-    return user.value.location
-  })
+    return user.value.location;
+  });
 
   const userCommonData = computed<CommonUserData | null>(() => {
     if (!user.value) return null;
@@ -20,9 +25,25 @@ export const useUserStore = defineStore("user", () => {
 
   const userEditableData = computed<EditableUserData | null>(() => {
     if (!user.value) return null;
-    const { firstName, lastName, dateOfBirth, location, sexPref, gender, biography } = user.value
-    return { firstName, lastName, dateOfBirth, sexPref, gender, biography, location: {...location} }
-  })
+    const {
+      firstName,
+      lastName,
+      dateOfBirth,
+      location,
+      sexPref,
+      gender,
+      biography,
+    } = user.value;
+    return {
+      firstName,
+      lastName,
+      dateOfBirth,
+      sexPref,
+      gender,
+      biography,
+      location: { ...location },
+    };
+  });
 
   const userHeaderInfo = computed(() => {
     if (!user.value) return null;
@@ -37,8 +58,17 @@ export const useUserStore = defineStore("user", () => {
 
   const userPictures = computed(() => {
     if (!user.value) return [];
-    return [user.value.mainImage, ...user.value.pictures]
-  })
+    return [user.value.mainImage, ...user.value.pictures];
+  });
+
+  const filterData = computed(() => {
+    if (!user.value) return null;
+    return {
+      fame: user.value.fameRating,
+      age: getAge(user.value.dateOfBirth),
+      location: coordsToArr(user.value.location)
+    };
+  });
 
   function setUser(newUser: ActiveUser | null) {
     user.value = newUser ? { ...newUser } : null;
@@ -61,6 +91,7 @@ export const useUserStore = defineStore("user", () => {
     userHeaderInfo,
     userSettings,
     userPictures,
+    filterData,
     setUser,
     isUserCurrent,
     setLocation,

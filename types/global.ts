@@ -31,7 +31,7 @@ export interface Filters {
   ageTo?: number;
   fameFrom?: number;
   fameTo?: number;
-  location?: LocationCoords;
+  location?: number[];
   locationRadius?: number;
   tags?: string[];
   pageNo: number;
