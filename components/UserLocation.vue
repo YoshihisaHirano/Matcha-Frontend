@@ -25,6 +25,12 @@ let address = computed(() => {
     return geocodedAddress.value;
   }
 });
+
+watch(() => props.location, async () => {
+  if (!props.currentUserLocation) {
+    geocodedAddress.value = (await useReverseGeocoding(props.location)).address;
+  }
+})
 </script>
 
 <template>

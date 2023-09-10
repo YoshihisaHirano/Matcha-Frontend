@@ -2,7 +2,7 @@
 import { useUserStore } from "~/stores/userStore";
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import { EditableUserData } from "~/types/global";
+import { EditableUserData, LocationCoords } from "~/types/global";
 
 const modalOpen = ref(false);
 const photoEditBtnDisabled = ref(false);
@@ -27,8 +27,8 @@ onMounted(() => {
 });
 
 const userDataInvalid = computed(() => {
-  return !isEditedDataValid(userData.value)
-})
+  return !isEditedDataValid(userData.value);
+});
 
 const shouldDisableBtns = computed(() => {
   return (
@@ -40,10 +40,10 @@ const shouldDisableBtns = computed(() => {
 
 async function submitUpdate() {
   if (userData.value && !userDataInvalid.value) {
-    ownBtnsDisabled.value = true
+    ownBtnsDisabled.value = true;
     // console.log(JSON.stringify(userData.value));
-    await useUpdateUser({ ...userData.value})
-    ownBtnsDisabled.value = false
+    await useUpdateUser({ ...userData.value });
+    ownBtnsDisabled.value = false;
   }
 }
 
@@ -58,6 +58,11 @@ async function updatePictures(pictures: string[]) {
   await useUpdateUser(updated);
   userData.value = cloneEditableData(store.userCommonData);
   photoEditBtnDisabled.value = false;
+}
+
+function updateLocation(location: LocationCoords) {
+  if (!userData.value) return;
+  userData.value = { ...userData.value, location: { ...location } };
 }
 </script>
 
@@ -133,10 +138,8 @@ async function updatePictures(pictures: string[]) {
       </div>
       <div>
         <CustomMap
-          :map-center="[
-            Number(userData.location.lon),
-            Number(userData.location.lat),
-          ]"
+          :map-center="coordsToArr(userData.location)"
+          @change-location="updateLocation"
         />
       </div>
     </div>

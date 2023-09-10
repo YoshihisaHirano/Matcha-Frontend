@@ -3,6 +3,10 @@ export interface LocationCoords {
   lon: string | number;
 }
 
+export interface LocationSearchRes {
+  [key: string]: LocationCoords;
+}
+
 export interface OptionType {
   label: string;
   value: string;
@@ -35,29 +39,41 @@ export interface Filters {
 }
 
 export interface PrivateUserData {
-  email: string
-  emailVerified: boolean
-  username: string
+  email: string;
+  emailVerified: boolean;
+  username: string;
 }
 
 export interface CommonUserData {
-  id: string
-  firstName: string
-  lastName: string
-  gender: Gender
-  sexPref: SexPref
-  biography: string
-  tags: string[]
-  location: LocationCoords
-  dateOfBirth: number
-  mainImage: string
-  pictures: string[]
-  fameRating: number
-  online: boolean
-  lastSeen: number
+  id: string;
+  firstName: string;
+  lastName: string;
+  gender: Gender;
+  sexPref: SexPref;
+  biography: string;
+  tags: string[];
+  location: LocationCoords;
+  dateOfBirth: number;
+  mainImage: string;
+  pictures: string[];
+  fameRating: number;
+  online: boolean;
+  lastSeen: number;
 }
 
-export type ActiveUser = PrivateUserData & CommonUserData
+export type ActiveUser = PrivateUserData & CommonUserData;
 
-export type SignupUserData = Pick<ActiveUser, 'email' | 'firstName' | 'lastName' | 'username'> & { password: string }
-export type EditableUserData = Pick<ActiveUser, 'biography' | 'firstName' | 'lastName' | 'dateOfBirth' | 'location' | 'gender' | 'sexPref'>
+export type SignupUserData = Pick<
+  ActiveUser,
+  "email" | "firstName" | "lastName" | "username"
+> & { password: string };
+export type EditableUserData = Pick<
+  ActiveUser,
+  | "biography"
+  | "firstName"
+  | "lastName"
+  | "dateOfBirth"
+  | "location"
+  | "gender"
+  | "sexPref"
+>;

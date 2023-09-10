@@ -40,4 +40,10 @@ withDefaults(defineProps<ProfileSmallProps>(), {
   width: 2.25rem;
   overflow: hidden;
 }
+
+.image-container > img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
 </style>

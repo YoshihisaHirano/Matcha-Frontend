@@ -85,6 +85,8 @@ input {
   color: var(--primary-text);
   background-color: var(--input-bg);
   max-width: 100%;
+  position: relative;
+  z-index: 4;
 }
 
 .container {
@@ -97,6 +99,7 @@ input {
   right: 1rem;
   font-weight: 700;
   font-size: 1.2rem;
+  z-index: 5;
 }
 
 .magnifier-img {
@@ -126,6 +129,8 @@ input {
   cursor: pointer;
   border-left: 1px solid rgba(0, 0, 0, 0.05);
   border-right: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: 1rem;
+  font-weight: 400;
 }
 
 .dropdown-list li + li {

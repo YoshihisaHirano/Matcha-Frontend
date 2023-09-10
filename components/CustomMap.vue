@@ -2,6 +2,8 @@
 import { useUserStore } from "~/stores/userStore";
 import locationIcon from "~/assets/icons/location.svg";
 import type { MapBrowserEvent, View } from "ol";
+import { LocationCoords } from "~/types/global";
+import { Coordinate } from "ol/coordinate";
 
 interface MapProps {
   className?: string;
@@ -9,6 +11,7 @@ interface MapProps {
 }
 
 const props = defineProps<MapProps>();
+const emits = defineEmits(["changeLocation"]);
 
 const center = ref(props.mapCenter || [40, 40]);
 const projection = ref("EPSG:4326");
@@ -26,9 +29,20 @@ function useCurrentLocation() {
   }
 }
 
+function setNewLocation(newCoords: Coordinate) {
+  view?.value?.setCenter(newCoords);
+  center.value = newCoords;
+  emits("changeLocation", { lon: newCoords[0], lat: newCoords[1] });
+}
+
 function handleClick(event: MapBrowserEvent<PointerEvent>) {
-  view?.value?.setCenter(event.coordinate);
-  center.value = event.coordinate;
+  const newCoords = event.coordinate;
+  setNewLocation(newCoords);
+}
+
+function handleSearch(coords: LocationCoords) {
+  const newCoords = coordsToArr(coords);
+  setNewLocation(newCoords);
 }
 </script>
 
@@ -38,16 +52,15 @@ function handleClick(event: MapBrowserEvent<PointerEvent>) {
       <div class="outer-map-controls">
         <div aria-label="map label" class="label">
           Location
-          <Search placeholder="Search for a place"/>
+          <LocationSearch @select-place="handleSearch" />
         </div>
         <div class="location-controls">
           <div class="current-location">
             <span>use my location</span>
-          <Button @click="useCurrentLocation"
-            ><span class="typcn typcn-location-arrow location-icon"></span
-          ></Button>
+            <Button @click="useCurrentLocation"
+              ><span class="typcn typcn-location-arrow location-icon"></span
+            ></Button>
           </div>
-          <!-- <Search/> -->
         </div>
       </div>
       <ol-map
@@ -102,7 +115,7 @@ function handleClick(event: MapBrowserEvent<PointerEvent>) {
 .label {
   font-size: 1.25rem;
   color: var(--primary-text);
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .outer-map-controls {
@@ -139,6 +152,6 @@ function handleClick(event: MapBrowserEvent<PointerEvent>) {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 </style>

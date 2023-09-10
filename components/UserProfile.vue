@@ -14,6 +14,11 @@ const lastSeen = computed(() =>
 );
 const isCurrentUser = computed(() => !!(route.path === "/profile" && props.user?.id));
 
+const userPics = computed(() => {
+  if (isCurrentUser.value || !props.user) return undefined
+  return [props.user.mainImage, ...props.user.pictures]
+})
+
 async function deleteTag(tag: string) {
   if (props.user?.tags) {
     await useUpdateUser({ tags: props.user.tags.filter(item => item !== tag)})
@@ -32,6 +37,7 @@ async function updateTags(tags: string[]) {
     <PhotoGallery
       :is-current-user="isCurrentUser"
       :alt="user ? `A photo of ${user.firstName} ${user.lastName}` : 'No photo'"
+      :pictures="userPics"
     />
     <div v-if="user" class="user-info">
       <div class="user-status">

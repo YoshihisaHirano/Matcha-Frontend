@@ -86,7 +86,7 @@ useOutsideClick([dialogRef, wrapperRef], () => {
     >
       <slot></slot>
     </dialog>
-    <slot name="icon"> <span class="typcn-info tooltip-icon"> </span></slot>
+    <slot name="icon"> <span class="typcn-info-large tooltip-icon"> </span></slot>
   </div>
 </template>
 

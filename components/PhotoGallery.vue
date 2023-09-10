@@ -4,9 +4,10 @@ import { useUserStore } from "~/stores/userStore";
 interface PhotoGalleryProps {
   alt: string;
   isCurrentUser: boolean;
+  pictures?: string[];
 }
 
-defineProps<PhotoGalleryProps>();
+const props = defineProps<PhotoGalleryProps>();
 const currIdx = ref(0);
 const controlsVisible = ref(false);
 const photoEditBtnDisabled = ref(false);
@@ -14,7 +15,8 @@ const midPassed = computed(() => currIdx.value > lastIdx.value / 2);
 const store = useUserStore();
 
 const userPics = computed(() => {
-  return store.userPictures || [];
+  const pics =  props.isCurrentUser ? store.userPictures : props.pictures;
+  return pics || []
 });
 
 const lastIdx = computed(() => userPics.value.length - 1);
