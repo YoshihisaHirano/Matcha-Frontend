@@ -8,15 +8,16 @@ interface UserCardProps {
 
 const props = defineProps<UserCardProps>();
 const userLocation = useUserStore().userLocation || undefined;
-const userlink = computed(() => `/users/${props.user.id}`);
 </script>
 
 <template>
+  <RatingStars class-name="card-rating" :rating="user.fameRating" />
   <figure>
     <img :src="user.image" alt="User profile picture" class="profile-pic" />
   </figure>
   <div class="search-card-info">
     <UserLocation
+      :distance="user.distance"
       :location="user.location"
       :current-user-location="userLocation"
     />
@@ -67,5 +68,12 @@ figure {
 a {
   text-decoration: none;
   display: block;
+}
+
+.card-rating {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 3;
 }
 </style>

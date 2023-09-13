@@ -9,20 +9,30 @@ const { data, pending, error } = await useSearch("647jbfbjf");
 
 const cardIdx = ref(0);
 const currentCard = computed(() => data.value[cardIdx.value]);
+const lastIndex = computed(() => data.value.length - 1);
 
 function handleNext(e: Event) {
   if (cardIdx.value < data.value.length) {
     cardIdx.value = cardIdx.value + 1;
   }
 }
+
+function handlePrev(e: Event) {
+  if (cardIdx.value > 0) {
+    cardIdx.value = cardIdx.value - 1;
+  }
+}
 </script>
 
 <template>
-  <SearchFilters />
+  <div class="filter-bar">
+    <SortFilterModule/>
+    <SearchFilters />
+  </div>
   <Suspense>
     <section class="search-section">
-      <Button class-name="search-btn"
-        ><span class="typcn-cancel"></span
+      <Button :disabled="cardIdx === 0" class-name="search-btn" @click="handlePrev"
+        ><span class="typcn-media-play-reverse"></span
       ></Button>
       <div class="cards-collection">
         <div class="outlined-card"></div>
@@ -35,8 +45,8 @@ function handleNext(e: Event) {
         </CustomLink>
         <div class="outlined-card"></div>
       </div>
-      <Button class-name="search-btn" @click="handleNext"
-        ><span class="typcn-heart"></span
+      <Button :disabled="cardIdx === lastIndex" class-name="search-btn" @click="handleNext"
+        ><span class="typcn-media-play"></span
       ></Button>
     </section>
     <template #fallback>
@@ -115,12 +125,10 @@ div.outlined-card:last-of-type {
 
 .search-btn:first-of-type {
   left: 0;
-  filter: brightness(90%);
 }
 
 .search-btn:last-of-type {
   right: 0;
-  filter: brightness(120%);
 }
 
 .search-btn span {
@@ -128,8 +136,20 @@ div.outlined-card:last-of-type {
   line-height: 1;
 }
 
+.search-btn:not(:disabled):hover {
+  filter: brightness(1.3);
+}
+
 .search-btn span::before {
   margin: 0;
   color: var(--primary-background);
+}
+
+.filter-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 3;
 }
 </style>

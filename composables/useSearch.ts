@@ -1,4 +1,5 @@
 import { UserCardInfo, Filters } from "~/types/global";
+import { useUserStore } from '~/stores/userStore'
 
 function dataAdatpter(data: any[]): UserCardInfo[] {
     return data.map((item) => ({
@@ -9,7 +10,8 @@ function dataAdatpter(data: any[]): UserCardInfo[] {
         sexPref: item.sexPref?.toLowerCase(),
         image: item.image,
         tags: item.tags || [],
-        location: { lat: item.latitude, lon: item.longitude }
+        location: { lat: item.latitude, lon: item.longitude },
+        fameRating: item.fameRating || 0,
     }))
 }
 
@@ -30,6 +32,13 @@ export const useSearch = async (
   let processedData = ref<UserCardInfo[]>([])
   if (data && data.value?.length) {
     processedData.value = dataAdatpter(data.value)
+  }
+  const userLocation = useUserStore().userLocation
+  if (userLocation) {
+    processedData.value = processedData.value.map((item) => ({
+      ...item,
+      distance: haversineDistance(item.location, userLocation)
+    }))
   }
   return { data: processedData, pending, error };
 };

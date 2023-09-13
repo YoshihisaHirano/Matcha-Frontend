@@ -24,6 +24,8 @@ export interface UserCardInfo {
   image: string;
   tags: string[];
   location: LocationCoords;
+  distance?: number;
+  fameRating: number;
 }
 
 export interface Filters {

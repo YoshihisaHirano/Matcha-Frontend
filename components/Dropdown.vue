@@ -1,8 +1,11 @@
 <script setup lang="ts">
 interface DropdownProps {
-  label: string;
+  label?: string;
   options: string[];
   modelValue?: string;
+  placeholder?: string;
+  title?: string;
+  className?: string;
 }
 
 defineProps<DropdownProps>();
@@ -24,10 +27,20 @@ useOutsideClick([containerRef], () => {
 <template>
   <div class="container" ref="containerRef">
     <span aria-label="dropdown label" class="dropdown-label">{{ label }}</span>
-    <div class="dropdown">
-      <button @click="isOpen = !isOpen">
-        {{ modelValue || "" }}
-        <span :class="['typcn-chevron-right', 'dropdown-chevron', {rotated: isOpen}]"></span>
+    <div :class="`dropdown ${className || ''}`">
+      <button
+        @click="isOpen = !isOpen"
+        :title="title"
+        :class="{ 'not-selected': placeholder && !modelValue }"
+      >
+        <span class="button-text">{{ modelValue || placeholder || "" }}</span>
+        <span
+          :class="[
+            'typcn-chevron-right',
+            'dropdown-chevron',
+            { rotated: isOpen },
+          ]"
+        ></span>
       </button>
       <ul v-if="isOpen" class="dropdown-list" tabindex="1">
         <li
@@ -60,8 +73,8 @@ useOutsideClick([containerRef], () => {
   max-height: 1rem;
   right: 0.35rem;
   top: 50%;
-  opacity: .9;
-  transition: transform .2s ease-in-out;
+  opacity: 0.9;
+  transition: transform 0.2s ease-in-out;
   transform: translateY(-50%) rotate(90deg);
 }
 
@@ -81,7 +94,7 @@ useOutsideClick([containerRef], () => {
   width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 8px;
-  padding: 0.35rem 1rem;
+  padding: 0.35rem 1.6rem 0.35rem 1rem;
   color: var(--primary-text);
   background-color: var(--input-bg);
   text-align: left;
@@ -90,6 +103,10 @@ useOutsideClick([containerRef], () => {
   font-size: 1rem;
   position: relative;
   z-index: 4;
+}
+
+.dropdown button.not-selected .button-text {
+  color: var(--disabled-gray);
 }
 
 .dropdown-list {

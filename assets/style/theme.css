@@ -17,6 +17,7 @@
     --input-bg: #FEFCFF;
     --disabled-gray: #898a8f;
     --photo-aspect-ratio: 5/7;
+    --search-dropdown: #fefef9;
 }
 
 .light-theme {
@@ -31,6 +32,7 @@
     --tag-gray-bg: rgba(5, 5, 5, .08);
     --star-color: rgba(5, 5, 5, .3);
     --input-bg: #FEFCFF;
+    --search-dropdown: #fefef9;
 }
 
 .dark-theme {
@@ -45,4 +47,5 @@
     --tag-gray-bg: rgba(245, 245, 245, .1);
     --star-color: rgba(245, 245, 245, .3);
     --input-bg: #262626;
+    --search-dropdown: #2a2a2a;
 }
