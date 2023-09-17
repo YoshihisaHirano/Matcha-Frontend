@@ -63,12 +63,22 @@ export interface CommonUserData {
   lastSeen: number;
 }
 
+export interface UserInteractions {
+  liked: string[];
+  likedMe: string[];
+  viewed: string[];
+  viewedMe: string[];
+  blocked: string[];
+}
+
 export type ActiveUser = PrivateUserData & CommonUserData;
+export type FullUser = PrivateUserData & CommonUserData & UserInteractions 
 
 export type SignupUserData = Pick<
   ActiveUser,
   "email" | "firstName" | "lastName" | "username"
 > & { password: string };
+
 export type EditableUserData = Pick<
   ActiveUser,
   | "biography"

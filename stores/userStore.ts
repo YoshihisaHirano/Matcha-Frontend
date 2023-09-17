@@ -66,12 +66,35 @@ export const useUserStore = defineStore("user", () => {
     return {
       fame: user.value.fameRating,
       age: getAge(user.value.dateOfBirth),
-      location: coordsToArr(user.value.location)
+      location: coordsToArr(user.value.location),
     };
   });
 
-  function setUser(newUser: ActiveUser | null) {
-    user.value = newUser ? { ...newUser } : null;
+  const userId = computed(() => {
+    if (!user.value) return null;
+    return user.value.id;
+  });
+
+  function setUser(newUser: Partial<ActiveUser> | null) {
+    user.value = newUser ? { 
+      firstName: newUser.firstName || '',
+      lastName: newUser.lastName || '',
+      email: newUser.email || '',
+      emailVerified: newUser.emailVerified || false,
+      username: newUser.username || '',
+      biography: newUser.biography || '',
+      tags: newUser.tags || [],
+      location: newUser.location || { lat: 40, lon: 40 },
+      dateOfBirth: newUser.dateOfBirth || 0,
+      mainImage: newUser.mainImage || '',
+      pictures: newUser.pictures || [],
+      fameRating: newUser.fameRating || 0,
+      sexPref: newUser.sexPref || 'both',
+      gender: newUser.gender || 'other',
+      id: newUser.id || 'error-in-fetching-user',
+      lastSeen: newUser.lastSeen || 0,
+      online: newUser.online || false,
+     } : null;
   }
 
   function isUserCurrent(id: string) {
@@ -92,6 +115,7 @@ export const useUserStore = defineStore("user", () => {
     userSettings,
     userPictures,
     filterData,
+    userId,
     setUser,
     isUserCurrent,
     setLocation,

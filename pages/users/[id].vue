@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useInteractionsStore } from "~/stores/interactionsStore";
 import { useUserStore } from "~/stores/userStore";
 
 useSeoMeta({
@@ -13,6 +14,7 @@ if (useUserStore().isUserCurrent(id.value)) {
 }
 
 const data = await useOtherUsers(id.value);
+await useInteractionsStore().viewUser(id.value);
 </script>
 
 <template>

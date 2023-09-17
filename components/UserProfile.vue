@@ -12,22 +12,26 @@ const route = useRoute();
 const lastSeen = computed(() =>
   props.user ? getStringDate(props.user.lastSeen) : ""
 );
-const isCurrentUser = computed(() => !!(route.path === "/profile" && props.user?.id));
+const isCurrentUser = computed(
+  () => !!(route.path === "/profile" && props.user?.id)
+);
 
 const userPics = computed(() => {
-  if (isCurrentUser.value || !props.user) return undefined
-  return [props.user.mainImage, ...props.user.pictures]
-})
+  if (isCurrentUser.value || !props.user) return undefined;
+  return [props.user.mainImage, ...props.user.pictures];
+});
 
 async function deleteTag(tag: string) {
   if (props.user?.tags) {
-    await useUpdateUser({ tags: props.user.tags.filter(item => item !== tag)})
+    await useUpdateUser({
+      tags: props.user.tags.filter((item) => item !== tag),
+    });
   }
 }
 
 async function updateTags(tags: string[]) {
   if (props.user?.tags) {
-    await useUpdateUser({ tags })
+    await useUpdateUser({ tags });
   }
 }
 </script>
@@ -47,12 +51,15 @@ async function updateTags(tags: string[]) {
         <ProfileUpdate v-if="isCurrentUser" />
       </div>
       <UserLocation :location="user.location" class-name="profile-location" />
-      <UserNameAge
-        :first-name="user.firstName"
-        :last-name="user.lastName"
-        :date-of-birth="user.dateOfBirth"
-        :online="user.online"
-      />
+      <div class="name-age-wrapper">
+        <UserNameAge
+          :first-name="user.firstName"
+          :last-name="user.lastName"
+          :date-of-birth="user.dateOfBirth"
+          :online="user.online"
+        />
+        <UserInteractions v-if="!isCurrentUser" :id="user.id" />
+      </div>
       <UserGender :gender="user.gender" :sex-pref="user.sexPref" />
       <div class="user-fame">
         Fame: <RatingStars :rating="user.fameRating" />
@@ -127,5 +134,15 @@ async function updateTags(tags: string[]) {
 
 .profile-tags {
   margin-bottom: 1rem;
+}
+
+.name-age-wrapper {
+  display: flex;
+  margin-bottom: .65rem;
+  gap: 1rem;
+}
+
+.name-age-wrapper .main-user-info {
+  margin-bottom: 0;
 }
 </style>
