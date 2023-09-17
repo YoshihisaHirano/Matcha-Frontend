@@ -8,12 +8,15 @@ const data = computed(() => useUserStore().userHeaderInfo);
   <header>
     <ThemeToggle />
     <div class="user-profile-container">
+      <UserSettings />
       <NotificationIcon :new-notification="true" />
       <ProfilePictureSmall
         :image="data?.mainImage"
         :username="`${data?.firstName || ''} ${data?.lastName || ''}`"
       />
-      <UserSettings />
+      <Button class-name="logout-btn" title="Log out" variant="transparent">
+        <span class="typcn-upload"></span>
+      </Button>
     </div>
   </header>
 </template>
@@ -33,5 +36,11 @@ header {
   align-items: center;
   gap: 0.7rem;
   position: relative;
+}
+
+.logout-btn {
+  transform: rotate(90deg);
+  font-size: 1.6rem;
+  line-height: 1;
 }
 </style>

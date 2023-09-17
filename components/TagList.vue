@@ -115,7 +115,7 @@ watch(
     <ul class="tags-container">
       <li class="single-tag" v-for="tag in tags">
         <span v-if="verbose">tag:&nbsp;</span>
-        {{ tag }}
+        #{{ tag }}
         <Button
           v-if="showDelete"
           @click="() => removeTag(tag)"

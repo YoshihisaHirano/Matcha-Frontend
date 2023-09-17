@@ -130,7 +130,7 @@ function onReset() {
     </svg>
   </Button>
   <Modal
-    modalTitle="Search Filters"
+    modalTitle="Advanced search"
     @close-modal="closeModal"
     :isOpen="modalOpen"
   >

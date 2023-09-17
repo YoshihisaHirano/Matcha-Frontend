@@ -29,9 +29,9 @@ function sortByClosest(users: UserCardInfo[], currUser: CommonUserData) {
 
 export const sortModule = {
   ["most young"]: (users: UserCardInfo[], currUser: CommonUserData) =>
-    users.slice().sort((a, b) => a.dateOfBirth - b.dateOfBirth),
-  ["least young"]: (users: UserCardInfo[], currUser: CommonUserData) =>
     users.slice().sort((a, b) => b.dateOfBirth - a.dateOfBirth),
+  ["least young"]: (users: UserCardInfo[], currUser: CommonUserData) =>
+    users.slice().sort((a, b) => a.dateOfBirth - b.dateOfBirth),
   ["most close"]: (users: UserCardInfo[], currUser: CommonUserData) =>
     sortByClosest(users, currUser),
   ["most famed"]: (users: UserCardInfo[], currUser: CommonUserData) =>
@@ -47,7 +47,7 @@ export const filterModule = {
     users: UserCardInfo[],
     currUser: CommonUserData
   ) => users.filter((item) => commonInterestsQty(item.tags, currUser.tags) > 2),
-  ["not older than 5 years"]: (
+  ["no more than 5 years older than you"]: (
     users: UserCardInfo[],
     currUser: CommonUserData
   ) =>

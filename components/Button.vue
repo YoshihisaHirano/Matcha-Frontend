@@ -4,6 +4,7 @@ interface ButtonProps {
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
   variant?: "transparent" | "round" | "primary" | "secondary";
+  title?: string;
 }
 
 defineProps<ButtonProps>();
@@ -21,6 +22,7 @@ function handleClick(event: Event) {
     @click="handleClick"
     :class="className"
     :disabled="disabled"
+    :title="title"
   >
     <slot />
   </button>

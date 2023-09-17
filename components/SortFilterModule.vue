@@ -1,16 +1,10 @@
 <script setup lang="ts">
 import { sortModule, filterModule } from "~/utils/sortFilterModule";
 
-interface SortFilterModuleProps {
-  sortValue?: keyof typeof sortModule | "";
-  filterValue?: keyof typeof filterModule | "";
-}
-
 const sortValue = ref<keyof typeof sortModule | "">("");
 const filterValue = ref<keyof typeof filterModule | "">("");
 
-defineEmits(["update:sortValue", "update:sortValue"]);
-defineProps<SortFilterModuleProps>();
+const emits = defineEmits(["applySort", "applyFilter"]);
 
 function clearSort() {
   sortValue.value = "";
@@ -19,6 +13,20 @@ function clearSort() {
 function clearFilter() {
   filterValue.value = "";
 }
+
+watch(
+  () => sortValue.value,
+  (val) => {
+    emits("applySort", val);
+  }
+);
+
+watch(
+  () => filterValue.value,
+  (val) => {
+    emits("applyFilter", val);
+  }
+);
 </script>
 
 <template>
@@ -89,5 +97,14 @@ function clearFilter() {
 span[class*="typcn-"].active {
   color: var(--accent-red);
   text-decoration: line-through;
+  cursor: pointer;
+}
+
+span[class*="typcn-"] {
+  cursor: default;
+}
+
+span[class*="typcn-"]:hover {
+  color: var(--primary-text);
 }
 </style>

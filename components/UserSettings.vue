@@ -78,6 +78,7 @@ const usernameChanged = computed(
   background: transparent;
   padding: 0;
   font-size: 1.7rem;
+  line-height: 1;
   color: var(--primary-text);
 }
 

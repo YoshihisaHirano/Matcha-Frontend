@@ -1,18 +1,35 @@
 <script setup lang="ts">
 import SearchFilters from "~/components/SearchFilters.vue";
+import { useUserStore } from "~/stores/userStore";
+import { sortModule, filterModule } from "~/utils/sortFilterModule";
 
 useSeoMeta({
   title: "Search | Matcha",
 });
 
 const { data, pending, error } = await useSearch("647jbfbjf");
+const userData = computed(() => useUserStore().userCommonData);
 
 const cardIdx = ref(0);
-const currentCard = computed(() => data.value[cardIdx.value]);
-const lastIndex = computed(() => data.value.length - 1);
+const appliedFilter = ref<keyof typeof filterModule | "">("");
+const appliedSort = ref<keyof typeof sortModule | "">("");
+const transformedData = computed(() => {
+  let newData = [...data.value];
+  if (!userData.value) return newData;
+  if (appliedFilter.value) {
+    newData = filterModule[appliedFilter.value](newData, userData.value);
+  }
+  if (appliedSort.value) {
+    newData = sortModule[appliedSort.value](newData, userData.value);
+  }
+  cardIdx.value = 0;
+  return newData;
+});
+const currentCard = computed(() => transformedData.value[cardIdx.value]);
+const lastIndex = computed(() => Math.max(transformedData.value.length - 1, 0));
 
 function handleNext(e: Event) {
-  if (cardIdx.value < data.value.length) {
+  if (cardIdx.value < transformedData.value.length) {
     cardIdx.value = cardIdx.value + 1;
   }
 }
@@ -22,30 +39,47 @@ function handlePrev(e: Event) {
     cardIdx.value = cardIdx.value - 1;
   }
 }
+
+function changeSort(val: typeof appliedSort.value) {
+  appliedSort.value = val;
+}
+
+function changeFilter(val: typeof appliedFilter.value) {
+  appliedFilter.value = val;
+}
 </script>
 
 <template>
   <div class="filter-bar">
-    <SortFilterModule/>
+    <SortFilterModule @apply-filter="changeFilter" @apply-sort="changeSort" />
     <SearchFilters />
   </div>
   <Suspense>
     <section class="search-section">
-      <Button :disabled="cardIdx === 0" class-name="search-btn" @click="handlePrev"
+      <Button
+        :disabled="cardIdx === 0"
+        class-name="search-btn"
+        @click="handlePrev"
         ><span class="typcn-media-play-reverse"></span
       ></Button>
       <div class="cards-collection">
         <div class="outlined-card"></div>
-        <CustomLink :href="`/users/${currentCard.id}`">
+        <CustomLink v-if="currentCard" internal :href="`/users/${currentCard.id}`">
           <article class="outlined-card main-card">
             <Loader v-if="pending" />
             <p v-else-if="error">Something went wrong...</p>
             <UserCard v-else :user="currentCard" />
           </article>
         </CustomLink>
+        <article v-else class="outlined-card main-card no-results">
+          No results matching your search. Try tweaking your filter settings.
+        </article>
         <div class="outlined-card"></div>
       </div>
-      <Button :disabled="cardIdx === lastIndex" class-name="search-btn" @click="handleNext"
+      <Button
+        :disabled="cardIdx === lastIndex"
+        class-name="search-btn"
+        @click="handleNext"
         ><span class="typcn-media-play"></span
       ></Button>
     </section>
@@ -151,5 +185,15 @@ div.outlined-card:last-of-type {
   align-items: center;
   position: relative;
   z-index: 3;
+}
+
+.no-results {
+  text-align: center;
+  font-size: 1.5rem;
+  color: var(--gray-stroke);
+  font-weight: 500;
+  padding: 2rem;
+  opacity: .9;
+  justify-content: center;
 }
 </style>
