@@ -13,7 +13,7 @@ const userLocation = useUserStore().userLocation || undefined;
 <template>
   <RatingStars class-name="card-rating" :rating="user.fameRating" />
   <figure>
-    <img :src="user.image" alt="User profile picture" class="profile-pic" />
+    <img :src="user.mainImage" alt="User profile picture" class="profile-pic" />
   </figure>
   <div class="search-card-info">
     <UserLocation

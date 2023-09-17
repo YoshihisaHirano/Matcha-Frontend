@@ -21,7 +21,7 @@ export interface UserCardInfo {
   id: string;
   gender: Gender;
   sexPref: SexPref;
-  image: string;
+  mainImage: string;
   tags: string[];
   location: LocationCoords;
   distance?: number;
@@ -72,7 +72,7 @@ export interface UserInteractions {
 }
 
 export type ActiveUser = PrivateUserData & CommonUserData;
-export type FullUser = PrivateUserData & CommonUserData & UserInteractions 
+export type FullUser = PrivateUserData & CommonUserData & UserInteractions;
 
 export type SignupUserData = Pick<
   ActiveUser,
@@ -88,4 +88,9 @@ export type EditableUserData = Pick<
   | "location"
   | "gender"
   | "sexPref"
+>;
+
+export type ShortUser = Pick<
+  CommonUserData,
+  "id" | "firstName" | "lastName" | "mainImage" | "online" | "lastSeen"
 >;

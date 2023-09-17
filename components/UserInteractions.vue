@@ -5,7 +5,7 @@ import { useUserStore } from "~/stores/userStore";
 
 interface UserInteractionsProps {
   id: string;
-  hideBlock?: boolean;
+  className?: string;
 }
 
 const userStore = useUserStore();
@@ -20,38 +20,22 @@ const userBlocked = computed(() => {
 
 const likeBtnInfo = computed(() => {
   const status = historyStore.matchStatus(props.id);
-  if (status === 2)
-    return {
-      title: "You are a match. Click to unlike",
-      icon: "full-outline",
-    };
-  if (status === 0)
-    return {
-      title: "Click to like this user",
-      icon: "outline",
-    };
-  if (status === 1)
-    return {
-      title: "This user liked you. Click to like back",
-      icon: "half-outline",
-    };
-  return {
-    title: "You liked this user. Click to unlike",
-    icon: "half-outline",
-  };
+  return matchStatus[status];
 });
 
-async function handleLike() {
+async function handleLike(e: Event) {
+  e.stopPropagation();
   await historyStore.useLikeUser(props.id);
 }
 
-async function handleBlock() {
+async function handleBlock(e: Event) {
+  e.stopPropagation();
   await historyStore.useBlockUser(props.id);
 }
 </script>
 
 <template>
-  <div class="interactions-wrapper" v-if="userId !== id">
+  <div :class="`interactions-wrapper ${className || ''}`" v-if="userId !== id">
     <Button variant="round" :title="likeBtnInfo.title" @click="handleLike">
       <span :class="`typcn-heart-${likeBtnInfo.icon}`"></span>
     </Button>

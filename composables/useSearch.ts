@@ -8,7 +8,7 @@ function dataAdatpter(data: any[]): UserCardInfo[] {
         gender: item.gender?.toLowerCase(),
         id: item.id,
         sexPref: item.sexPref?.toLowerCase(),
-        image: item.image,
+        mainImage: item.image,
         tags: item.tags || [],
         location: { lat: item.latitude, lon: item.longitude },
         fameRating: item.fameRating || 0,

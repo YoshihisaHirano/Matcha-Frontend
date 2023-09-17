@@ -2,19 +2,19 @@
 interface UserNameAgeProps {
   firstName: string;
   lastName?: string;
-  dateOfBirth: number;
+  dateOfBirth?: number;
   online?: boolean;
   className?: string;
 }
 
 const props = defineProps<UserNameAgeProps>();
-const age = computed(() => getAge(props.dateOfBirth));
+const age = computed(() => props.dateOfBirth ? getAge(props.dateOfBirth) : -1);
 </script>
 
 <template>
 <p :class="`main-user-info ${className || ''}`">
     {{ firstName }}<span v-if="lastName">&nbsp;{{ lastName }}</span
-    >, {{ age }}
+    > <span v-if="age > -1">, {{ age }}</span>
     <span
       v-if="online !== undefined"
       :class="['online-indicator', { online }]"
