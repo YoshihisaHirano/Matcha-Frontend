@@ -1,5 +1,7 @@
 import { Gender, SexPref } from "~/types/global";
 
+export const sexPrefOptions = ["men", "women", "both"];
+
 export const genderIcons = {
     male: 'Male ♂',
     female: 'Female ♀',

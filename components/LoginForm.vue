@@ -1,38 +1,43 @@
 <script setup lang="ts">
-const email = ref("");
+const username = ref("");
 const password = ref("");
 
 async function submitLoginForm() {
-  console.log(email.value, password.value);
+  console.log(username.value, password.value);
+}
+
+function resetPassword(e: Event) {
+  e.preventDefault();
 }
 </script>
 
 <template>
   <GenericForm @submit="submitLoginForm" className="login-form">
-      <h2 class="text-xl">Welcome to <span class="fancy-text">Matcha</span></h2>
-      <Input
-        v-model="email"
-        type="email"
-        name="email"
-        id="email-login"
-        required
-        label="Email"
-        icon="mail"
-      />
-      <Input
-        v-model="password"
-        type="password"
-        name="password"
-        id="password-login"
-        required
-        label="Password"
-        icon="lock"
-      />
-      <CustomLink internal href="/password-reset">Forgot password?</CustomLink>
-      <Button type="submit" @click="submitLoginForm" class="fancy-btn hero-fancy-button"
+    <Input
+      v-model="username"
+      type="text"
+      name="username"
+      id="username-login"
+      required
+      label="Username"
+      icon="user"
+    />
+    <Input
+      v-model="password"
+      type="password"
+      name="password"
+      id="password-login"
+      required
+      label="Password"
+      icon="lock-closed"
+    />
+    <div class="bottom-controls">
+      <Button type="submit" @click="submitLoginForm" variant="fancy" className="login-form-btn"
         >Log In</Button
       >
-    </GenericForm>
+      <Button @click="resetPassword" variant="transparent">Forgot password?</Button>
+    </div>
+  </GenericForm>
 </template>
 
 <style scoped>
@@ -41,15 +46,14 @@ async function submitLoginForm() {
   max-width: 800px;
 }
 
-h2 {
-  margin-bottom: 1rem;
-  font-weight: 400;
+.bottom-controls {
+  display: flex;
+  gap: .75rem;
+  align-items: center;
+  justify-content: space-between;
 }
 
-a {
-  display: block;
-  width: fit-content;
-  margin-left: auto;
-  margin-top: 0.75rem;
+.login-form-btn {
+  flex-basis: 60%;
 }
 </style>

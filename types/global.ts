@@ -79,6 +79,18 @@ export type SignupUserData = Pick<
   "email" | "firstName" | "lastName" | "username"
 > & { password: string };
 
+export type ExtendedSignupUserData = Pick<
+  CommonUserData,
+  | "biography"
+  | "mainImage"
+  | "dateOfBirth"
+  | "gender"
+  | "sexPref"
+  | "location"
+  | "pictures"
+  | "tags"
+>;
+
 export type EditableUserData = Pick<
   ActiveUser,
   | "biography"

@@ -11,7 +11,8 @@ interface InputProps {
   placeholder?: string;
   modelValue?: string | number;
   isTextarea?: boolean;
-  maxlength?: number
+  maxlength?: number;
+  error?: string;
 }
 
 defineProps<InputProps>();
@@ -51,6 +52,7 @@ defineEmits(["update:modelValue"]);
       :type="type"
       :placeholder="placeholder"
     />
+    <span class="input-error">{{ error || "&nbsp;" }}</span>
   </label>
 </template>
 
@@ -71,5 +73,12 @@ defineEmits(["update:modelValue"]);
   color: var(--primary-text);
   background-color: var(--input-bg);
   max-width: 100%;
+}
+
+.input-error {
+  line-height: 1;
+  font-size: .9rem;
+  color: var(--accent-red);
+  font-weight: 500;
 }
 </style>

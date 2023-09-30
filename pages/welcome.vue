@@ -1,6 +1,4 @@
 <script setup lang="ts">
-const formHighlighted = ref(false);
-
 definePageMeta({
   layout: "empty",
 });
@@ -9,147 +7,127 @@ useSeoMeta({
   title: "Welcome | Matcha",
 });
 
-function highlightForm() {
-  formHighlighted.value = true;
-  setTimeout(() => {
-    formHighlighted.value = false;
-  }, 2000);
-}
+const formTabs = [
+  { label: "Log In", slotName: "login" },
+  { label: "Sign Up", slotName: "signup" },
+];
 </script>
 
 <template>
-  <header>
-    <div class="logo-wrapper">
-      <LogoSVG />
+  <main class="container">
+    <ThemeToggle />
+    <div class="content">
+      <div class="gradient-wrapper">
+        <h2>Welcome to Matcha!</h2>
+        <div class="gradient-1"></div>
+        <div class="gradient-2"></div>
+        <div class="gradient-3"></div>
+      </div>
+      <div class="forms-container">
+        <Tabs :tabs="formTabs">
+          <template #login>
+            <LoginForm />
+          </template>
+          <template #signup>
+            <SignupForm />
+          </template>
+        </Tabs>
+      </div>
     </div>
-    <div class="header-controls">
-      <div class="link-wrapper">
-        <CustomLink internal href="/login">Log In</CustomLink>
-      </div>
-      <div class="link-wrapper">
-        <CustomLink internal href="#signup-form" @click="highlightForm">Sign Up</CustomLink>
-      </div>
-      <ThemeToggle/>
-    </div>
-  </header>
-  <main>
-    <section>
-      <div class="hero-container">
-        <div class="hero-copy-container">
-          <h1 class="text-xl">
-            <span class="fancy-text">Matcha:</span>
-            Where Love Shines Brighter Than a Disco&nbsp;Ball
-          </h1>
-          <div class="hero-cta">
-            <p class="text-paragraph">Already have an account? -></p>
-            <CustomLink internal href="/login" class="fancy-btn"
-              >Log in</CustomLink
-            >
-          </div>
-        </div>
-        <SignupForm v-bind:highlighted="formHighlighted" id="signup-form" />
-      </div>
-    </section>
   </main>
 </template>
 
 <style scoped>
-main {
-  padding: 8rem 0 0;
+.container {
+  height: 100vh;
+  padding: 0.75rem;
+  overflow-y: hidden;
+}
+
+.content {
+  display: flex;
+  max-width: 80%;
+  height: 95%;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.gradient-wrapper {
   position: relative;
-  min-height: 100vh;
-}
-
-section {
-  padding: 4rem 2rem 6rem 4rem;
-}
-
-.hero-cta {
+  flex: 0 1 50%;
+  aspect-ratio: 1.2;
+  opacity: 0.9;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  text-underline-offset: 5px;
-}
-
-.hero-container {
-  display: flex;
   justify-content: center;
-  gap: 2rem;
 }
 
-.hero-copy-container h1 {
-  line-height: 1.25;
-  font-weight: 500;
-  margin-bottom: 4.5rem;
-  margin-top: 1rem;
-}
-
-.hero-copy-container p {
-  margin-bottom: 1rem;
-}
-
-form {
-  flex-basis: 48%;
-  flex-shrink: 0;
-  scroll-margin-top: 6.5rem;
-}
-
-header {
-  position: fixed;
-  width: 100%;
-  padding: 1.2rem;
-  background: var(--primary-gradient);
-  border-bottom: 2px solid #0000;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 10;
-  backdrop-filter: blur(7px);
+.forms-container {
+  flex: 1 0 50%;
+  position: relative;
+  z-index: 2;
+  padding: 2.5rem 4rem 3rem;
+  border: 10px solid;
+  border-image-slice: 1;
+  border-width: 5px;
+  border-image-source: linear-gradient(to left, #fdbb2d, #b21f1f, #1a2a6c);
   box-shadow: 0 0.5rem 0.3rem rgba(0, 0, 0, 0.15);
 }
 
-.header-controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+
+h2 {
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    text-align: center;
+    position: relative;
+    font-size: 2.5rem;
+    z-index: 2;
+    text-shadow: 2px 2px 20px var(--primary-background);
 }
 
-:global(.header-controls span.toggle-slide) {
-  background: var(--primary-background);
+.gradient-1 {
+  position: absolute;
+  top: -29%;
+  left: -14%;
+  aspect-ratio: 1;
+  width: 32vw;
+  background: radial-gradient(
+    circle,
+    rgba(131, 58, 180, 1) 0%,
+    rgba(253, 29, 29, 1) 24%,
+    rgba(252, 176, 69, 1) 45%,
+    rgba(148, 187, 233, 0) 70%
+  );
+  background-blend-mode: multiply;
 }
 
-:global(.header-controls span.toggle-slide::before) {
-  background: var(--primary-text);
+.gradient-2 {
+  position: absolute;
+  top: -15%;
+  right: -13%;
+  aspect-ratio: 1;
+  width: 33vw;
+  background: radial-gradient(
+    circle,
+    rgba(51, 51, 153, 1) 0%,
+    rgba(255, 0, 204, 1) 34%,
+    rgba(148, 187, 233, 0) 70%
+  );
+  background-blend-mode: multiply;
 }
 
-.link-wrapper {
-  background-color: var(--primary-background);
-  border-radius: 8px;
-}
-
-.link-wrapper > * {
-  background-size: 300%;
-  border-radius: 8px;
-  padding: 8px 12px;
-  font-size: 1.5rem;
-  letter-spacing: 0.03em;
-  font-weight: 800;
-  background: var(--primary-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.link-wrapper:has(*:hover) {
-  opacity: 0.88;
-}
-
-.link-wrapper > *:hover {
-  animation: disco 3s infinite both;
-}
-
-.logo-wrapper {
-  color: var(--primary-text);
-  width: 189px;
-  height: 70px;
+.gradient-3 {
+  position: absolute;
+  right: 3%;
+  top: 18%;
+  aspect-ratio: 1;
+  width: 34vw;
+  background: radial-gradient(
+    circle,
+    rgba(255, 106, 0, 1) 0%,
+    rgba(238, 9, 121, 1) 34%,
+    rgba(148, 187, 233, 0) 70%
+  );
+  background-blend-mode: multiply;
 }
 </style>

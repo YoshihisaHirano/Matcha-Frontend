@@ -3,7 +3,7 @@ interface ButtonProps {
   className?: string;
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
-  variant?: "transparent" | "round" | "primary" | "secondary";
+  variant?: "transparent" | "round" | "primary" | "secondary" | "fancy";
   title?: string;
 }
 
@@ -75,7 +75,7 @@ button[data-variant="secondary"] {
   padding: 0.35rem 1rem;
   border-radius: 8px;
   font-size: 1.25rem;
-}  
+}
 
 button[data-variant="primary"] {
   background: var(--accent-red);
@@ -94,5 +94,23 @@ button[data-variant="secondary"] {
 button[data-variant="secondary"]:hover:not(:disabled),
 button[data-variant="secondary"]:disabled {
   color: var(--primary-text);
+}
+
+button[data-variant="fancy"] {
+  border-radius: 5rem;
+  padding: .5rem .75rem;
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: var(--text-white);
+  box-shadow: 0 0.5rem 0.3rem rgba(0, 0, 0, 0.15);
+  background: var(--accent-gradient);
+  background-size: 300%;
+  letter-spacing: 0.03em;
+}
+
+button[data-variant="fancy"]:hover:not(:disabled) {
+  box-shadow: 0 0.25rem 0.3rem rgba(0, 0, 0, 0.1);
+  background-size: 100%;
+  animation: disco 3s infinite both;
 }
 </style>

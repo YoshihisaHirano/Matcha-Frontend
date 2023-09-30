@@ -11,6 +11,7 @@ specifiers:
   ol-contextmenu: ^5.2.1
   ol-ext: ^4.0.10
   pinia: ^2.1.4
+  vue-tiny-validate: ^0.2.4
   vue3-openlayers: ^1.0.0
 
 dependencies:
@@ -21,6 +22,7 @@ dependencies:
   ol-contextmenu: 5.2.1_ol@7.4.0
   ol-ext: 4.0.10_ol@7.4.0
   pinia: 2.1.4
+  vue-tiny-validate: 0.2.4
   vue3-openlayers: 1.0.0_dlgbdd5f2eff4pqcm2k25hwccq
 
 devDependencies:
@@ -5338,6 +5340,19 @@ packages:
       ufo: 1.1.2
     dev: true
 
+  /vue-demi/0.11.4:
+    resolution: {integrity: sha512-/3xFwzSykLW2HiiLie43a+FFgNOcokbBJ+fzvFXd0r2T8MYohqvphUyDQ8lbAwzQ3Dlcrb1c9ykifGkhSIAk6A==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dev: false
+
   /vue-demi/0.14.5:
     resolution: {integrity: sha512-o9NUVpl/YlsGJ7t+xuqJKx8EBGf1quRhCiT6D/J0pfwmk9zUwYkC7yrF4SZCe6fETvSM3UNL2edcbYrSyc4QHA==}
     engines: {node: '>=12'}
@@ -5363,6 +5378,18 @@ packages:
       '@vue/devtools-api': 6.5.0
       vue: 3.3.4
     dev: true
+
+  /vue-tiny-validate/0.2.4:
+    resolution: {integrity: sha512-XD7EBOEYVdCWK917qc/D4tWkbDqsyP4CFygVzEMp03Rs4rmLdrv3lEK/lnqk75sTJAw1o0eviH1zPBthBCr/VA==}
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: '>= 2.6 || >=3.0.0'
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
+      vue-demi: 0.11.4
+    dev: false
 
   /vue/3.3.4:
     resolution: {integrity: sha512-VTyEYn3yvIeY1Py0WaYGZsXnz3y5UnGi62GjVEqvEGPl6nxbOrCXbVOTQWBEJUqAyTUk2uJ5JLVnYJ6ZzGbrSw==}

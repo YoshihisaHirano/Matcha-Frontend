@@ -21,6 +21,7 @@
     "ol-contextmenu": "^5.2.1",
     "ol-ext": "^4.0.10",
     "pinia": "^2.1.4",
+    "vue-tiny-validate": "^0.2.4",
     "vue3-openlayers": "^1.0.0"
   }
 }

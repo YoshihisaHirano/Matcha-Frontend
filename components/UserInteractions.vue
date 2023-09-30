@@ -55,5 +55,6 @@ async function handleBlock(e: Event) {
   display: flex;
   align-items: center;
   gap: 0.35rem;
+  font-size: 1.5rem;
 }
 </style>

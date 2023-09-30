@@ -3,6 +3,7 @@ import { useUserStore } from "~/stores/userStore";
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import { EditableUserData, LocationCoords } from "~/types/global";
+import { sexPrefOptions } from "~/utils/getSexPref";
 
 const modalOpen = ref(false);
 const photoEditBtnDisabled = ref(false);
@@ -19,8 +20,6 @@ function closeModal() {
 }
 
 let userData = ref<EditableUserData | null>(null);
-
-const sexPrefOptions = ["men", "women", "both"];
 
 onMounted(() => {
   userData.value = cloneEditableData(store.userEditableData);
