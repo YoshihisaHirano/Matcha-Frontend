@@ -13,6 +13,8 @@ interface InputProps {
   isTextarea?: boolean;
   maxlength?: number;
   error?: string;
+  withErrors?: boolean;
+  rows?: number;
 }
 
 defineProps<InputProps>();
@@ -35,7 +37,7 @@ defineEmits(["update:modelValue"]);
       :type="type"
       :placeholder="placeholder"
       cols="50"
-      rows="8"
+      :rows="rows || 8"
       :maxlength="maxlength"
     >
     </textarea>
@@ -52,7 +54,7 @@ defineEmits(["update:modelValue"]);
       :type="type"
       :placeholder="placeholder"
     />
-    <span class="input-error">{{ error || "&nbsp;" }}</span>
+    <span v-if="withErrors" class="input-error">{{ error || "&nbsp;" }}</span>
   </label>
 </template>
 

@@ -21,6 +21,7 @@ function resetPassword(e: Event) {
       required
       label="Username"
       icon="user"
+      withErrors
     />
     <Input
       v-model="password"
@@ -30,6 +31,7 @@ function resetPassword(e: Event) {
       required
       label="Password"
       icon="lock-closed"
+      withErrors
     />
     <div class="bottom-controls">
       <Button type="submit" @click="submitLoginForm" variant="fancy" className="login-form-btn"

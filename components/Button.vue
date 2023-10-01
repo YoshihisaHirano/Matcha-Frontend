@@ -18,7 +18,7 @@ function handleClick(event: Event) {
 <template>
   <button
     :data-variant="variant"
-    :type="type"
+    :type="type || 'button'"
     @click="handleClick"
     :class="className"
     :disabled="disabled"

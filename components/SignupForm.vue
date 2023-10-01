@@ -138,6 +138,7 @@ async function sumbitSignupForm() {
         label="First name"
         icon="business-card"
         :error="messages.firstName"
+        withErrors
       />
       <Input
         v-model="data.lastName"
@@ -149,6 +150,7 @@ async function sumbitSignupForm() {
         label="Last name"
         icon="contacts"
         :error="messages.lastName"
+        withErrors
       />
     </div>
     <div class="input-group">
@@ -173,6 +175,7 @@ async function sumbitSignupForm() {
         label="Email address"
         icon="mail"
         :error="messages.email"
+        withErrors
       />
     </div>
     <div class="input-group">
@@ -186,6 +189,7 @@ async function sumbitSignupForm() {
         id="password"
         label="Password"
         :error="messages.password"
+        withErrors
       />
       <Input
         v-model="data.repeatPassword"
@@ -197,6 +201,7 @@ async function sumbitSignupForm() {
         label="Repeat password"
         icon="key"
         :error="messages.repeatPassword"
+        withErrors
       />
     </div>
     <Button type="submit" variant="fancy">Start your romantic journey</Button>

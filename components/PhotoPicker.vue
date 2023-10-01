@@ -6,10 +6,12 @@ interface PhotoPickerProps {
   isSmall?: boolean;
   className?: string;
   btnsDisabled?: boolean;
+  label?: string;
+  closeOnSubmit?: boolean;
 }
 
 const props = defineProps<PhotoPickerProps>();
-const emits = defineEmits(["updatePictures"]);
+const emits = defineEmits(["updatePictures", "reset"]);
 const store = useUserStore()
 
 const userPics = computed(() => {
@@ -74,12 +76,16 @@ function removeImage(img: string, event: Event) {
 function reset() {
   updatedPictures.value = [...userPics.value];
   mainImage.value = userPics.value[0];
+  emits("reset");
   closeModal();
 }
 
 function submitChanges() {
   const pics = updatedPictures.value.filter((item) => item !== mainImage.value);
   emits("updatePictures", [mainImage.value, ...pics]);
+  if (props.closeOnSubmit) {
+    closeModal();
+  }
 }
 
 function refreshValues() {
@@ -99,7 +105,7 @@ watch(() => userPics.value, refreshValues)
     ><span class="typcn-edit"></span
   ></Button>
   <div v-else :class="`${className || ''} wrapper`">
-    <span class="label">Photos</span>
+    <span class="label">{{ label || "Photos"}}</span>
     <Button @click="openModal" class-name="photo-picker-btn-large"
       >{{ buttonText || "Edit photos" }}
       <span class="typcn-edit"></span>
