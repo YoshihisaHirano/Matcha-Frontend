@@ -31,6 +31,11 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
+
+body:has(dialog[open]) {
+  overflow: hidden;
+}
+
 img,
 picture,
 video,
@@ -96,12 +101,12 @@ body {
 }
 
 #__nuxt .dp__theme_light {
-    /* datepicker styles */
-    --dp-primary-color: var(--accent-red);
-    --dp-text-color: var(--primary-text);
-    --dp-background-color: var(--input-bg);
-    --dp-border-radius: 8px;
-    --dp-border-color: rgba(0, 0, 0, 0.15);
+  /* datepicker styles */
+  --dp-primary-color: var(--accent-red);
+  --dp-text-color: var(--primary-text);
+  --dp-background-color: var(--input-bg);
+  --dp-border-radius: 8px;
+  --dp-border-color: rgba(0, 0, 0, 0.15);
 }
 
 input[type="range"] {

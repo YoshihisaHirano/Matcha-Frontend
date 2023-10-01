@@ -6,6 +6,7 @@ interface DropdownProps {
   placeholder?: string;
   title?: string;
   className?: string;
+  containerClassName?: string;
 }
 
 defineProps<DropdownProps>();
@@ -25,7 +26,7 @@ useOutsideClick([containerRef], () => {
 </script>
 
 <template>
-  <div class="container" ref="containerRef">
+  <div :class="`container ${containerClassName || ''}`" ref="containerRef">
     <span aria-label="dropdown label" class="dropdown-label">{{ label }}</span>
     <div :class="`dropdown ${className || ''}`">
       <button

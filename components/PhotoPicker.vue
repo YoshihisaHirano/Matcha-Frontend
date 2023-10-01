@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useUserStore } from '~/stores/userStore';
+import { useUserStore } from "~/stores/userStore";
 
 interface PhotoPickerProps {
   buttonText?: string;
@@ -12,11 +12,11 @@ interface PhotoPickerProps {
 
 const props = defineProps<PhotoPickerProps>();
 const emits = defineEmits(["updatePictures", "reset"]);
-const store = useUserStore()
+const store = useUserStore();
 
 const userPics = computed(() => {
-  return store.userPictures || []
-})
+  return store.userPictures || [];
+});
 
 const updatedPictures = ref([...userPics.value]);
 const mainImage = ref(userPics.value[0]);
@@ -93,7 +93,7 @@ function refreshValues() {
   mainImage.value = userPics.value[0];
 }
 
-watch(() => userPics.value, refreshValues)
+watch(() => userPics.value, refreshValues);
 </script>
 
 <template>
@@ -105,7 +105,7 @@ watch(() => userPics.value, refreshValues)
     ><span class="typcn-edit"></span
   ></Button>
   <div v-else :class="`${className || ''} wrapper`">
-    <span class="label">{{ label || "Photos"}}</span>
+    <span class="label">{{ label || "Photos" }}</span>
     <Button @click="openModal" class-name="photo-picker-btn-large"
       >{{ buttonText || "Edit photos" }}
       <span class="typcn-edit"></span>
@@ -113,7 +113,7 @@ watch(() => userPics.value, refreshValues)
   </div>
   <Modal modalTitle="Edit photos" @close-modal="closeModal" :isOpen="modalOpen">
     <div class="modal-content">
-      <div>
+      <div class="main-image-wrapper">
         <p class="label">Main image</p>
         <FramedImage
           class-name="main-image"
@@ -211,25 +211,19 @@ watch(() => userPics.value, refreshValues)
 }
 
 .modal-content {
-  padding-top: 2rem;
+  padding-top: 1.5rem;
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
-  gap: 3rem;
+  gap: 1.5rem;
   justify-content: space-between;
-}
-
-.modal-content > div:first-child {
-  flex: 0 0 32%;
-}
-
-.modal-content > div:last-child {
-  flex: 0 0 58%;
 }
 
 .gallery {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  padding-bottom: 1.5rem;
 }
 
 .gallery .label {
@@ -237,9 +231,9 @@ watch(() => userPics.value, refreshValues)
 }
 
 .image-frame.gallery-picture {
-  max-width: 8rem;
-  min-width: 100px;
-  width: 10vw;
+  max-width: 5rem;
+  min-width: 87px;
+  width: 7vw;
   cursor: pointer;
   position: relative;
 }
@@ -249,12 +243,17 @@ watch(() => userPics.value, refreshValues)
   outline: 2px solid var(--accent-red);
 }
 
+.main-image-wrapper {
+  text-align: center;
+  margin: 0 auto;
+}
+
 .image-frame.main-image {
-  max-width: 20rem;
+  max-width: 10rem;
 }
 
 .add-photo {
-  width: clamp(100px, 10vw, 8rem);
+  width: clamp(87px, 7vw, 5rem);
   aspect-ratio: var(--photo-aspect-ratio);
   text-align: center;
   border: 2px dashed var(--gray-stroke);
@@ -295,5 +294,40 @@ watch(() => userPics.value, refreshValues)
   color: var(--text-white);
   text-shadow: 2px 2px 20px #000;
   font-size: 1.2rem;
+}
+
+@media screen and (min-width: 768px) {
+  .modal-content {
+    flex-wrap: nowrap;
+    gap: 3rem;
+    padding-top: 2rem;
+  }
+
+  .modal-content > div:first-child {
+    flex: 0 0 32%;
+  }
+
+  .image-frame.main-image {
+    max-width: 20rem;
+  }
+
+  .modal-content > div:last-child {
+    flex: 0 0 58%;
+  }
+
+  .main-image-wrapper {
+    text-align: left;
+    margin: unset;
+  }
+
+  .add-photo {
+    width: clamp(100px, 10vw, 8rem);
+  }
+
+  .image-frame.gallery-picture {
+    max-width: 8rem;
+    min-width: 100px;
+    width: 10vw;
+  }
 }
 </style>

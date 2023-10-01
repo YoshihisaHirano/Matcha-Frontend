@@ -1,6 +1,6 @@
 <script setup lang="ts">
 interface MultiStepFormProps {
-  stepData: Array<{ label: string; slotName: string, enableNext: boolean }>;
+  stepData: Array<{ label: string; slotName: string; enableNext: boolean }>;
 }
 
 defineProps<MultiStepFormProps>();
@@ -66,9 +66,8 @@ function forwardSubmit() {
 .button-container {
   display: flex;
   gap: 1rem;
-  position: absolute;
-  bottom: 0;
-  right: 0;
+  margin-top: 2rem;
+  margin-left: auto;
 }
 
 button[data-variant="fancy"].multi-form-submit-button {
@@ -87,9 +86,9 @@ button[data-variant="fancy"].multi-form-submit-button {
 .step {
   position: relative;
   flex: 0 0 33%;
-  height: 1rem;
+  height: .5rem;
   background: var(--accent-red-pale);
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .step.active {
@@ -102,7 +101,7 @@ button[data-variant="fancy"].multi-form-submit-button {
   background: inherit;
   font-weight: 700;
   z-index: 2;
-  padding: 0.45rem 1rem;
+  padding: 0.25rem .85rem;
   border-radius: 50%;
   top: 50%;
   left: 50%;
@@ -124,5 +123,21 @@ button[data-variant="fancy"].multi-form-submit-button {
   font-weight: 500;
   margin-bottom: 1.5rem;
   font-size: 1.6rem;
+}
+
+@media screen and (min-width: 768px) {
+  .button-container {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+
+  .step {
+    height: 1rem;
+  }
+
+  .step-no {
+    padding: 0.45rem 1rem;
+  }
 }
 </style>

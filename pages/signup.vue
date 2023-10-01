@@ -73,6 +73,10 @@ function resetPictures() {
 function addTag(tag: string) {
   data.value.tags = [...(data.value?.tags || []), tag];
 }
+
+onMounted(() => {
+  // geolocation logic
+});
 </script>
 
 <template>
@@ -110,6 +114,7 @@ function addTag(tag: string) {
                 :options="sexPrefOptions"
                 v-model="data.sexPref"
                 label="Sex preference*"
+                container-class-name="top-dropdown"
               />
               <Dropdown
                 :options="Object.keys(genderIcons)"
@@ -157,18 +162,18 @@ function addTag(tag: string) {
 <style scoped>
 main {
   padding: 0.5rem;
-  height: 100vh;
 }
 
 .content {
   margin: 0 auto;
-  width: 60vw;
-  height: 90%;
+  width: 95vw;
+  height: 95%;
   max-width: 800px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-top: 2.5rem;
 }
 
 .content h2 {
@@ -179,8 +184,7 @@ main {
 
 .form-wrapper {
   width: 100%;
-  height: 500px;
-  padding: 2.5rem 4rem 3rem;
+  padding: 1.5rem 1rem 1.5rem;
   border: 10px solid;
   border-image-slice: 1;
   border-width: 5px;
@@ -199,15 +203,12 @@ label {
 
 .input-group {
   display: flex;
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 2.5rem;
 }
 
 .input-group + .input-group {
-  margin-top: 1.5rem;
-}
-
-.input-group > * {
-  flex: 0 0 49%;
+  margin-top: 2.5rem;
 }
 
 .input-group label,
@@ -215,5 +216,38 @@ label {
 :global(.input-group .label) {
   font-size: 1.25rem;
   font-weight: 500;
+  width: 100%;
+}
+
+.top-dropdown {
+  position: relative;
+  z-index: 5;
+}
+
+@media screen and (min-width: 768px) {
+  .content {
+    width: 70vw;
+  }
+
+  main {
+    height: 100vh;
+  }
+
+  .form-wrapper {
+    height: 500px;
+    padding: 2.5rem 4rem 3rem;
+  }
+
+  .input-group {
+    flex-wrap: nowrap;
+    gap: 1.5rem;
+  }
+
+  .input-group + .input-group {
+    margin-top: 1.5rem;
+  }
+  .input-group > * {
+    flex: 0 0 49%;
+  }
 }
 </style>
