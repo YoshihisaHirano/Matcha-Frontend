@@ -6,7 +6,10 @@ const data = computed(() => useUserStore().userHeaderInfo);
 
 <template>
   <header>
-    <ThemeToggle />
+    <div class="menu-container">
+      <MiniNav />
+      <ThemeToggle />
+    </div>
     <div class="user-profile-container">
       <UserSettings />
       <NotificationIcon :new-notification="true" />
@@ -42,5 +45,11 @@ header {
   transform: rotate(90deg);
   font-size: 1.6rem;
   line-height: 1;
+}
+
+.menu-container {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
 }
 </style>

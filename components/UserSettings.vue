@@ -21,6 +21,8 @@ const emailChanged = computed(() => email.value !== settings.value?.email);
 const usernameChanged = computed(
   () => username.value !== settings.value?.username
 );
+
+const largerScreen = useMediaQuery("(min-width: 1024px)");
 </script>
 
 <template>
@@ -46,7 +48,7 @@ const usernameChanged = computed(
         >
         <Tooltip
           class-name="email-reset-tooltip"
-          tooltip-position="right"
+          :tooltip-position="largerScreen ? 'right' : 'left'"
           :activeOnHover="true"
           ><p>
             You will need to verify your email again if you change it
@@ -63,7 +65,7 @@ const usernameChanged = computed(
           >Submit</Button
         ><Tooltip
           class-name="email-reset-tooltip"
-          tooltip-position="right"
+          :tooltip-position="largerScreen ? 'right' : 'left'"
           :activeOnHover="true"
           ><p>Username must be unique</p></Tooltip
         >
@@ -89,8 +91,6 @@ const usernameChanged = computed(
 .inputs-container {
   padding: 1.5rem 0 1rem;
   display: grid;
-  grid-template-columns: 52% 42%;
-  grid-template-rows: repeat(2, 1fr);
   column-gap: 1.5rem;
   row-gap: 1.5rem;
 }
@@ -112,8 +112,6 @@ const usernameChanged = computed(
 
 .reset-pswd-btn {
   padding: 0.55rem 1.2rem;
-  grid-column: 2/3;
-  grid-row: 1/3;
   align-self: center;
 }
 
@@ -131,15 +129,30 @@ const usernameChanged = computed(
 .inputs-container > div {
   display: flex;
   align-items: center;
-  grid-column: 1/2;
-}
-
-.inputs-container > div:last-of-type {
-  grid-row: 2/3;
 }
 
 :global(.email-reset-tooltip) {
   margin-top: 1.5rem;
   margin-left: 0.25rem;
+}
+
+@media screen and (min-width: 1024px) {
+  .inputs-container {
+    grid-template-columns: 52% 42%;
+    grid-template-rows: repeat(2, 1fr);
+  }
+
+  .inputs-container > div {
+    grid-column: 1/2;
+  }
+
+  .inputs-container > div:last-of-type {
+    grid-row: 2/3;
+  }
+
+  .reset-pswd-btn {
+    grid-column: 2/3;
+    grid-row: 1/3;
+  }
 }
 </style>

@@ -87,7 +87,8 @@ async function updateTags(tags: string[]) {
 .profile-container {
   display: flex;
   height: 100%;
-  padding: 2rem 2.5rem 4rem 1rem;
+  padding: 1rem;
+  flex-wrap: wrap;
 }
 
 .user-info {
@@ -138,11 +139,23 @@ async function updateTags(tags: string[]) {
 
 .name-age-wrapper {
   display: flex;
-  margin-bottom: .65rem;
+  margin-bottom: 0.65rem;
   gap: 1rem;
 }
 
 .name-age-wrapper .main-user-info {
   margin-bottom: 0;
+}
+
+@media screen and (min-width: 768px) {
+  .profile-container {
+    flex-wrap: nowrap;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .profile-container {
+    padding: 2rem 2.5rem 4rem 1rem;
+  }
 }
 </style>

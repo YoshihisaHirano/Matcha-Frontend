@@ -15,8 +15,8 @@ const midPassed = computed(() => currIdx.value > lastIdx.value / 2);
 const store = useUserStore();
 
 const userPics = computed(() => {
-  const pics =  props.isCurrentUser ? store.userPictures : props.pictures;
-  return pics || []
+  const pics = props.isCurrentUser ? store.userPictures : props.pictures;
+  return pics || [];
 });
 
 const lastIdx = computed(() => userPics.value.length - 1);
@@ -93,7 +93,7 @@ async function updatePictures(pictures: string[]) {
   aspect-ratio: var(--photo-aspect-ratio);
   overflow: hidden;
   max-height: 550px;
-  flex: 0 0 clamp(350px, 33%, 26vw);
+  flex: 1 1 auto;
 }
 
 .image-wrapper {
@@ -198,5 +198,11 @@ async function updatePictures(pictures: string[]) {
 
 :global(button[data-variant="transparent"].edit-photos-btn.visible) {
   opacity: 1;
+}
+
+@media screen and (min-width: 768px) {
+  .image-frame {
+    flex: 0 0 clamp(350px, 33%, 26vw);
+  }
 }
 </style>

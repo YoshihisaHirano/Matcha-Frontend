@@ -15,13 +15,19 @@
   width: 100%;
   position: relative;
   height: fit-content;
-  top: 50%;
-  transform: translateY(-50%);
+  padding: 1rem;
 }
 
 .no-data span {
   display: block;
   text-transform: none;
   font-size: 3rem;
+}
+
+@media screen and (min-width: 1024px) {
+  .no-data {
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }
 </style>

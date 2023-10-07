@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import defaultImg from 'assets/images/defaultUserPic.svg'
+import defaultImg from "assets/images/defaultUserPic.svg";
 
 interface ProfileSmallProps {
   username?: string;
@@ -13,12 +13,14 @@ withDefaults(defineProps<ProfileSmallProps>(), {
 </script>
 
 <template>
-  <div class="user-info-container">
-    <CustomLink internal href="/profile" class-name="profile-link">{{ username }}</CustomLink>
-    <div class="image-container">
-      <img :src="image" alt="User profile picture" />
+  <CustomLink internal href="/profile" class-name="profile-link">
+    <div class="user-info-container">
+      <span class="username">{{ username }}</span>
+      <div class="image-container">
+        <img :src="image" alt="User profile picture" />
+      </div>
     </div>
-  </div>
+  </CustomLink>
 </template>
 
 <style scope>
@@ -45,5 +47,15 @@ withDefaults(defineProps<ProfileSmallProps>(), {
   height: 100%;
   width: 100%;
   object-fit: cover;
+}
+
+.username {
+  display: none;
+}
+
+@media screen and (min-width: 1024px) {
+  .username {
+    display: block;
+  }
 }
 </style>

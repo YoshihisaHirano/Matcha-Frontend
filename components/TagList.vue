@@ -230,7 +230,7 @@ watch(
 }
 
 .no-modal-search {
-  max-width: 80%
+  max-width: 80%;
 }
 
 ul:not(:empty) + .no-modal-search {
@@ -238,7 +238,7 @@ ul:not(:empty) + .no-modal-search {
 }
 
 .modal-tags {
-  padding: 2rem 0 0;
+  padding: 1rem 0 2rem;
 }
 
 .tag-search {
@@ -262,12 +262,8 @@ ul:not(:empty) + .no-modal-search {
   min-height: 150px;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 2rem;
   position: relative;
-}
-
-.modal-content > ul {
-  flex: 0 0 50%;
+  flex-wrap: wrap;
 }
 
 .add-tag-btn {
@@ -291,5 +287,20 @@ ul:not(:empty) + .no-modal-search {
 
 .edit-btn {
   margin-left: 0.25rem;
+}
+
+@media screen and (min-width: 768px) {
+  .modal-content {
+    flex-wrap: nowrap;
+    gap: 2rem;
+  }
+
+  .modal-content > ul {
+    flex: 0 0 50%;
+  }
+
+  .modal-tags {
+    padding: 2rem 0 0;
+  }
 }
 </style>
