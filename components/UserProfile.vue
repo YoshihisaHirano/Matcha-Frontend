@@ -34,10 +34,27 @@ async function updateTags(tags: string[]) {
     await useUpdateUser({ tags });
   }
 }
+
+const mediumScreen = useMediaQuery("(min-width: 768px)");
 </script>
 
 <template>
   <section class="profile-container">
+    <div :class="{ hidden: mediumScreen }" v-if="user">
+      <div v-if="!user.online && !isCurrentUser" class="user-status">
+        last seen {{ lastSeen }}
+      </div>
+      <div class="name-age-wrapper">
+        <UserNameAge
+          :first-name="user.firstName"
+          :last-name="user.lastName"
+          :date-of-birth="user.dateOfBirth"
+          :online="user.online"
+        />
+        <ProfileUpdate v-if="isCurrentUser" />
+        <UserInteractions v-else :id="user.id" />
+      </div>
+    </div>
     <PhotoGallery
       :is-current-user="isCurrentUser"
       :alt="user ? `A photo of ${user.firstName} ${user.lastName}` : 'No photo'"
@@ -51,7 +68,7 @@ async function updateTags(tags: string[]) {
         <ProfileUpdate v-if="isCurrentUser" />
       </div>
       <UserLocation :location="user.location" class-name="profile-location" />
-      <div class="name-age-wrapper">
+      <div :class="{ hidden: !mediumScreen }" class="name-age-wrapper">
         <UserNameAge
           :first-name="user.firstName"
           :last-name="user.lastName"
@@ -87,12 +104,11 @@ async function updateTags(tags: string[]) {
 .profile-container {
   display: flex;
   height: 100%;
-  padding: 1rem;
+  padding: 1rem 0 1rem;
   flex-wrap: wrap;
 }
 
 .user-info {
-  padding-left: 2rem;
   max-width: 650px;
   position: relative;
 }
@@ -141,15 +157,28 @@ async function updateTags(tags: string[]) {
   display: flex;
   margin-bottom: 0.65rem;
   gap: 1rem;
+  align-items: center;
 }
 
 .name-age-wrapper .main-user-info {
   margin-bottom: 0;
 }
 
+.hidden {
+  display: none;
+}
+
 @media screen and (min-width: 768px) {
   .profile-container {
     flex-wrap: nowrap;
+  }
+
+  .user-info {
+    padding-left: 2rem;
+  }
+
+  .name-age-wrapper {
+    align-items: unset;
   }
 }
 

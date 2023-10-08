@@ -162,7 +162,7 @@ function updateLocation(location: LocationCoords) {
 
 <style scoped>
 .profile-edit-modal {
-  width: 85vw;
+  width: 95vw;
   max-width: 1200px;
 }
 
@@ -174,16 +174,13 @@ function updateLocation(location: LocationCoords) {
   display: flex;
   gap: 2rem;
   padding-top: 2rem;
+  flex-wrap: wrap;
 }
 
 .edit-modal-content :global(input),
 .edit-modal-content :global(textarea) {
   font-weight: 400;
   font-size: 1rem;
-}
-
-.edit-modal-content > div {
-  flex-basis: 49%;
 }
 
 .content-left {
@@ -216,5 +213,19 @@ function updateLocation(location: LocationCoords) {
 
 .word-count {
   text-align: right;
+}
+
+@media screen and (min-width: 820px) {
+  .edit-modal-content {
+    flex-wrap: nowrap;
+  }
+
+  .edit-modal-content > div {
+    flex-basis: 49%;
+  }
+
+  .profile-edit-modal {
+    width: 85vw;
+  }
 }
 </style>

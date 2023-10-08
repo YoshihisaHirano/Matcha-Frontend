@@ -6,6 +6,16 @@ const isOpen = ref(false);
 const toggleMenu = () => {
   isOpen.value = !isOpen.value;
 };
+
+const route = useRoute();
+
+watch(
+  route,
+  () => {
+    isOpen.value = false;
+  },
+  { deep: true, immediate: true }
+);
 </script>
 
 <template>
