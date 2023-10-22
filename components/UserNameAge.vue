@@ -15,11 +15,7 @@ const age = computed(() => props.dateOfBirth ? getAge(props.dateOfBirth) : -1);
 <p :class="`main-user-info ${className || ''}`">
     {{ firstName }}<span v-if="lastName">&nbsp;{{ lastName }}</span
     > <span v-if="age > -1">, {{ age }}</span>
-    <span
-      v-if="online !== undefined"
-      :class="['online-indicator', { online }]"
-      :title="`The user is ${online ? 'online' : 'offline'}`"
-    ></span>
+    <OnlineIndicator v-if="online !== undefined" :is-online="online" />
 </p>
 </template>
 
@@ -28,22 +24,6 @@ const age = computed(() => props.dateOfBirth ? getAge(props.dateOfBirth) : -1);
   font-size: 1.75rem;
   font-weight: 500;
   margin-bottom: 0.65rem;
-}
-
-.online-indicator::before {
-  content: "";
-  height: 0.85rem;
-  width: 0.85rem;
-  border-radius: 50%;
-  background: var(--offline-orange);
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 0.15rem;
-  padding-bottom: 0.1rem;
-}
-
-.online.online-indicator::before {
-  background: var(--online-green);
 }
 </style>
 

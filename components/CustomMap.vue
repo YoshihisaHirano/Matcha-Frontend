@@ -74,6 +74,7 @@ watch(
   () => props.mapCenter,
   () => {
     center.value = props.mapCenter || [40, 40];
+    console.log(props.mapCenter)
   }
 );
 

@@ -12,7 +12,7 @@
     --loader-color: #b21f1f94;
     --tag-gray-bg: rgba(5, 5, 5, .08);
     --star-color: rgba(5, 5, 5, .3);
-    --online-green: #00a53f;
+    --online-green: #018b36;
     --offline-orange: #a56b00;
     --text-white: #fffff0;
     --input-bg: #FEFCFF;
@@ -20,6 +20,7 @@
     --photo-aspect-ratio: 5/7;
     --search-dropdown: #fefef9;
     --mobile-menu-bg: #2a2a2a;
+    --chat-interface-bg: #f7f2e7;
 }
 
 .light-theme {
@@ -36,6 +37,7 @@
     --input-bg: #FEFCFF;
     --search-dropdown: #fefef9;
     --accent-red-pale: #e4b4b4;
+    --chat-interface-bg: #f7f2e7;
 }
 
 .dark-theme {
@@ -52,4 +54,5 @@
     --input-bg: #262626;
     --search-dropdown: #2a2a2a;
     --accent-red-pale: #7b5b5b;
+    --chat-interface-bg: #211803;
 }

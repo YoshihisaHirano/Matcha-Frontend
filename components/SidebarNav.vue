@@ -42,7 +42,6 @@ const largerScreen = useMediaQuery("(min-width: 1024px)");
 
 <style scoped>
 li {
-  list-style: none;
   font-size: 1.75rem;
   padding: 0.2rem 0.35rem;
 }

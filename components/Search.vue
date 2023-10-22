@@ -111,7 +111,6 @@ input {
 
 .dropdown-list {
   position: absolute;
-  list-style: none;
   z-index: 3;
   width: 100%;
   padding-left: 0;

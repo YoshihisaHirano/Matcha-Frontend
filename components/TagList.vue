@@ -198,7 +198,6 @@ watch(
 .tags-container {
   display: flex;
   flex-wrap: wrap;
-  list-style: none;
   gap: 0.5rem;
   padding: 0;
   align-items: center;

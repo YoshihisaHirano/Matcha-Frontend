@@ -1,24 +1,17 @@
 <script setup lang="ts">
-import defaultImg from "assets/images/defaultUserPic.svg";
-
 interface ProfileSmallProps {
   username?: string;
   image?: string;
 }
 
-withDefaults(defineProps<ProfileSmallProps>(), {
-  username: "",
-  image: defaultImg,
-});
+defineProps<ProfileSmallProps>();
 </script>
 
 <template>
   <CustomLink internal href="/profile" class-name="profile-link">
     <div class="user-info-container">
-      <span class="username">{{ username }}</span>
-      <div class="image-container">
-        <img :src="image" alt="User profile picture" />
-      </div>
+      <span class="username">{{ username || "" }}</span>
+      <SmallUserPicture :image="image" />
     </div>
   </CustomLink>
 </template>
@@ -33,20 +26,6 @@ withDefaults(defineProps<ProfileSmallProps>(), {
 .user-info-container > .profile-link:hover {
   text-decoration: underline;
   text-underline-offset: 4px;
-}
-
-.image-container {
-  border: 2px solid var(--gray-stroke);
-  border-radius: 50%;
-  height: 2.25rem;
-  width: 2.25rem;
-  overflow: hidden;
-}
-
-.image-container > img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
 }
 
 .username {

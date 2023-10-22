@@ -106,3 +106,17 @@ export type ShortUser = Pick<
   CommonUserData,
   "id" | "firstName" | "lastName" | "mainImage" | "online" | "lastSeen"
 >;
+
+export interface Message {
+  id: string;
+  chatId: string;
+  authorId: string;
+  text: string;
+}
+
+export interface Chat {
+  id: string;
+  user: ShortUser;
+  messages: Message[];
+  pageNo: number;
+}

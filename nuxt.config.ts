@@ -30,6 +30,8 @@ export default defineNuxtConfig({
       tagBinID: process.env.TAG_BIN_ID,
       profileBinID: process.env.PROFILE_BIN_ID,
       listBinID: process.env.LIST_BIN_ID,
+      messageBinID: process.env.MESSAGE_BIN_ID,
+      chatBinID: process.env.CHAT_BIN_ID,
     },
   },
   pages: true,

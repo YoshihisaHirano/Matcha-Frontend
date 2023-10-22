@@ -6,6 +6,7 @@ import { useUserStore } from "~/stores/userStore";
 interface UserInteractionsProps {
   id: string;
   className?: string;
+  hideLike?: boolean;
 }
 
 const userStore = useUserStore();
@@ -36,7 +37,7 @@ async function handleBlock(e: Event) {
 
 <template>
   <div :class="`interactions-wrapper ${className || ''}`" v-if="userId !== id">
-    <Button variant="round" :title="likeBtnInfo.title" @click="handleLike">
+    <Button v-if="!hideLike" variant="round" :title="likeBtnInfo.title" @click="handleLike">
       <span :class="`typcn-heart-${likeBtnInfo.icon}`"></span>
     </Button>
     <Button

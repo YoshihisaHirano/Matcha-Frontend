@@ -80,7 +80,6 @@ nav {
 }
 
 .menu {
-  list-style: none;
   padding: 5rem 0 0;
   display: flex;
   flex-direction: column;
