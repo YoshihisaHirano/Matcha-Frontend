@@ -23,13 +23,13 @@ defineProps<OnlineIndicatorProps>();
 <style scoped>
 .online-indicator::before {
   content: "";
-  height: 0.85rem;
-  width: 0.85rem;
+  height: 0.55rem;
+  width: 0.55rem;
   border-radius: 50%;
   background: var(--offline-orange);
   display: inline-block;
   vertical-align: middle;
-  margin-left: 0.15rem;
+  margin-left: 0.25rem;
   padding-bottom: 0.1rem;
 }
 
@@ -39,10 +39,22 @@ defineProps<OnlineIndicatorProps>();
 
 .last-seen {
   display: inline-block;
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   opacity: 0.7;
   min-height: 1.2rem;
   font-weight: 600;
   margin-left: 0.25rem;
+}
+
+@media screen and (min-width: 768px) {
+  .last-seen {
+    font-size: 0.9rem;
+  }
+
+  .online-indicator::before {
+    height: 0.85rem;
+  width: 0.85rem;
+  }
+  
 }
 </style>

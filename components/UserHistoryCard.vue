@@ -40,8 +40,10 @@ const likeInfo = computed(() => {
 
 <style scoped>
 .history-card {
+  margin: 0;
   position: relative;
-  width: clamp(220px, 30%, 270px);
+  width: 100%;
+  max-width: 180px;
   aspect-ratio: 5/7;
   border-radius: 8px;
   overflow: hidden;
@@ -55,7 +57,7 @@ const likeInfo = computed(() => {
   position: relative;
   z-index: 3;
   padding: 0.35rem 0.55rem;
-  font-size: 1.5rem;
+  font-size: 1rem;
   color: var(--text-white);
 }
 
@@ -73,5 +75,15 @@ const likeInfo = computed(() => {
   right: 0.5rem;
   color: var(--text-white);
   text-shadow: 2px 2px 20px rgba(104, 23, 23, 0.85);
+}
+
+@media screen and (min-width: 768px) {
+  .history-card-info {
+    font-size: 1.5rem;
+  }
+
+  .history-card {
+    max-width: 220px;
+  }
 }
 </style>

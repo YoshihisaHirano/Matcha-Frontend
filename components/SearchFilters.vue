@@ -241,7 +241,7 @@ function onReset() {
   padding-top: 1.5rem;
   padding-bottom: 2rem;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
 }
 
 .filters-container > div:first-child {
@@ -252,7 +252,7 @@ function onReset() {
 
 .filters-container > div:last-child {
   flex-basis: 42%;
-  padding-top: 3rem;
+  padding-top: 1rem;
 }
 
 :global(.tags-wrapper.visible-filter-tags li:not(:last-child)) {
@@ -290,5 +290,17 @@ input[type="range"] {
 .range-input-bottom-label {
   font-weight: 500;
   color: var(--disabled-gray);
+}
+
+@media screen and (min-width: 768px) {
+  .filters-container {
+    flex-direction: row;
+    gap: 2rem;
+    justify-content: space-between;
+  }
+
+.filters-container > div:last-child {
+  padding-top: 3rem;
+}
 }
 </style>

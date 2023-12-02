@@ -19,9 +19,9 @@ const formTabs = [
     <div class="content">
       <div class="gradient-wrapper">
         <h2>Welcome to Matcha!</h2>
-        <div class="gradient-1"></div>
-        <div class="gradient-2"></div>
-        <div class="gradient-3"></div>
+        <div class="gradient gradient-1"></div>
+        <div class="gradient gradient-2"></div>
+        <div class="gradient gradient-3"></div>
       </div>
       <div class="forms-container">
         <Tabs :tabs="formTabs">
@@ -41,21 +41,20 @@ const formTabs = [
 .container {
   height: 100vh;
   padding: 0.75rem;
-  overflow-y: hidden;
 }
 
 .content {
   display: flex;
-  max-width: 80%;
   height: 95%;
   margin: 0 auto;
   align-items: center;
+  flex-direction: column;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 
 .gradient-wrapper {
   position: relative;
-  flex: 0 1 50%;
-  aspect-ratio: 1.2;
   opacity: 0.9;
   display: flex;
   align-items: center;
@@ -63,10 +62,10 @@ const formTabs = [
 }
 
 .forms-container {
-  flex: 1 0 50%;
+  width: 100%;
   position: relative;
   z-index: 2;
-  padding: 2.5rem 4rem 3rem;
+  padding: 1.5rem 1rem 2rem;
   border: 10px solid;
   border-image-slice: 1;
   border-width: 5px;
@@ -74,15 +73,18 @@ const formTabs = [
   box-shadow: 0 0.5rem 0.3rem rgba(0, 0, 0, 0.15);
 }
 
-
 h2 {
-    margin-bottom: 1.5rem;
-    font-weight: 500;
-    text-align: center;
-    position: relative;
-    font-size: 2.5rem;
-    z-index: 2;
-    text-shadow: 2px 2px 20px var(--primary-background);
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  text-align: center;
+  position: relative;
+  font-size: 2.5rem;
+  z-index: 2;
+  text-shadow: 2px 2px 20px var(--primary-background);
+}
+
+.gradient {
+  display: none;
 }
 
 .gradient-1 {
@@ -129,5 +131,46 @@ h2 {
     rgba(148, 187, 233, 0) 70%
   );
   background-blend-mode: multiply;
+}
+
+@media screen and (min-width: 768px) {
+  .content {
+    justify-content: center;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .forms-container {
+    width: 80%;
+  }
+
+  .gradient-wrapper {
+    aspect-ratio: 1.2;
+  }
+
+  .gradient {
+    display: block;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .content {
+    flex-direction: row;
+    max-width: 80%;
+    justify-content: unset;
+  }
+
+  .gradient-wrapper {
+    flex: 0 1 50%;
+  }
+
+  .forms-container {
+    flex: 1 0 50%;
+    padding: 2.5rem 4rem 3rem;
+  }
+
+  .container {
+    overflow-y: hidden;
+  }
 }
 </style>

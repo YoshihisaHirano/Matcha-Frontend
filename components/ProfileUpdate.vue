@@ -113,7 +113,7 @@ function updateLocation(location: LocationCoords) {
             />
           </label>
           <PhotoPicker
-            button-text="Open photos editor"
+            button-text="Open editor"
             @update-pictures="updatePictures"
             :btns-disabled="photoEditBtnDisabled"
           />
@@ -147,7 +147,7 @@ function updateLocation(location: LocationCoords) {
           />
         </div>
       </div>
-      <div>
+      <div class="content-right">
         <CustomMap :map-center="mapCoords" @change-location="updateLocation" />
       </div>
     </div>
@@ -172,7 +172,7 @@ function updateLocation(location: LocationCoords) {
 
 .edit-modal-content {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   padding-top: 2rem;
   flex-wrap: wrap;
 }
@@ -215,15 +215,22 @@ function updateLocation(location: LocationCoords) {
   text-align: right;
 }
 
+.content-right {
+  width: 100%;
+}
+
 @media screen and (min-width: 820px) {
   .edit-modal-content {
     flex-wrap: nowrap;
+    gap: 2rem;
   }
 
   .edit-modal-content > div {
     flex-basis: 49%;
   }
+}
 
+@media screen and (min-width: 1024px) {
   .profile-edit-modal {
     width: 85vw;
   }

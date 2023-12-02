@@ -30,6 +30,7 @@ function submitForm(event: Event) {
   flex-direction: column;
   border: none;
   padding: 0;
+  overflow-y: auto;
 }
 
 :global(.form-fieldset span[class*="typcn-"]::before) {

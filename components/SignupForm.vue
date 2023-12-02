@@ -164,6 +164,7 @@ async function sumbitSignupForm() {
         label="Username"
         icon="user"
         :error="messages.username"
+        withErrors
       />
       <Input
         v-model="data.email"
@@ -211,6 +212,14 @@ async function sumbitSignupForm() {
 <style>
 .input-group {
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+@media screen and (min-width: 768px) {
+  .input-group {
+    flex-direction: row;
+    gap: 1rem;
+  }
 }
 </style>

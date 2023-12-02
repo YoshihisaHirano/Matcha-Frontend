@@ -4,12 +4,13 @@ import { Chat, Message } from "~/types/global";
 
 export const useChats = async () => {
   const userId = useUserStore().userId;
+  console.log(userId);
   if (!userId) return;
   const config = useRuntimeConfig();
+  console.log(process);
   const { baseBackend, xAccessKey, xMasterKey, chatBinID } = config.public;
   const apiEndpoint = `${baseBackend}/b/${chatBinID}?meta=false`;
   const store = useChatStore();
-  if (process.server) {
     const { data, error } = await useFetch<Chat[]>(apiEndpoint, {
       headers: {
         ["X-Master-Key"]: xMasterKey,
@@ -23,7 +24,6 @@ export const useChats = async () => {
         store.addChat({ ...chat, messages: [], pageNo: 1 });
       });
     }
-  }
 };
 
 export const useChatMessages = async (chatId: string, pageNo: number, loadMore = false) => {

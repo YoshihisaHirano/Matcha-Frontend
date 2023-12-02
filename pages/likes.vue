@@ -70,6 +70,11 @@ function handleViewsOnly() {
       :key="user.id"
       :user="user"
     />
+    <UserHistoryCard
+      v-for="user in displayedUsers"
+      :key="user.id"
+      :user="user"
+    />
   </div>
 </template>
 
@@ -79,6 +84,9 @@ function handleViewsOnly() {
   flex-wrap: wrap;
   height: 90%;
   overflow-y: auto;
+  padding-top: 1rem;
+  gap: 1rem;
+  justify-content: center;
 }
 
 .history-filters {
@@ -92,5 +100,11 @@ function handleViewsOnly() {
   color: var(--primary-background);
   background-color: var(--accent-red);
   border-color: var(--primary-background);
+}
+
+@media screen and (min-width: 768px) {
+  .history-container {
+    justify-content: flex-start;
+  }
 }
 </style>

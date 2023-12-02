@@ -73,7 +73,7 @@ watch(
 }
 
 :global(.dropdown.sort-filter-dropdown) {
-  width: 10rem;
+  width: 9.5rem;
   --input-bg: var(--search-dropdown);
 }
 
@@ -85,7 +85,7 @@ watch(
 
 .sort-filter-container {
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .inner-container {
@@ -106,5 +106,15 @@ span[class*="typcn-"] {
 
 span[class*="typcn-"]:hover {
   color: var(--primary-text);
+}
+
+@media screen and (min-width: 768px) {
+  .sort-filter-container {
+    gap: 1rem;
+  }
+
+  :global(.dropdown.sort-filter-dropdown) {
+    width: 10.5rem;
+  }
 }
 </style>

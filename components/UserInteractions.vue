@@ -37,7 +37,12 @@ async function handleBlock(e: Event) {
 
 <template>
   <div :class="`interactions-wrapper ${className || ''}`" v-if="userId !== id">
-    <Button v-if="!hideLike" variant="round" :title="likeBtnInfo.title" @click="handleLike">
+    <Button
+      v-if="!hideLike"
+      variant="round"
+      :title="likeBtnInfo.title"
+      @click="handleLike"
+    >
       <span :class="`typcn-heart-${likeBtnInfo.icon}`"></span>
     </Button>
     <Button
@@ -56,6 +61,12 @@ async function handleBlock(e: Event) {
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  font-size: 1.5rem;
+  font-size: 1rem;
+}
+
+@media screen and (min-width: 768px) {
+  .interactions-wrapper {
+    font-size: 1.5rem;
+  }
 }
 </style>

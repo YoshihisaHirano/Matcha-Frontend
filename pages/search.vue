@@ -64,7 +64,11 @@ function changeFilter(val: typeof appliedFilter.value) {
       ></Button>
       <div class="cards-collection">
         <div class="outlined-card"></div>
-        <CustomLink v-if="currentCard" internal :href="`/users/${currentCard.id}`">
+        <CustomLink
+          v-if="currentCard"
+          internal
+          :href="`/users/${currentCard.id}`"
+        >
           <article class="outlined-card main-card">
             <Loader v-if="pending" />
             <p v-else-if="error">Something went wrong...</p>
@@ -181,10 +185,10 @@ div.outlined-card:last-of-type {
 
 .filter-bar {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   position: relative;
   z-index: 3;
+  flex-direction: column-reverse;
+  gap: 1rem;
 }
 
 .no-results {
@@ -193,7 +197,34 @@ div.outlined-card:last-of-type {
   color: var(--gray-stroke);
   font-weight: 500;
   padding: 2rem;
-  opacity: .9;
+  opacity: 0.9;
   justify-content: center;
+}
+
+.outlined-card:not(.main-card) {
+  display: none;
+}
+
+@media screen and (min-width: 768px) {
+  .outlined-card:not(.main-card) {
+    display: block;
+  }
+
+  .filter-bar {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .search-section .search-btn {
+    background: transparent;
+    opacity: 0.9;
+  }
+
+  .search-section .search-btn:disabled {
+    filter: brightness(0.75);
+  }
 }
 </style>

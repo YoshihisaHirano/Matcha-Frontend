@@ -48,9 +48,18 @@ watch(
   <div class="chat-interface-container" v-if="chat && user">
     <div class="chat-interface-header">
       <div class="chat-info">
-        <h2 :class="{ blocked: blockDisabled }">Chat with {{ user.firstName }}</h2>
+        <h2 :class="{ blocked: blockDisabled }">
+          <span class="verbose-heading">Chat with</span>
+          <CustomLink internal :href="`/users/${user.id}`">
+            {{ user.firstName }}
+          </CustomLink>
+        </h2>
         <SmallUserPicture :image="user.mainImage" />
-        <OnlineIndicator show-last-seen :last-seen="user.lastSeen" :is-online="user.online" />
+        <OnlineIndicator
+          show-last-seen
+          :last-seen="user.lastSeen"
+          :is-online="user.online"
+        />
       </div>
       <UserInteractions hide-like :id="user.id" />
     </div>
@@ -97,12 +106,18 @@ watch(
   justify-content: space-between;
   align-items: center;
   gap: 0.65rem;
+  padding: 1.2rem 0;
 }
 
 .chat-info {
   display: flex;
   align-items: center;
   gap: 0.65rem;
+}
+
+.chat-info h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .chat-interface-header h2 {
@@ -126,5 +141,19 @@ watch(
 .message-display {
   grid-column-start: 2;
   grid-column-end: 7;
+}
+
+.verbose-heading {
+  display: none;
+}
+
+@media screen and (min-width: 768px) {
+  .verbose-heading {
+    display: unset;
+  }
+
+  .chat-info h2 {
+    font-size: 1.5rem;
+  }
 }
 </style>

@@ -143,10 +143,12 @@ const mediumScreen = useMediaQuery("(min-width: 768px)");
   font-weight: 600;
   position: relative;
   top: -4px;
+  display: none;
 }
 
 .profile-location {
   margin-bottom: 0.75rem;
+  margin-top: 0.5rem;
 }
 
 .profile-tags {
@@ -179,6 +181,14 @@ const mediumScreen = useMediaQuery("(min-width: 768px)");
 
   .name-age-wrapper {
     align-items: unset;
+  }
+
+  .user-status {
+    display: block;
+  }
+
+  .profile-location {
+    margin-top: 0;
   }
 }
 

@@ -54,7 +54,7 @@ onUpdated(() => {
 
 <template>
   <div class="message-container" ref="msgContainer">
-    <Button variant="transparent">Load more</Button>
+    <Button class-name="load-more-btn" variant="transparent">Load more</Button>
     <div
       v-if="chat"
       v-for="message in messages"
@@ -77,7 +77,7 @@ onUpdated(() => {
   height: 100%;
   max-height: 100%;
   overflow-y: auto;
-  padding: 0 1rem;
+  padding: 1rem 1rem;
   scroll-behavior: smooth;
 }
 
@@ -118,5 +118,9 @@ onUpdated(() => {
   font-size: 0.75rem;
   font-weight: 400;
   color: var(--gray-text);
+}
+
+:global(button[data-variant="transparent"].load-more-btn) {
+  padding: 0.5rem 0 0.75rem;
 }
 </style>

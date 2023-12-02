@@ -189,7 +189,7 @@ watch(
 }
 .map-wrapper > div:last-child {
   width: 100%;
-  height: 100%;
+  height: 300px;
 }
 
 .label {
@@ -202,8 +202,7 @@ watch(
 
 .outer-map-controls {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  flex-direction: column;
 }
 
 .current-location {
@@ -267,5 +266,17 @@ datalist {
 datalist option {
   font-size: 0.6rem;
   padding: 3px 0;
+}
+
+@media screen and (min-width: 768px) {
+  .map-wrapper > div:last-child {
+    height: 100%;
+  }
+
+  .outer-map-controls {
+    flex-direction: row;
+    justify-content: space-between;
+  align-items: flex-end;
+  }
 }
 </style>
