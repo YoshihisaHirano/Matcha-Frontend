@@ -1,13 +1,24 @@
 <script setup lang="ts">
 const username = ref("");
 const password = ref("");
+const error = ref("");
 
 async function submitLoginForm() {
-  console.log(username.value, password.value);
+  error.value = "";
+  const res = await useLogin(username.value, password.value);
+  if (res?.message) {
+    error.value = res.message;
+  }
 }
 
-function resetPassword(e: Event) {
+async function resetPassword(e: Event) {
   e.preventDefault();
+  if (!username.value) {
+    error.value = "Enter your username to reset your password";
+    return;
+  }
+  const res = await useResetPassword(username.value);
+  error.value = res.message;
 }
 </script>
 
@@ -34,11 +45,12 @@ function resetPassword(e: Event) {
       withErrors
     />
     <div class="bottom-controls">
-      <Button type="submit" @click="submitLoginForm" variant="fancy" className="login-form-btn"
+      <Button :disabled="!password || !username" type="submit" variant="fancy" className="login-form-btn"
         >Log In</Button
       >
       <Button @click="resetPassword" variant="transparent">Forgot password?</Button>
     </div>
+    <div class="error-msg">{{error}}</div>
   </GenericForm>
 </template>
 
@@ -57,5 +69,11 @@ function resetPassword(e: Event) {
 
 .login-form-btn {
   flex-basis: 60%;
+}
+
+.error-msg {
+  margin-top: 1rem;
+  font-weight: 500;
+  color: var(--accent-red);
 }
 </style>

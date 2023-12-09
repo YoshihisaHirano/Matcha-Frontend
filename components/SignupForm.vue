@@ -31,15 +31,17 @@ const rules = ref({
       test: (value: string) => /^[a-zA-Z0-9_]+$/.test(value),
       message: "Only letters, numbers and underscores",
     },
-    // {
-    //   name: 'unique',
-    //   test: async (value: string) => {
-    //     const res = await fetch(`/api/users/username/${value}`)
-    //     const data = await res.json()
-    //     return data.exists === false
-    //   },
-    //   message: 'Username is already taken',
-    // }
+    {
+      name: 'unique',
+      test: async (value: string) => {
+        const res = await useCheckUsername(value);
+        if (typeof res === 'object') {
+          return false;
+        }
+        return res === false;
+      },
+      message: 'Username is already taken',
+    }
   ],
   email: [
     {

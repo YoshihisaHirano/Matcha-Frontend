@@ -120,3 +120,11 @@ export interface Chat {
   messages: Message[];
   pageNo: number;
 }
+
+export interface Notification {
+  id: string;
+  type: "like" | "view" | "message";
+  date: number;
+  user: ShortUser;
+  isViewed: boolean;
+}

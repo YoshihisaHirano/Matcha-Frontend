@@ -13,7 +13,7 @@ const lastSeen = computed(() =>
   props.user ? getStringDate(props.user.lastSeen) : ""
 );
 const isCurrentUser = computed(
-  () => !!(route.path === "/profile" && props.user?.id)
+  () => !!(route.path === "/" && props.user?.id)
 );
 
 const userPics = computed(() => {

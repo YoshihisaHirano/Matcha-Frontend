@@ -10,7 +10,7 @@ const route = useRoute();
 const id = computed(() => route.params.id as string);
 
 if (useUserStore().isUserCurrent(id.value)) {
-  await navigateTo("/profile", { redirectCode: 301 });
+  await navigateTo("/", { redirectCode: 301 });
 }
 
 const data = await useOtherUsers(id.value);

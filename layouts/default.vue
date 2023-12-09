@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useActiveUser } from "~/composables/useActiveUser";
 
-useActiveUser("aaa");
+useActiveUser();
 useUserLocation();
 </script>
 <template>
