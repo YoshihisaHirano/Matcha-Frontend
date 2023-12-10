@@ -18,13 +18,14 @@ const initialState: SignupUserData & { repeatPassword: string } = {
 };
 
 const data = ref({ ...initialState });
+const formError = ref("");
 
 const rules = ref({
   username: [
     {
       name: "username",
-      test: (value: string) => value.length >= 3 && value.length <= 20,
-      message: "Username must be 3 - 20 characters long",
+      test: (value: string) => value.length >= 3 && value.length <= 30,
+      message: "Username must be 3 - 30 characters long",
     },
     {
       name: "username",
@@ -32,7 +33,7 @@ const rules = ref({
       message: "Only letters, numbers and underscores",
     },
     {
-      name: 'unique',
+      name: 'username',
       test: async (value: string) => {
         const res = await useCheckUsername(value);
         if (typeof res === 'object') {
@@ -98,14 +99,14 @@ const rules = ref({
   ],
 });
 
-const options = reactive({ autoTest: true });
+const options = reactive({ autoTest: true, firstError: true });
 const { result } = useValidate(data, rules, options);
 
 const messages = ref({ ...initialState });
 
 async function sumbitSignupForm() {
   result.value.$test();
-  console.log(result.value.$errors);
+if (result.value.$errors.length) {
   const errors: Array<{ name: keyof typeof initialState; message: string }> =
     unref(result.value.$errors);
   const unrefMessages = unref(messages);
@@ -119,6 +120,14 @@ async function sumbitSignupForm() {
     const name = error.name;
     //@ts-ignore
     messages.value[name] = error.message;
+  }
+  } else {
+    let signupData = { ...data.value } as any;
+    delete signupData.repeatPassword;
+    const res = await useRegister(signupData);
+    if (res?.message) {
+      formError.value = res.message;
+    }
   }
 }
 </script>
@@ -208,6 +217,7 @@ async function sumbitSignupForm() {
       />
     </div>
     <Button type="submit" variant="fancy">Start your romantic journey</Button>
+    <div class="error-msg">{{formError}}</div>
   </GenericForm>
 </template>
 
@@ -223,5 +233,11 @@ async function sumbitSignupForm() {
     flex-direction: row;
     gap: 1rem;
   }
+}
+
+.error-msg {
+  margin-top: 1rem;
+  font-weight: 500;
+  color: var(--accent-red);
 }
 </style>

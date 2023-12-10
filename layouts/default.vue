@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { useActiveUser } from "~/composables/useActiveUser";
+import { useUserStore } from "~/stores/userStore";
 
 useActiveUser();
 useUserLocation();
+const emailVerified = computed(() => useUserStore().emailVerified);
 </script>
 <template>
   <SidebarNav />
   <TheHeader />
   <main>
-    <slot />
+    <slot v-if="emailVerified" />
   </main>
 </template>
 

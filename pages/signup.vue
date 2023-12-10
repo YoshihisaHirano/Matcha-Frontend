@@ -20,7 +20,7 @@ const initialState: Partial<ExtendedSignupUserData> = {
   biography: "",
   mainImage: "",
   pictures: [],
-  location: { lat: 40, lon: 40 },
+  location: { lat: 40, lon: 44 },
 };
 
 const data = ref({ ...initialState });

@@ -11,7 +11,7 @@ defineProps<ProfileSmallProps>();
   <CustomLink internal href="/profile" class-name="profile-link">
     <div class="user-info-container">
       <span class="username">{{ username || "" }}</span>
-      <SmallUserPicture :image="image" />
+      <SmallUserPicture v-if="image" :image="image" />
     </div>
   </CustomLink>
 </template>

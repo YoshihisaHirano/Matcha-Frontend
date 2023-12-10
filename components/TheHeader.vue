@@ -17,7 +17,7 @@ const data = computed(() => useUserStore().userHeaderInfo);
         :image="data?.mainImage"
         :username="`${data?.firstName || ''} ${data?.lastName || ''}`"
       />
-      <Button class-name="logout-btn" title="Log out" variant="transparent">
+      <Button @click="useLogout" class-name="logout-btn" title="Log out" variant="transparent">
         <span class="typcn-upload"></span>
       </Button>
     </div>

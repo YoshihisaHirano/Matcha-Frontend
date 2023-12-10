@@ -15,7 +15,7 @@ interface MapProps {
 const props = defineProps<MapProps>();
 const emits = defineEmits(["changeLocation", "changeRadius"]);
 
-const center = ref(props.mapCenter || [40, 40]);
+const center = ref(props.mapCenter || [40, 44]);
 const projection = ref("EPSG:4326");
 const zoom = ref(typeof props.radius !== "undefined" ? 15 : 16);
 const rotation = ref(0);
@@ -73,7 +73,7 @@ function handleRadiusChange(event: Event) {
 watch(
   () => props.mapCenter,
   () => {
-    center.value = props.mapCenter || [40, 40];
+    center.value = props.mapCenter || [40, 44];
     console.log(props.mapCenter)
   }
 );

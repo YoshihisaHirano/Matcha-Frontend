@@ -1,7 +1,8 @@
-import { FullUser, ShortUser } from "~/types/global";
+import { FullUser, ShortUser, SignupUserData } from "~/types/global";
 import { useUserStore } from "~/stores/userStore";
 import { useInteractionsStore } from "~/stores/interactionsStore";
 import { composeHeader } from "~/utils/composeHeader";
+import { on } from "events";
 
 const createUserEndpoint = (baseBackend: string, endpoint: string) => {
   return `${baseBackend}/profile/${endpoint}`;
@@ -11,23 +12,25 @@ export const useActiveUser = async () => {
   const userId = useCookie("userId");
   const jwt = useCookie("jwt");
   const router = useRouter();
-  console.log(userId.value, router.currentRoute.value.path)
+  const config = useRuntimeConfig();
   if (!userId.value || !jwt.value) {
     if (router.currentRoute.value.path !== "/login") {
-      await navigateTo("/login");
+      return router.push({path: "/login"});
     } else {
       return;
     }
   }
-  const config = useRuntimeConfig()
   const { baseBackend } = config.public;
   const apiEndpoint = createUserEndpoint(baseBackend, "me")
   const store = useUserStore();
   const interactionsStore = useInteractionsStore();
   if (process.server) {
-    const { data, error } = await useFetch<FullUser>(apiEndpoint, {
-      ...composeHeader(jwt.value as string),
-    });
+    const { data, error } = await useFetch<FullUser>(`${apiEndpoint}?id=${userId.value}`, 
+    // {
+    //   ...composeHeader(jwt.value as string),
+    // }
+    );
+    console.log(data.value);
     if (error.value) {
       console.error(error);
       store.setUser(null);
@@ -69,17 +72,21 @@ export const useUpdateUser = async (userData: Partial<FullUser>) => {
 
 export const useLogout = async () => {
   const userId = useCookie("userId");
+  const router = useRouter();
   if (!userId.value) {
     return;
   } else {
     userId.value = undefined;
-    await navigateTo("/");
+    onNuxtReady(async () => {
+      await router.push({path: "/login"});
+    })
   }
 }
 
 export const useLogin = async (username: string, password: string) => {
   const userId = useCookie("userId");
   const config = useRuntimeConfig();
+  const router = useRouter();
   const { baseBackend } = config.public;
   const apiEndpoint = createUserEndpoint(baseBackend, "login"); 
   const { data, error } = await useFetch<ShortUser>(
@@ -97,7 +104,9 @@ export const useLogin = async (username: string, password: string) => {
     return { message: "Failed to log in: wrong username or password!" };
   } else {
     userId.value = data.value?.id;
-    await navigateTo("/");
+    onNuxtReady(async () => {
+    await router.push({path: "/"});
+    })
   }
 }
 
@@ -160,5 +169,32 @@ export const useCheckUsername = async (username: string) => {
     return { message: "Failed to check username!" };
   } else {
     return data.value?.exists || false;
+  }
+}
+
+export const useRegister = async (user: SignupUserData) => {
+  const userId = useCookie("userId");
+  const config = useRuntimeConfig();
+  const { baseBackend } = config.public;
+  const apiEndpoint = createUserEndpoint(baseBackend, "register");
+  const { data, error } = await useFetch<ShortUser>(
+    apiEndpoint,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    }
+  )
+  if (error.value) {
+    console.error(error.value);
+    if (error.value.statusCode === 400) {
+      return { message: "A user with this email already exists!" };
+    }
+    return { message: "Failed to sign up!" };
+  } else {
+    userId.value = data.value?.id;
+    await navigateTo("/");
   }
 }

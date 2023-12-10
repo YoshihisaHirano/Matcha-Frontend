@@ -9,6 +9,11 @@ export const useUserStore = defineStore("user", () => {
   const user = ref<ActiveUser | null>(null);
   const actualUserLocation = ref<LocationCoords | null>(null);
 
+  const emailVerified = computed(() => {
+    if (!user.value) return false;
+    return user.value.emailVerified;
+  })
+
   const userLocation = computed(() => {
     if (!user.value) return null;
     return user.value.location;
@@ -119,5 +124,6 @@ export const useUserStore = defineStore("user", () => {
     setUser,
     isUserCurrent,
     setLocation,
+    emailVerified
   };
 });

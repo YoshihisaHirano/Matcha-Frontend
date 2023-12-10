@@ -55,7 +55,7 @@ function changeFilter(val: typeof appliedFilter.value) {
     <SearchFilters />
   </div>
   <Suspense>
-    <section class="search-section">
+    <section v-if="userData?.mainImage" class="search-section">
       <Button
         :disabled="cardIdx === 0"
         class-name="search-btn"
