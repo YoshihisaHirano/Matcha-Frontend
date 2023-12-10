@@ -198,3 +198,16 @@ export const useRegister = async (user: SignupUserData) => {
     await navigateTo("/");
   }
 }
+
+export const useResendEmail = async (id: string) => {
+  const config = useRuntimeConfig();
+  const { baseBackend } = config.public;
+  const apiEndpoint = `${createUserEndpoint(baseBackend, "resendEmail")}?id=${id}`;
+  const { error } = await useFetch<any>(apiEndpoint);
+  if (error.value) {
+    console.error(error.value);
+    return { message: "Failed to resend email!" };
+  } else {
+    return { message: "Email sent!" };
+  }
+}

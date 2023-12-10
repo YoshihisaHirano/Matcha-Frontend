@@ -4,13 +4,16 @@ import { useUserStore } from "~/stores/userStore";
 
 useActiveUser();
 useUserLocation();
-const emailVerified = computed(() => useUserStore().emailVerified);
+const userStore = computed(() => useUserStore().user);
 </script>
+
 <template>
   <SidebarNav />
   <TheHeader />
   <main>
-    <slot v-if="emailVerified" />
+    <slot v-if="userStore?.emailVerified && userStore.mainImage" />
+    <FullInfoForm v-else-if="userStore?.emailVerified" />
+    <VerifyEmail v-else :userId="userStore?.id" />
   </main>
 </template>
 

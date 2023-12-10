@@ -63,6 +63,7 @@ export const useUserStore = defineStore("user", () => {
 
   const userPictures = computed(() => {
     if (!user.value) return [];
+    if (!user.value.mainImage) return [];
     return [user.value.mainImage, ...user.value.pictures];
   });
 

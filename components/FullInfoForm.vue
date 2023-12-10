@@ -4,14 +4,6 @@ import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import { sexPrefOptions } from "~/utils/getSexPref";
 
-definePageMeta({
-  layout: "empty",
-});
-
-useSeoMeta({
-  title: "Sign Up | Matcha",
-});
-
 const initialState: Partial<ExtendedSignupUserData> = {
   gender: "other",
   sexPref: "both",
@@ -80,10 +72,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <main>
-    <ThemeToggle />
     <div class="content">
-      <h2>Tell us about yourself</h2>
+      <h2>First, tell us about yourself</h2>
       <div class="form-wrapper">
         <MultiStepForm :step-data="formSteps" @submit="onSubmitUserInfo">
           <template #basicInfo>
@@ -95,10 +85,12 @@ onMounted(() => {
                   :text-input="true"
                   :enable-time-picker="false"
                   :max-date="minus18Years()"
+                  :start-date="minus18Years()"
                   name="birth-date"
                   v-model="data.dateOfBirth"
                   position="left"
                   :clearable="false"
+                  :teleport="true"
                 />
               </label>
               <PhotoPicker
@@ -156,13 +148,9 @@ onMounted(() => {
         </MultiStepForm>
       </div>
     </div>
-  </main>
 </template>
 
 <style scoped>
-main {
-  padding: 0.5rem;
-}
 
 .content {
   margin: 0 auto;
@@ -247,7 +235,7 @@ label {
     margin-top: 1.5rem;
   }
   .input-group > * {
-    flex: 0 0 49%;
+    flex: 0 0 48%;
   }
 }
 </style>
