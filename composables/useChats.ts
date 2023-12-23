@@ -4,10 +4,10 @@ import { Chat, Message } from "~/types/global";
 
 export const useChats = async () => {
   const userId = useUserStore().userId;
-  console.log(userId);
+  // console.log(userId);
   if (!userId) return;
   const config = useRuntimeConfig();
-  console.log(process);
+  // console.log(process);
   const { baseBackend, xAccessKey, xMasterKey, chatBinID } = config.public;
   const apiEndpoint = `${baseBackend}/b/${chatBinID}?meta=false`;
   const store = useChatStore();

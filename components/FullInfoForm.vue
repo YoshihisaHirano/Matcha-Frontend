@@ -78,6 +78,19 @@ onMounted(() => {
         <MultiStepForm :step-data="formSteps" @submit="onSubmitUserInfo">
           <template #basicInfo>
             <div class="input-group">
+              <Dropdown
+                :options="sexPrefOptions"
+                v-model="data.sexPref"
+                label="Sex preference*"
+                container-class-name="top-dropdown"
+              />
+              <Dropdown
+                :options="Object.keys(genderIcons)"
+                v-model="data.gender"
+                label="Gender*"
+              />
+            </div>
+            <div class="input-group">
               <label for="birth-date">
                 <span class="date-label">Birthday*</span>
                 <Datepicker
@@ -99,19 +112,6 @@ onMounted(() => {
                 :label="`Choose at least 1 photo ${data.mainImage ? '✓' : '✗'}`"
                 button-text="Open photos editor"
                 @update-pictures="updatePictures"
-              />
-            </div>
-            <div class="input-group">
-              <Dropdown
-                :options="sexPrefOptions"
-                v-model="data.sexPref"
-                label="Sex preference*"
-                container-class-name="top-dropdown"
-              />
-              <Dropdown
-                :options="Object.keys(genderIcons)"
-                v-model="data.gender"
-                label="Gender*"
               />
             </div>
           </template>
@@ -161,7 +161,7 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 2.5rem;
+  padding-top: 1rem;
 }
 
 .content h2 {

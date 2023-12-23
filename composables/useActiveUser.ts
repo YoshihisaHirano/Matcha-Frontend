@@ -1,34 +1,33 @@
 import { FullUser, ShortUser, SignupUserData } from "~/types/global";
 import { useUserStore } from "~/stores/userStore";
 import { useInteractionsStore } from "~/stores/interactionsStore";
-import { composeHeader } from "~/utils/composeHeader";
-import { on } from "events";
 
 const createUserEndpoint = (baseBackend: string, endpoint: string) => {
   return `${baseBackend}/profile/${endpoint}`;
-}
+};
 
 export const useActiveUser = async () => {
   const userId = useCookie("userId");
   const jwt = useCookie("jwt");
   const router = useRouter();
-  const config = useRuntimeConfig();
   if (!userId.value || !jwt.value) {
     if (router.currentRoute.value.path !== "/login") {
-      return router.push({path: "/login"});
+      return router.push({ path: "/login" });
     } else {
       return;
     }
   }
+  const config = useRuntimeConfig();
   const { baseBackend } = config.public;
-  const apiEndpoint = createUserEndpoint(baseBackend, "me")
+  const apiEndpoint = createUserEndpoint(baseBackend, "me");
   const store = useUserStore();
   const interactionsStore = useInteractionsStore();
   if (process.server) {
-    const { data, error } = await useFetch<FullUser>(`${apiEndpoint}?id=${userId.value}`, 
-    // {
-    //   ...composeHeader(jwt.value as string),
-    // }
+    const { data, error } = await useFetch<FullUser>(
+      `${apiEndpoint}?id=${userId.value}`
+      // {
+      //   ...composeHeader(jwt.value as string),
+      // }
     );
     console.log(data.value);
     if (error.value) {
@@ -50,18 +49,15 @@ export const useUpdateUser = async (userData: Partial<FullUser>) => {
   const interactionsStore = useInteractionsStore();
   const updatedUser = { ...store.user, ...filterUnsetKeys(userData) };
   // console.log(JSON.stringify({ ...updatedUser }))
-  const { data, error } = await useFetch<{ record: any }>(
-    apiEndpoint,
-    {
-      method: "PUT",
-      headers: {
-        ["X-Master-Key"]: xMasterKey,
-        ["X-Access-Key"]: xAccessKey,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...updatedUser }),
-    }
-  );
+  const { data, error } = await useFetch<{ record: any }>(apiEndpoint, {
+    method: "PUT",
+    headers: {
+      ["X-Master-Key"]: xMasterKey,
+      ["X-Access-Key"]: xAccessKey,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ ...updatedUser }),
+  });
   if (error.value) {
     console.error(error);
   } else {
@@ -78,83 +74,82 @@ export const useLogout = async () => {
   } else {
     userId.value = undefined;
     onNuxtReady(async () => {
-      await router.push({path: "/login"});
-    })
+      await router.push({ path: "/login" });
+    });
   }
-}
+};
 
 export const useLogin = async (username: string, password: string) => {
   const userId = useCookie("userId");
+  const jwt = useCookie("jwt");
   const config = useRuntimeConfig();
   const router = useRouter();
   const { baseBackend } = config.public;
-  const apiEndpoint = createUserEndpoint(baseBackend, "login"); 
-  const { data, error } = await useFetch<ShortUser>(
-    apiEndpoint,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-    }
-  )
+  const apiEndpoint = createUserEndpoint(baseBackend, "login");
+  const { data, error } = await useFetch<ShortUser>(apiEndpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username, password }),
+  });
   if (error.value) {
     console.error(error.value);
     return { message: "Failed to log in: wrong username or password!" };
   } else {
     userId.value = data.value?.id;
+    // TODO: remove
+    jwt.value = "DELETE ME";
     onNuxtReady(async () => {
-    await router.push({path: "/"});
-    })
+      await router.push({ path: "/" });
+    });
   }
-}
+};
 
 export const useUpdatePassword = async (id: string, password: string) => {
   const userId = useCookie("userId");
   const config = useRuntimeConfig();
+  const router = useRouter();
   const { baseBackend } = config.public;
   const apiEndpoint = createUserEndpoint(baseBackend, "updatePassword");
-  const { error } = await useFetch<any>(
-    apiEndpoint,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id, password }),
-    }
-  )
+  const { error } = await useFetch<any>(apiEndpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ id, password }),
+  });
   if (error.value) {
     console.error(error.value);
     return { message: "Failed to update password!" };
   } else {
     userId.value = undefined;
-    await navigateTo("/login");
+    onNuxtReady(async () => {
+      await router.push({ path: "/login" });
+    });
   }
-}
+};
 
 export const useResetPassword = async (username: string) => {
   const config = useRuntimeConfig();
   const { baseBackend } = config.public;
   const apiEndpoint = createUserEndpoint(baseBackend, "resetPassword");
-  const { error } = await useFetch<any>(
-    apiEndpoint,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username }),
-    }
-  )
+  const { error } = await useFetch<any>(apiEndpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username }),
+  });
   if (error.value) {
     console.error(error.value);
     return { message: "Failed to reset password!" };
   } else {
-    return { message: "Please check your email for password reset instructions." };
+    return {
+      message: "Please check your email for password reset instructions.",
+    };
   }
-}
+};
 
 export const useCheckUsername = async (username: string) => {
   const config = useRuntimeConfig();
@@ -162,31 +157,30 @@ export const useCheckUsername = async (username: string) => {
   const apiEndpoint = createUserEndpoint(baseBackend, "checkUsername");
   const params = new URLSearchParams({ username });
   const { data, error } = await useFetch<{ exists: boolean }>(
-    `${apiEndpoint}?${params.toString()}`,
-  )
+    `${apiEndpoint}?${params.toString()}`
+  );
   if (error.value) {
     console.error(error.value);
     return { message: "Failed to check username!" };
   } else {
     return data.value?.exists || false;
   }
-}
+};
 
 export const useRegister = async (user: SignupUserData) => {
   const userId = useCookie("userId");
+  const jwt = useCookie("jwt");
   const config = useRuntimeConfig();
+  const router = useRouter();
   const { baseBackend } = config.public;
   const apiEndpoint = createUserEndpoint(baseBackend, "register");
-  const { data, error } = await useFetch<ShortUser>(
-    apiEndpoint,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    }
-  )
+  const { data, error } = await useFetch<ShortUser>(apiEndpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  });
   if (error.value) {
     console.error(error.value);
     if (error.value.statusCode === 400) {
@@ -195,14 +189,21 @@ export const useRegister = async (user: SignupUserData) => {
     return { message: "Failed to sign up!" };
   } else {
     userId.value = data.value?.id;
-    await navigateTo("/");
+    // TODO: remove
+    jwt.value = "DELETE ME";
+    onNuxtReady(async () => {
+      await router.push({ path: "/" });
+    });
   }
-}
+};
 
 export const useResendEmail = async (id: string) => {
   const config = useRuntimeConfig();
   const { baseBackend } = config.public;
-  const apiEndpoint = `${createUserEndpoint(baseBackend, "resendEmail")}?id=${id}`;
+  const apiEndpoint = `${createUserEndpoint(
+    baseBackend,
+    "resendEmail"
+  )}?id=${id}`;
   const { error } = await useFetch<any>(apiEndpoint);
   if (error.value) {
     console.error(error.value);
@@ -210,4 +211,4 @@ export const useResendEmail = async (id: string) => {
   } else {
     return { message: "Email sent!" };
   }
-}
+};

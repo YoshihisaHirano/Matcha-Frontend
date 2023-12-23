@@ -6,6 +6,7 @@ specifiers:
   '@types/node': ^18
   '@vuepic/vue-datepicker': ^5.4.0
   cloudinary: ^1.40.0
+  ip-geolocation-api-javascript-sdk: ^1.0.9
   nuxt: ^3.5.2
   ol: ^7.4.0
   ol-contextmenu: ^5.2.1
@@ -19,6 +20,7 @@ dependencies:
   '@pinia/nuxt': 0.4.11
   '@vuepic/vue-datepicker': 5.4.0
   cloudinary: 1.40.0
+  ip-geolocation-api-javascript-sdk: 1.0.9
   ol: 7.4.0
   ol-contextmenu: 5.2.1_ol@7.4.0
   ol-ext: 4.0.10_ol@7.4.0
@@ -2469,8 +2471,8 @@ packages:
     requiresBuild: true
     optional: true
 
-  /function-bind/1.1.1:
-    resolution: {integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==}
+  /function-bind/1.1.2:
+    resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
     dev: true
 
   /gauge/3.0.2:
@@ -2648,7 +2650,7 @@ packages:
     resolution: {integrity: sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==}
     engines: {node: '>= 0.4.0'}
     dependencies:
-      function-bind: 1.1.1
+      function-bind: 1.1.2
     dev: true
 
   /hash-sum/2.0.0:
@@ -2792,6 +2794,12 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /ip-geolocation-api-javascript-sdk/1.0.9:
+    resolution: {integrity: sha512-ZpqHD8Tt3uz2+olm9g2n+0MZbwqVsPoU6bq+vFiNrTWFeSlM2w8regzViA52f1FYCUKKIMYJUiwZIJBC0STrNw==}
+    dependencies:
+      xmlhttprequest: 1.8.0
+    dev: false
 
   /ip-regex/5.0.0:
     resolution: {integrity: sha512-fOCG6lhoKKakwv+C6KdsOnGvgXnmgfmp0myi3bcNwj3qfwPAxRKWEuFhvEFF7ceYIz6+1jRZ+yguLFAmUNPEfw==}
@@ -5494,6 +5502,11 @@ packages:
 
   /xml-utils/1.7.0:
     resolution: {integrity: sha512-bWB489+RQQclC7A9OW8e5BzbT8Tu//jtAOvkYwewFr+Q9T9KDGvfzC1lp0pYPEQPEoPQLDkmxkepSC/2gIAZGw==}
+    dev: false
+
+  /xmlhttprequest/1.8.0:
+    resolution: {integrity: sha512-58Im/U0mlVBLM38NdZjHyhuMtCqa61469k2YP/AaPbvCoV9aQGUpbJBj1QRm2ytRiVQBD/fsw7L2bJGDVQswBA==}
+    engines: {node: '>=0.4.0'}
     dev: false
 
   /xss/1.0.14:

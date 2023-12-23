@@ -104,6 +104,7 @@ async function resetPassword() {
 .container {
   height: 100vh;
   padding: 0.75rem;
+  grid-column: 1 / -1;
 }
 
 .content {
