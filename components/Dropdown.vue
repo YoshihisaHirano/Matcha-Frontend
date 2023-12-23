@@ -14,6 +14,7 @@ const emitVal = defineEmits(["update:modelValue"]);
 
 const isOpen = ref(false);
 const containerRef = ref<HTMLDivElement | null>(null);
+const dropdownListRef = ref<HTMLUListElement | null>(null);
 
 function selectOption(option: string) {
   emitVal("update:modelValue", option);
@@ -22,6 +23,19 @@ function selectOption(option: string) {
 
 useOutsideClick([containerRef], () => {
   isOpen.value = false;
+});
+
+watch(isOpen, async (newVal) => {
+  if (newVal) {
+    await nextTick();
+    if (containerRef.value && dropdownListRef.value) {
+      const { top, height, left } = containerRef.value.getBoundingClientRect();
+      dropdownListRef.value.style.position = "absolute";
+      dropdownListRef.value.style.top = `${top + height + 4}px`;
+      dropdownListRef.value.style.left = `${left + 8}px`;
+      dropdownListRef.value.style.width = `${containerRef.value.offsetWidth}px`;
+    }
+  }
 });
 </script>
 
@@ -43,17 +57,19 @@ useOutsideClick([containerRef], () => {
           ]"
         ></span>
       </button>
-      <ul v-if="isOpen" class="dropdown-list" tabindex="1">
-        <li
-          tabindex="1"
-          v-for="(option, index) in options"
-          :key="`${index}-${kebabCase(option)}`"
-          @click="selectOption(option)"
-          :class="{ active: modelValue === option }"
-        >
-          {{ option }}
-        </li>
-      </ul>
+      <teleport to="body">
+        <ul v-if="isOpen" class="dropdown-list" tabindex="1" ref="dropdownListRef">
+          <li
+            tabindex="1"
+            v-for="(option, index) in options"
+            :key="`${index}-${kebabCase(option)}`"
+            @click="selectOption(option)"
+            :class="{ active: modelValue === option }"
+          >
+            {{ option }}
+          </li>
+        </ul>
+      </teleport>
     </div>
   </div>
 </template>
@@ -115,8 +131,10 @@ useOutsideClick([containerRef], () => {
   z-index: 3;
   width: 100%;
   padding-left: 0;
-  top: 1.7rem;
   padding-top: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  background: var(--input-bg);
+  border-radius: 8px;
 }
 
 .dropdown-list li {
@@ -140,6 +158,5 @@ useOutsideClick([containerRef], () => {
 .dropdown-list li:last-child {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 </style>

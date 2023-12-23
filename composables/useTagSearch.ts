@@ -1,7 +1,7 @@
 export const useTagSearch = async (query: string) => {
   const config = useRuntimeConfig();
-  const { baseBackend, xAccessKey, xMasterKey, tagBinID } = config.public;
-  const apiEndpoint = `${baseBackend}/b/${tagBinID}?meta=false`;
+  const { binBaseBackend, xAccessKey, xMasterKey, tagBinID } = config.public;
+  const apiEndpoint = `${binBaseBackend}/b/${tagBinID}?meta=false`;
   const { data, pending, error } = await useFetch<{ tags: string[] }>(
     apiEndpoint,
     {
@@ -17,8 +17,8 @@ export const useTagSearch = async (query: string) => {
 
 export const useAddTag = async (tag: string) => {
   const config = useRuntimeConfig();
-  const { baseBackend, xAccessKey, xMasterKey, tagBinID } = config.public;
-  const apiEndpoint = `${baseBackend}/b/${tagBinID}?meta=false`;
+  const { binBaseBackend, xAccessKey, xMasterKey, tagBinID } = config.public;
+  const apiEndpoint = `${binBaseBackend}/b/${tagBinID}?meta=false`;
   const { data: tags, error: getError } = await useFetch<{ tags: string[] }>(
     apiEndpoint,
     {

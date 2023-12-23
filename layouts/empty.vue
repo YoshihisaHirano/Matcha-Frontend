@@ -15,7 +15,7 @@ import { useUserStore } from "~/stores/userStore";
 
 <style>
 #__nuxt {
-  display: block;
-  height: fit-content;
+  /* display: block; */
+  /* height: fit-content; */
 }
 </style>

@@ -45,10 +45,11 @@ const formSteps = computed(() => {
 });
 
 async function onSubmitUserInfo() {
-  // let uploadedPics: any = null;
-  // if (data.value.mainImage && data.value.pictures) {
-  //   uploadedPics = await useNewPictures([data.value.mainImage], []);
-  // }
+  // upload pictures to cloudinary
+  let uploadedPics: any = null;
+  if (data.value.mainImage && data.value.pictures) {
+    uploadedPics = await useNewPictures([data.value.mainImage], []);
+  }
   console.log("submit", data);
 }
 
@@ -235,7 +236,7 @@ label {
     margin-top: 1.5rem;
   }
   .input-group > * {
-    flex: 0 0 48%;
+    flex: 0 0 47%;
   }
 }
 </style>

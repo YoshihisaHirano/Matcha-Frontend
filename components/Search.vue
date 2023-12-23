@@ -12,7 +12,10 @@ interface SearchProps {
 const searchTerm = ref<string | null>(null);
 
 const emits = defineEmits(["search", "clear", "select"]);
-defineProps<SearchProps>();
+const props = defineProps<SearchProps>();
+
+let searchContainer = ref<HTMLElement | null>(null);
+let dropdownList = ref<HTMLElement | null>(null);
 
 const debouncedSearch = debounce(() => {
   emits("search", searchTerm.value);
@@ -32,12 +35,25 @@ function selectOption(option: string) {
 }
 
 defineExpose({
-  clearSearch
-})
+  clearSearch,
+});
+
+watch(() => props.results, async (newResults) => {
+  if (newResults) {
+    await nextTick();
+    if (searchContainer.value && dropdownList.value) {
+      const { top, height, left } = searchContainer.value.getBoundingClientRect();
+      dropdownList.value.style.position = 'absolute';
+      dropdownList.value.style.top = `${top + height + 8}px`;
+      dropdownList.value.style.left = `${left + 8}px`;
+      dropdownList.value.style.width = `${searchContainer.value.offsetWidth}px`;
+    }
+  }
+});
 </script>
 
 <template>
-  <div :class="`container ${className || ''}`">
+  <div :class="`container ${className || ''}`" ref="searchContainer">
     <label for="search">
       <input
         v-model="searchTerm"
@@ -55,17 +71,25 @@ defineExpose({
         width="20"
         height="20"
       />
-      <Loader class-name="search-loader" v-else :circle-size="5"/>
+      <Loader class-name="search-loader" v-else :circle-size="5" />
     </label>
-    <Button :disabled="disabled || pending" class="clear-btn" variant="transparent" @click="clearSearch"
+    <Button
+      :disabled="disabled || pending"
+      class="clear-btn"
+      variant="transparent"
+      @click="clearSearch"
       >x</Button
     >
-    <ul class="dropdown-list" v-if="results && !disabled">
-      <li v-if="!results.length" class="no-results">
-        <slot>No results</slot>
-      </li>
-      <li v-else v-for="res in results" @click="() => selectOption(res)">{{ res }}</li>
-    </ul>
+    <Teleport to="body">
+      <ul class="dropdown-list" v-if="results && !disabled" ref="dropdownList">
+        <li v-if="!results.length" class="no-results">
+          <slot>No results</slot>
+        </li>
+        <li v-else v-for="res in results" @click="() => selectOption(res)">
+          {{ res }}
+        </li>
+      </ul>
+    </Teleport>
   </div>
 </template>
 
@@ -110,14 +134,15 @@ input {
 }
 
 .dropdown-list {
-  position: absolute;
   z-index: 3;
   width: 100%;
   padding-left: 0;
-  top: 1.8rem;
-  padding-top: 0.5rem;
+  /* padding-top: 0.5rem; */
   overflow-y: auto;
   max-height: 7.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  background-color: var(--input-bg);
 }
 
 .dropdown-list li {
@@ -139,7 +164,6 @@ input {
 .dropdown-list li:last-child {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 li.no-results {
