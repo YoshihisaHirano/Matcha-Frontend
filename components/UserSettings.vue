@@ -70,7 +70,11 @@ const largerScreen = useMediaQuery("(min-width: 1024px)");
           ><p>Username must be unique</p></Tooltip
         >
       </div>
-      <Button class-name="reset-pswd-btn"> Reset password </Button>
+      <Button class-name="reset-pswd-btn">
+        <span class="typcn-warning-outline"></span>
+        Reset password
+        <span class="typcn-warning-outline"></span>
+      </Button>
     </div>
   </Modal>
 </template>

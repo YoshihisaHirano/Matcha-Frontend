@@ -42,6 +42,7 @@ async function resendEmail() {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .verify-email {

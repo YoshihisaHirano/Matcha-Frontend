@@ -99,7 +99,7 @@ const rules = ref({
   ],
 });
 
-const options = reactive({ autoTest: true, firstError: true });
+const options = reactive({ firstError: true, lazy: true });
 const { result } = useValidate(data, rules, options);
 
 const messages = ref({ ...initialState });

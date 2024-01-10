@@ -43,8 +43,8 @@ export const useActiveUser = async () => {
 
 export const useUpdateUser = async (userData: Partial<FullUser>) => {
   const config = useRuntimeConfig();
-  const { baseBackend, xAccessKey, xMasterKey, meBinID } = config.public;
-  const apiEndpoint = `${baseBackend}/b/${meBinID}?meta=false`;
+  const { baseBackend } = config.public;
+  const apiEndpoint = createUserEndpoint(baseBackend, "edit");
   const store = useUserStore();
   const interactionsStore = useInteractionsStore();
   const updatedUser = { ...store.user, ...filterUnsetKeys(userData) };
@@ -52,8 +52,6 @@ export const useUpdateUser = async (userData: Partial<FullUser>) => {
   const { data, error } = await useFetch<{ record: any }>(apiEndpoint, {
     method: "PUT",
     headers: {
-      ["X-Master-Key"]: xMasterKey,
-      ["X-Access-Key"]: xAccessKey,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ ...updatedUser }),
@@ -73,9 +71,7 @@ export const useLogout = async () => {
     return;
   } else {
     userId.value = undefined;
-    onNuxtReady(async () => {
-      await router.push({ path: "/login" });
-    });
+    await router.push({ path: "/login" });
   }
 };
 
@@ -100,9 +96,7 @@ export const useLogin = async (username: string, password: string) => {
     userId.value = data.value?.id;
     // TODO: remove
     jwt.value = "DELETE ME";
-    onNuxtReady(async () => {
-      await router.push({ path: "/" });
-    });
+    await router.push({ path: "/" });
   }
 };
 
@@ -191,9 +185,7 @@ export const useRegister = async (user: SignupUserData) => {
     userId.value = data.value?.id;
     // TODO: remove
     jwt.value = "DELETE ME";
-    onNuxtReady(async () => {
-      await router.push({ path: "/" });
-    });
+    await router.push({ path: "/" });
   }
 };
 
