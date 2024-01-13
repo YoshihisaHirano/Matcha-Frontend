@@ -12,7 +12,7 @@ export const useUserStore = defineStore("user", () => {
   const emailVerified = computed(() => {
     if (!user.value) return false;
     return user.value.emailVerified;
-  })
+  });
 
   const userLocation = computed(() => {
     if (!user.value) return null;
@@ -81,26 +81,39 @@ export const useUserStore = defineStore("user", () => {
     return user.value.id;
   });
 
+  const isFullUser = computed(() => {
+    return (
+      user.value &&
+      user.value.id &&
+      user.value.emailVerified 
+      // && user.value.firstName &&
+      // user.value.lastName &&
+      // user.value.mainImage
+    );
+  });
+
   function setUser(newUser: Partial<ActiveUser> | null) {
-    user.value = newUser ? { 
-      firstName: newUser.firstName || '',
-      lastName: newUser.lastName || '',
-      email: newUser.email || '',
-      emailVerified: newUser.emailVerified || false,
-      username: newUser.username || '',
-      biography: newUser.biography || '',
-      tags: newUser.tags || [],
-      location: newUser.location || { lat: 40, lon: 40 },
-      dateOfBirth: newUser.dateOfBirth || 0,
-      mainImage: newUser.mainImage || '',
-      pictures: newUser.pictures || [],
-      fameRating: newUser.fameRating || 0,
-      sexPref: newUser.sexPref || 'both',
-      gender: newUser.gender || 'other',
-      id: newUser.id || 'error-in-fetching-user',
-      lastSeen: newUser.lastSeen || 0,
-      online: newUser.online || false,
-     } : null;
+    user.value = newUser
+      ? {
+          firstName: newUser.firstName || "",
+          lastName: newUser.lastName || "",
+          email: newUser.email || "",
+          emailVerified: newUser.emailVerified || false,
+          username: newUser.username || "",
+          biography: newUser.biography || "",
+          tags: newUser.tags || [],
+          location: newUser.location || { lat: 40, lon: 40 },
+          dateOfBirth: newUser.dateOfBirth || 0,
+          mainImage: newUser.mainImage || "",
+          pictures: newUser.pictures || [],
+          fameRating: newUser.fameRating || 0,
+          sexPref: newUser.sexPref || "both",
+          gender: newUser.gender || "other",
+          id: newUser.id || "error-in-fetching-user",
+          lastSeen: newUser.lastSeen || 0,
+          online: newUser.online || false,
+        }
+      : null;
   }
 
   function isUserCurrent(id: string) {
@@ -124,7 +137,8 @@ export const useUserStore = defineStore("user", () => {
     userId,
     setUser,
     isUserCurrent,
+    isFullUser,
     setLocation,
-    emailVerified
+    emailVerified,
   };
 });

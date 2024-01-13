@@ -50,7 +50,11 @@ async function onSubmitUserInfo() {
   if (data.value.mainImage && data.value.pictures) {
     uploadedPics = await useNewPictures([data.value.mainImage], []);
   }
-  console.log("submit", data);
+  if (uploadedPics) {
+    data.value.mainImage = uploadedPics.mainImage;
+    data.value.pictures = uploadedPics.pictures;
+  }
+  await useUpdateUser(data.value);
 }
 
 function updatePictures(pictures: string[]) {

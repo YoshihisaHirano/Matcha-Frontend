@@ -1,20 +1,34 @@
 <script setup lang="ts">
 import { useActiveUser } from "~/composables/useActiveUser";
+import { useNotificationSocket } from "~/composables/useNotificationSocket";
 import { useUserStore } from "~/stores/userStore";
 
+useSeoMeta({
+  title: "Welcome | Matcha",
+});
+
 useActiveUser();
-useUserLocation();
-const userStore = computed(() => useUserStore().user);
+
+const userStore = computed(() => useUserStore());
+
+onMounted(() => {
+  if (userStore.value.userId && userStore.value.emailVerified) {
+    useUserLocation();
+  }
+  if (userStore.value.isFullUser) {
+    useNotificationSocket();
+  }
+});
 </script>
 
 <template>
-  <template v-if="userStore?.id">
+  <template v-if="userStore?.userId">
     <SidebarNav />
     <TheHeader />
     <main>
-      <slot v-if="userStore?.emailVerified && userStore.mainImage" />
+      <slot v-if="userStore?.emailVerified && userStore.isFullUser && userStore.user?.mainImage" />
       <FullInfoForm v-else-if="userStore?.emailVerified" />
-      <VerifyEmail v-else :userId="userStore?.id" />
+      <VerifyEmail v-else :userId="userStore?.userId" />
     </main>
   </template>
 </template>

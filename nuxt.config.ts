@@ -20,19 +20,20 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       baseBackend: process.env.BASE_BACKEND,
-      searchBinID: process.env.SEARCH_BIN_ID,
-      meBinID: process.env.ME_BIN_ID,
+      baseSocket: process.env.BASE_SOCKET,
+      searchBinID: process.env.SEARCH_BIN_ID, // TODO: delete when the backend is ready
+      meBinID: process.env.ME_BIN_ID, // TODO: delete when the backend is ready
       xMasterKey: process.env['X-MASTER-KEY'],
       xAccessKey: process.env['X-ACCESS-KEY'],
       rapidApiKey: process.env['X-RapidAPI-Key'],
       geocodingHost: process.env.X_RAPID_GEOCODING_HOST,
       mapTileHost: process.env.X_RAPID_MAPTILE_HOST,
-      binBaseBackend: process.env.BIN_BASE_BACKEND,
-      tagBinID: process.env.TAG_BIN_ID,
-      profileBinID: process.env.PROFILE_BIN_ID,
-      listBinID: process.env.LIST_BIN_ID,
-      messageBinID: process.env.MESSAGE_BIN_ID,
-      chatBinID: process.env.CHAT_BIN_ID,
+      binBaseBackend: process.env.BIN_BASE_BACKEND, // TODO: delete when the backend is ready
+      tagBinID: process.env.TAG_BIN_ID, // TODO: delete when the backend is ready
+      profileBinID: process.env.PROFILE_BIN_ID, // TODO: delete when the backend is ready
+      listBinID: process.env.LIST_BIN_ID, // TODO: delete when the backend is ready
+      messageBinID: process.env.MESSAGE_BIN_ID, // TODO: delete when the backend is ready
+      chatBinID: process.env.CHAT_BIN_ID, // TODO: delete when the backend is ready
     },
   },
   pages: true,

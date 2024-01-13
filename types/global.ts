@@ -123,8 +123,8 @@ export interface Chat {
 
 export interface Notification {
   id: string;
-  type: "like" | "view" | "message";
+  type: "like" | "view" | "message" | "match" | "unlike";
   date: number;
   user: ShortUser;
-  isViewed: boolean;
+  isRead: boolean;
 }

@@ -57,7 +57,7 @@ export const useUpdateUser = async (userData: Partial<FullUser>) => {
     body: JSON.stringify({ ...updatedUser }),
   });
   if (error.value) {
-    console.error(error);
+    console.error(error.value);
   } else {
     store.setUser(data.value?.record || null);
     interactionsStore.setInteractions(data.value?.record || null);
