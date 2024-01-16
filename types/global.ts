@@ -121,9 +121,11 @@ export interface Chat {
   pageNo: number;
 }
 
+export type NotificationType = "like" | "view" | "message" | "match" | "unlike";
+
 export interface Notification {
   id: string;
-  type: "like" | "view" | "message" | "match" | "unlike";
+  type: NotificationType;
   date: number;
   user: ShortUser;
   isRead: boolean;

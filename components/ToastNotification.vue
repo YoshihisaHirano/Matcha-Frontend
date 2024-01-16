@@ -1,7 +1,7 @@
 <script lang="ts">
 import type { Notification } from "~/types/global";
-import type { ToastOptions } from 'vue3-toastify';
-import type { PropType } from 'vue';
+import type { ToastOptions } from "vue3-toastify";
+import type { PropType } from "vue";
 
 export default {
   name: "ToastNotification",
@@ -14,9 +14,5 @@ export default {
 </script>
 
 <template>
-  <div v-if="notification">
-    <SmallUserPicture :image="notification.user.mainImage" />
-    <p>{{ notification.user.firstName }} {{ notification.user.lastName }}</p>
-    <p>{{ notification.type }}</p>
-  </div>
+  <NotificationContent v-if="notification" :notification="notification" />
 </template>
