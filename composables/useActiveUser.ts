@@ -1,6 +1,7 @@
 import { FullUser, ShortUser, SignupUserData } from "~/types/global";
 import { useUserStore } from "~/stores/userStore";
 import { useInteractionsStore } from "~/stores/interactionsStore";
+import { adaptUserForEdit } from "~/utils/adaptUserForEdit";
 
 const createUserEndpoint = (baseBackend: string, endpoint: string) => {
   return `${baseBackend}/profile/${endpoint}`;
@@ -47,7 +48,7 @@ export const useUpdateUser = async (userData: Partial<FullUser>) => {
   const apiEndpoint = createUserEndpoint(baseBackend, "edit");
   const store = useUserStore();
   const interactionsStore = useInteractionsStore();
-  const updatedUser = { ...store.user, ...filterUnsetKeys(userData) };
+  const updatedUser = adaptUserForEdit({ ...store.user, ...filterUnsetKeys(userData) });
   // console.log(JSON.stringify({ ...updatedUser }))
   const { data, error } = await useFetch<{ record: any }>(apiEndpoint, {
     method: "PUT",
@@ -71,7 +72,7 @@ export const useLogout = async () => {
     return;
   } else {
     userId.value = undefined;
-    await router.push({ path: "/login" });
+    return router.push({ path: "/login" });
   }
 };
 
@@ -96,7 +97,7 @@ export const useLogin = async (username: string, password: string) => {
     userId.value = data.value?.id;
     // TODO: remove
     jwt.value = "DELETE ME";
-    await router.push({ path: "/" });
+    return navigateTo("/")
   }
 };
 
@@ -118,9 +119,7 @@ export const useUpdatePassword = async (id: string, password: string) => {
     return { message: "Failed to update password!" };
   } else {
     userId.value = undefined;
-    onNuxtReady(async () => {
-      await router.push({ path: "/login" });
-    });
+    return router.push({ path: "/login" });
   }
 };
 
@@ -185,7 +184,7 @@ export const useRegister = async (user: SignupUserData) => {
     userId.value = data.value?.id;
     // TODO: remove
     jwt.value = "DELETE ME";
-    await router.push({ path: "/" });
+    return navigateTo("/", { replace: true })
   }
 };
 

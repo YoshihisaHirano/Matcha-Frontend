@@ -12,6 +12,12 @@ export const useNotificationStore = defineStore("notification", () => {
     notifications.value.set(notification.id, notification);
   }
 
+  function setNotifications(notifications: Notification[]) {
+    notifications.forEach((notification) => {
+      addNotification(notification);
+    });
+  }
+
   function readNotification(notificationId: string) {
     const notification = notifications.value.get(notificationId);
     if (notification) {
@@ -29,6 +35,7 @@ export const useNotificationStore = defineStore("notification", () => {
     notifications,
     addNotification,
     readNotification,
+    setNotifications,
     hasUnreadNotifications,
     setHasUnread
   };

@@ -12,6 +12,7 @@ useActiveUser();
 const userStore = computed(() => useUserStore());
 
 onMounted(() => {
+  useNotifications();
   if (userStore.value.userId && userStore.value.emailVerified) {
     useUserLocation();
   }

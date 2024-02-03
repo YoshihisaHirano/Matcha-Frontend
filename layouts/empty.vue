@@ -10,6 +10,7 @@ import { useUserStore } from "~/stores/userStore";
 </script>
 
 <template>
+  <div>this is empty layout</div>
   <slot />
 </template>
 
